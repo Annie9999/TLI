@@ -1,0 +1,30 @@
+<template>
+    <!-- <lightning-button variant="brand" style="margin-right: 2rem;" label="Yes" onclick={onClickConvertLead}></lightning-button>  -->
+   <div class="cardSize">
+   
+        <div if:true={isShowSpinner} class="spinner-lwc">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
+        <h3 slot="title">
+            
+            <div class="slds-grid slds-grid_align-center textHead">
+                <div>
+                คุณต้องการที่จะเปลี่ยนสถานะ Lead เป็น Opportunity <span class="whiteSpaceClass">ใช่หรือไม่</span>
+                </div>
+            </div>
+        </h3>
+        <br/>
+        <br/>
+        <div slot="footer">
+           
+            <div class="slds-grid slds-grid_align-center">
+                <button  class="slds-button slds-button_brand" style="margin-right: 2rem;" onclick={onClickConvertLead} >ใช่</button>
+                <button   class="slds-button slds-button_outline-brand" onclick={closeQuickAction}>ยกเลิก</button>
+            </div>
+        </div>
+        <!-- <lightning-button label="ConvertLead" onclick={onClickConvertLead}></lightning-button> -->
+       
+        <!-- <lightning-button label="Close Quick Action" ></lightning-button> -->
+ 
+    </div>
+</template>

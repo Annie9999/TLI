@@ -1,0 +1,5 @@
+<aura:component controller="TestQA"  implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+	
+   
+    
+</aura:component>

@@ -1,0 +1,25 @@
+.THIS .paymentType{
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.THIS .subHead{
+    font-size: 1.5rem;
+}
+.THIS .Summary{
+    text-align: center;
+}
+
+.THIS .Summary .SumHead{
+    font-size: 1rem;
+}
+
+.THIS .Summary .SumPremium{
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+.THIS .absolute-bottom{
+    position: absolute;
+    bottom: 0;
+}

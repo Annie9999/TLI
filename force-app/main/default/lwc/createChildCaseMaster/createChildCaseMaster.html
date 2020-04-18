@@ -1,0 +1,33 @@
+<template>
+    <div class="slds-m-around--xx-large">
+        <div class="slds-float_right slds-p-bottom_small">
+            <h1 class="slds-page-header__title">Add Row 
+                <lightning-button-icon icon-name="utility:add"  size="large" variant="bare" alternative-text="Add" onclick={addRow}>
+                </lightning-button-icon>
+            </h1>
+        </div>
+        <div class="container-fluid">        
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer"> 
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        
+                        <th scope="col">
+                            <div class="slds-truncate" title="Subject">Subject</div>
+                        </th>
+                    </tr>
+                </thead>   
+                <tbody>      
+                    <template for:each={caseList} for:item="c" for:index="index">
+                        <li key={c.id}>{index}</li> 
+                    </template>
+                    <tr>
+                        <td>
+                            <lightning-input name='caseSubj' type='text' required  maxlength='50' label="Subject" value={Subject}>
+                            </lightning-input>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

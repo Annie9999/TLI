@@ -1,0 +1,10 @@
+.THIS .page-section {
+    border: solid 1px #ccc;
+    padding: 1rem;
+    /* border-radius: 2px ; */
+    border-radius: 5px 5px 5px 5px;
+  }
+  
+  .THIS .page-section-next {
+    margin-top: 20px;
+  }

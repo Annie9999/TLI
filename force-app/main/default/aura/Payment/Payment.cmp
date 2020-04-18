@@ -1,0 +1,74 @@
+<aura:component   implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+    
+    <aura:if isTrue="{!v.Spinner == true}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    
+    
+    <aura:if isTrue="{!v.Spinner == false}" >
+        
+        <div class="headerMB">
+            <div class="corner-ribbon top-left sticky red shadow">DEMO ONLY</div>
+            <div class="slds-grid slds-grid_align-spread">
+                <div class="slds-col"></div>
+                <div class="slds-col">
+                    <h1 > ไทยประกันชีวิต อีซี แฟมิลี</h1>
+                </div>
+                <div class="slds-col"  style="width:180px;">
+                    <img src="{!$Resource.Logo}" />
+                </div>
+            </div>
+            
+            
+            <div class="box1" >
+                <img src="{!$Resource.Family}" />
+                <div class="box2">
+                    <br/><br/>
+                    <p><b>การชำระเงินของคุณสำเร็จ</b></p>   <br/>         
+                    <p> ไทยประกันชีวิต อีซี แฟมิลี </p>
+                    <p>ขอขอบคุณที่เลือกให้เราดูแลคุณ</p>
+                </div>
+            </div>
+            
+            
+            <div class="box3" >
+                <footer role="contentinfo"  class="slds-p-around_large">
+                    
+                    <div class="slds-grid slds-grid_align-spread" style="margin-top: 2%;">
+                        <p class="slds-col">ไทยประกันชีวิต</p>
+                        <p class="slds-col">  
+                            โทร 
+                            <span>
+                                <a href="tel:1124" ><b style="color:white;">1124</b></a>
+                            </span>
+                        </p>
+                    </div>
+                </footer>
+            </div>
+            
+            
+            
+            
+        </div>
+        
+        
+        
+        
+    </aura:if>
+    
+    
+    
+    
+    
+</aura:component>

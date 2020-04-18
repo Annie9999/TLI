@@ -1,0 +1,37 @@
+<aura:component>
+
+    <aura:attribute name="taxConsent" type="String" />
+    <aura:attribute name="policyChannel" type="String" />
+
+    <aura:attribute name="consentOptions" type="List" default="[
+    {'label': 'มีความประสงค์ และยินยอมให้บริษัทประกันชีวิตส่งและเปิดเผยข้อมูลเกี่ยวกับเบี้ยประกันภัยต่อกรมสรรพากร ตามหลักเกณฑ์ วิธีการที่กรมสรรพากรกำหนด', 'value': 'ลดหย่อนภาษี'},
+    {'label': 'ไม่มีความประสงค์', 'value': 'ไม่ลดหย่อนภาษี'}
+    ]" />
+
+    <aura:attribute name="concent" type="String" />
+    <aura:attribute name="termEmail" type="String" />
+
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_6-of-12" style="text-align: left;">
+            <div class="slds-box">
+                <b>
+                    <h1>ผู้ขอเอาประกันภัยประสงค์จะใช้สิทธิขอยกเว้นภาษีเงินได้ตามกฎหมายว่าด้วยภาษีอากรหรือไม่</h1>
+                </b>
+                <lightning:radioGroup name="radioGroup" options="{! v.consentOptions }" type="radio"
+                    value="{! v.taxConsent }" />
+            </div>
+        </div>
+        <div class="slds-col slds-size_6-of-12" style="text-align: left;">
+            <div class="slds-box">
+                <b>
+                    <h1>ช่องทางการรับกรมธรรม์ประกันภัย</h1>
+                </b>
+                <lightning:select name="ช่องทางการรับกรมธรรม์ประกันภัย" value="{! v.policyChannel}">
+                    <option value="อีเมล">อีเมล</option>
+                    <option value="ไปรษณีย์">ไปรษณีย์</option>
+                </lightning:select>
+            </div>
+        </div>
+
+    </div>
+</aura:component>

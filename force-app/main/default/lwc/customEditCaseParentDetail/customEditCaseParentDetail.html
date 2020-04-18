@@ -1,0 +1,121 @@
+<template>
+    <div class="slds-card">
+        <div class="slds-p-around_medium">
+            <div class="slds-card" style="background-color: #57b6dc;">
+                <div class="slds-p-around_medium">รายละเอียด</div>
+            </div>
+
+            <div style="height: 100px;">
+                <lightning-datatable
+                        key-field="id"
+                        data={data}
+                        columns={columns}>
+                </lightning-datatable>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            หัวข้อ
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-01" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            เรื่อง
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-02" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            เรื่องยบ่อย
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-03" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_2-of-3">
+                    <lightning-textarea name="input6" required value="" label="จำนวนเงิน" ></lightning-textarea>
+                </div>
+                <div class="slds-col" style="transform: translate(0,40%);">
+                    <lightning-button variant="brand" label="ข้อมูลกรมธรรม์" title="Primary action" class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_2-of-3">
+                    <lightning-textarea name="input6" required value="" label="รายละเอียด" ></lightning-textarea>
+                </div>
+                <div class="slds-col" style="transform: translate(0,40%);">
+                    <lightning-button variant="brand" label="เลือก Template" title="Primary action" class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-input type="text" name="input5" label="ผู้ให้บริการ" required></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-input type="text" name="input5" label="วันที่ดำเนินงาน" required></lightning-input>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-grid_align-end">
+                <lightning-button-stateful
+                variant="success"
+                label-when-off="เรื่องใหม่"
+                label-when-on="Following"
+                label-when-hover="Unfollow"
+                icon-name-when-off="utility:add"
+                icon-name-when-on="utility:check"
+                icon-name-when-hover="utility:close"
+                ></lightning-button-stateful>
+                <lightning-button-group>
+                    <lightning-button variant="brand" class="slds-m-left_x-small" label="Save" icon-name="utility:save">
+                    </lightning-button>
+                </lightning-button-group>
+                <lightning-button label="ยกเลิก" class="slds-m-left_x-small"></lightning-button>
+            </div>
+        </div>
+    </div>
+</template>

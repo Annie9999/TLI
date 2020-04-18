@@ -1,0 +1,149 @@
+<aura:component access="global" controller="ProductFormApexController">
+    <aura:attribute name="recordId" type="String" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="opptyRecord" type="Object"/>
+    <aura:attribute name="accRecord" type="Object"/>
+
+    <aura:attribute name="listControllingValues" type="list" default="[]" description="to store controller field values"/>
+    <aura:attribute name="listDependingValues" type="list" default="['--- None ---']" description="to store dependent field values"/>
+    <aura:attribute name="depnedentFieldMap" type="map" description="map to store dependent values with controlling value"/>
+    <aura:attribute name="bDisabledDependentFld" type="boolean" default="true"/> 
+
+    <aura:attribute name="objDetail" type="lead" default="{'sobjectType' : 'lead'}"/>
+    <aura:attribute name="controllingFieldAPI" type="string"/>
+    <aura:attribute name="dependingFieldAPI" type="string"/>
+
+    <aura:attribute name="currentStep" type="String"/>
+    <aura:attribute name="TypeQuotation" type="Boolean" default="true" />
+    <aura:attribute name="TypePrice" type="String" default="Default"/>
+
+    <aura:attribute name="genderValue" type="String" default=""/>
+    <aura:attribute name="paymentmethidValue" type="String" default=""/>
+    <aura:attribute name="price" type="String" default=""/>
+
+    <aura:attribute name="paymentMethodList" type="List" default="[
+                {'label': 'รายเดือน', 'value': '1_month'},
+                {'label': 'ราย 3 เดือน', 'value': '3_months'},
+                {'label': 'ราย 6 เดือน', 'value': '6_months'},
+                {'label': 'รายปี', 'value': 'year'}
+                ]"/>
+    <aura:attribute name="genderList" type="List" default="[
+                {'label': 'ผู้ชาย', 'value': 'M'},
+                {'label': 'ผู้หญิง', 'value': 'F'}
+                ]"/>
+      <lightning:spinner aura:id="loading" class="slds-hide" />
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_6-of-12 ">
+                <div class="form-information" style="margin-left:0px; margin-right: 0px;">
+                    <lightning:layoutItem>    
+                        <lightning:select name="controllerFld"
+                                        value="{!v.objDetail.productgroup__c}"
+                                        label="ประเภทประกันที่น่าสนใจ"
+                                        onchange="{!c.onControllerFieldChange}">
+                            <aura:iteration items="{!v.listControllingValues}" var="val">
+                                <option value="{!val}">{!val}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    
+                    <!--Dependent Field-->
+                    <lightning:layoutItem>
+                        <lightning:select name="dependentFld"
+                                        value="{!v.objDetail.Sub_productgroup__c}"
+                                        label="แบบประกัน"
+                                        disabled="{!v.bDisabledDependentFld}"
+                                        class="mgt8">
+                            <aura:iteration items="{!v.listDependingValues}" var="val">
+                                <option value="{!val}">{!val}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </lightning:layoutItem>
+                    <lightning:input class="mgt8" name="in" type="date" value="{!v.accRecord.PersonBirthdate}" label="วัน เดือน ปีเกิด" />
+                    <lightning:radioGroup name="gender"
+                            label="เพศ"
+                            options="{! v.genderList }"
+                            value="{! v.genderValue }"
+                            onchange="{!c.TypePrice}"
+                            type="button" class="mgt8 gender">
+                    </lightning:radioGroup>
+                    
+                    <lightning:radioGroup name="payment_method"
+                                    label="เลือกวิธีการชำระเบี้ยฯ"
+                                    options="{! v.paymentMethodList }"
+                                    value="{! v.paymentmethidValue }"
+                                    onchange="{!c.TypePrice}"
+                                          type="button" class="fullRadio mgt8">
+                    </lightning:radioGroup>
+                </div>
+            </div>
+    
+            <div class="slds-col slds-size_6-of-12">
+                <div class="form-information slds-col slds-p-horizontal_medium" style="display: flex;">
+                    <div style="width: 100%;text-align: center;">
+                      <div>
+                        เบี้ยประกันภัย
+                      </div>
+                        <div class="price">
+                          <lightning:formattedNumber value="{!v.price}" maximumFractionDigits="2"/>
+                        </div>
+
+                    </div>
+                </div>
+                <div class=" form-information">
+                  <aura:if isTrue="{!v.objDetail.productgroup__c == 'ประกันอุบัติเหตุ'}">
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">คุ้มครองการเสียชีวิตจากอุบัติเหตุ 300,000 บาท</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">คุ้มครองการเสียชีวิตจากการขับขี่หรือโดยสารรถจักรยานยนต์ 150,000 บาท</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">ค่ารักษาพยาบาลจากอุบัติเหตุ 10,000 บาท</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">เงินชดเชยรายได้ระหว่างเข้าพักรักษาตัวในโรงพยาบาล จากอุบัติเหตุ วันละ 500 บาท</div>
+                    </div>
+                    <div style="margin-top: 17px;margin-top: 17px;text-align: center;" >
+                        <lightning:button disabled="" variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" />
+                    </div>
+                  <aura:set attribute="else">
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">ออมสั้น 5 ปี คุ้มครองนาน 15 ปี</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">อายุประกันภัย 1 เดือน - 65 ปี</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">มีเบี้ยคืนให้ปีที่ 2-14(1) ปีละ 5% ของจำนวนเงินเอาประกันภัย</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">เงินครบกำหนดสัญญา 500% ของจำนวนเงินเอาประกันภัย</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">รวมเงินคืนตลอดสัญญา 565% ของจำนวนเงินประกันภัย</div>
+                    </div>
+                    <div class="inform">
+                      <div><lightning:icon iconName="action:approval"  class="icon-super-small" size="small" /></div>
+                      <div class="detail">ลดหย่อนภาษีได้สูงสุดถึง 100,000 บาทต่อปี(2)</div>
+                    </div>
+                    <div style="margin-top: 17px;margin-top: 17px;text-align: center;" >
+                        <lightning:button disabled="" variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" />
+                    </div>
+                  </aura:set>
+                  </aura:if>
+                </div>
+            </div>
+        </div>
+    <div style="text-align: center;">
+      <lightning:button variant="brand" label="ดำเนินการต่อ" title="ดำเนินการต่อ" onclick="{! c.onNext }" />
+    </div>
+</aura:component>

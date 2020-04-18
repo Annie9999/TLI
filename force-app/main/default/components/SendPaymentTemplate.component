@@ -1,0 +1,239 @@
+<apex:component controller="SendPaymentTemplateController"  access="global"  > 
+    <apex:attribute name="opprtunityId" type="Id" description="Id of the opportunity" assignTo="{!oppId}"/>
+
+<!-- <apex:attribute name="lead" type="Id" description="Id of the lead" assignTo="{!leadId}"/> -->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet"/> 
+
+        <title>iiGLife | ไทย ประกันชีวิต</title>
+
+        <!-- GOOGLE FONT -->
+        <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet"/> 
+
+    </head>
+    <body style="margin: 0; padding: 0;">
+
+        <apex:repeat value="{!PaymentDetails}" var="item">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">      
+                <tr>
+                    <td>
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" width="540" style="border-collapse: collapse;">
+                            <tr>
+                                <td>
+                                    <table align="center" border="0" cellpadding="0" cellspacing="0" width="540">
+                                         <!-- Start Header -->
+                                        <tr>
+                                            <td>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td width="85%" style="background-color: #34384B;">
+                                                            <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834132000/Logo"
+                                                                        style="padding-left:20px !important;display:block; max-width:165px; 
+                                                                               border:0; line-height:100%; outline:none; text-decoration:none;">
+                                                            </apex:image>
+                                                        </td>
+                                                        <td width="15%" style="background-color: #34384B;padding: 28px;">
+                                                            <a href="tel:022470247" target="_blank">
+                                                                <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834222000/phone" 
+                                                                            style="display:block; height:36px;width:36px; 
+                                                                                   border:0; line-height:100%; outline:none; text-decoration:none;">
+                                                                </apex:image>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+              							<!-- End Header -->
+                                        <!-- Start Content -->
+                                        <tr>
+                                            <td>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr height="500" style="background: -webkit-linear-gradient(top, rgba(0, 133, 189) 0%, rgba(0, 133, 189) 54%, #b5dbec 66%, rgba(255,255,255,1)100%);">
+                                                        <td valign="top" style="text-align: center;">
+                                                            <div style="padding-top: 20px; font-size: 18px; font-weight: bold; color: #E8F9F2;">
+                                                                ประกันอุบัติเหตุ อีซี แฟมิลี พร้อมดูแลคุณแล้ว
+                                                            </div>
+                                                            <div style="padding-bottom: 20px; font-family: Arial, sans-serif; font-size: 16px; color: #E8F9F2;">
+                                                                 เริ่มต้นความคุ้มครองวันนี้<br/>
+                                                                 พร้อมส่วนลดพิเศษสำหรับคุณ  &nbsp;20%
+                                                              <!--  <apex:outputText value="{0, number,##}">
+                                                                    <apex:param value="{!item.discount}" />
+                                                                </apex:outputText>%-->
+                                                            </div>
+                                                             <!-- Start Detail Content -->
+                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                                <tr>
+                                                                    <td width="10%">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </td>
+                                                                    <td width="80%" >
+                                                                         <div style="padding: 18.9px;
+                                                                        background-color:rgb(255,255,255);
+                                                                        border:1px solid #f4f4f4;
+                                                                        border-top-left-radius:10px;
+                                                                        border-top-right-radius:10px">
+                                                                             <div style="font-family: Arial, sans-serif; font-size: 16px; text-align: center; color: #000000; padding-bottom: 10px; font-weight: bold;">
+                                                                                 เบี้ยประกันพร้อมส่วนลดสำหรับคุณ
+                                                                             </div>
+                                                                             <div style="font-family: Arial, sans-serif; font-size: 29px; text-align: center; color: #000000; font-weight: bold; word-spacing: -10px;" >
+                                                                                 ฿ {!item.oppty.Amount} /เดือน
+                                                                                 <!-- ฿<apex:outputText value="{0, number, ###,###,##0.00}">
+                                                                                    <apex:param value="{!item.amount}" />
+                                                                                </apex:outputText>/{!item.promotionPaymentMode}-->
+                                                                            </div>
+                                                                           <form style="padding-top:10px;">
+                                                                                <a href="https://thailifedemo.herokuapp.com/ThaiLife/Thailife_PaymentSuccess.html" target="_blank" style="text-decoration: none;">
+                                                                                    <div style="width: 95%; height: 40px;background: #ec6453; border-color:#ec6453; font-size: 16px; margin: 0 auto 0 auto;">
+                                                                                        <p style="color: white; padding-top: 10px; margin-top: 0px; margin-bottom: 0px; text-align: center;">ชำระเบี้ยประกัน คลิก!</p>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </form>
+                                                                             
+                                                                        </div>
+                                                                        
+                                                                    </td>
+                                                                     <td width="10%">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                <tr >
+                                                                    <td width="10%">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </td>
+                                                                    
+                                                                    <td width="80%" style="background-color:white">
+                                                                        <div style="font-family: Arial, sans-serif; 
+                                                                        font-size: 16px;
+                                                                        font-weight: bold;
+                                                                        color:rgb(101,103,112);
+                                                                        padding-top: 20px;
+                                                                        padding-left: 33px;
+                                                                        text-align: left;">
+                                                                            ข้อมูลผู้ขอเอาประกัน
+                                                                        </div>
+                                                                    </td>
+                                                                    <td width="10%">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                 <tr >
+                                                                    <td width="10%">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </td>
+                                                                     <td width="80%" style="background-color:white;   border-bottom-left-radius: 10px;  border-bottom-right-radius: 10px;">
+                                                                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 10px; line-height: normal;  padding-left: 33px;">
+                                                                            <tr>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    คุณ
+                                                                                </td>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    {!item.acc.FirstName} &nbsp; {!item.acc.LastName}
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    อายุ:
+                                                                                </td>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    {!item.age} ปี
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    เพศ:
+                                                                                </td>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    {!item.acc.Sex__pc} 
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    อีเมล:
+                                                                                </td>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    {!item.acc.PersonEmail}
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    เบอร์มือถือ:
+                                                                                </td>
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                    {!item.acc.phone}
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                           <br/><br/>
+                                                                    </td>
+                                                                     
+                                                                     
+                                                                     
+                                                                     <td width="10%">
+                                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    </td>
+                                                                </tr>
+                                                                
+                                                            </table>
+                                                            
+                                                            
+                                                            
+                                                             <!-- End Detail Content -->
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                
+                                            </td>
+                                        </tr>
+                                          <!-- End Content -->
+                                        <!-- Start Footer -->
+                                         <tr >
+                                            <td>
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #34384B; border-top: 1px solid #F4F4F4; padding: 10px; margin-top: 0px;">
+                                                    <tr>
+                                                        <td width="85%" style="padding: 5px; text-align: left;">
+                                                            <div style="font-family: Arial, sans-serif; font-size: 12px; color: #8E90A3;">Copyright 2017 All Rights Reserved</div>
+                                                            <div style="font-family: Arial, sans-serif; font-size: 12px; color: #8E90A3;">iiG Insurance (Thailand) Public Company Limited</div>
+                                                        </td>
+                                                         <td width="15%">
+                                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" >
+                                                                <tr >
+                                                                    <td width="50%">
+                                                                          <a href="https://www.facebook.com/thailifepage/" target="_blank">
+                                                                            <apex:image url="https://cdn.icon-icons.com/icons2/159/PNG/256/facebook_22567.png" 
+                                                                            style="padding: 5.5px; display: block; height: 21px; width: 21px;">
+                                                                            </apex:image>  
+                                                                        </a>
+                                                                    </td>
+                                                                     <td width="50%">
+                                                                          <a href="https://thailife.com/"  target="_blank">
+                                                                            <apex:image url="https://image.freepik.com/free-icon/world-wide-web_318-9868.jpg" 
+                                                                            style="padding: 5.5px; display: block; height: 21px; width:  21px;">
+                                                                            </apex:image> 
+                                                                        </a>
+                                                                    </td>
+                                                                    
+                                                                </tr>
+                                                             </table>
+                                                        </td>
+                                                        
+                                                    </tr>
+                                                </table>
+                                             </td>
+                                        </tr>
+                                        
+                                        
+                                        <!-- End Footer -->
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </apex:repeat>
+    </body>
+
+</apex:component>

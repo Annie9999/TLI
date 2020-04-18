@@ -1,0 +1,72 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!-- <aura:attribute name="productFamily" type="String" default="life"/> -->
+    
+    
+    <div class="main_container">
+        <div class="font2">
+          <span>กลุ่มผลิตภัณฑ์ของลูกค้า</span>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-5 ">
+                <div class="slds-grid slds-gutters">
+                	<div> <img src= "{!$Resource.tliproductsfamily + '/life.png'}" class="imas slds-align_absolute-center"/> </div> 
+            
+            	</div>
+                <div class="slds-grid slds-gutters">
+                	<div class="slds-align_absolute-center productfamily">
+                        <span style="color:green">ชีวิต  </span>
+                    </div> 
+            
+            	</div>
+            </div>
+            <div class="slds-col slds-size_1-of-5 ">
+                <div class="slds-grid slds-gutters">
+                	<div> <img src= "{!$Resource.tliproductsfamily + '/unitlinked.png'}" class="imas slds-align_absolute-center"/> </div> 
+            
+            	</div>
+                <div class="slds-grid slds-gutters">
+                	<div class="slds-align_absolute-center productfamily">
+                        <span style="color:green">Unit Linked  </span>
+                    </div> 
+            
+            	</div>
+            </div>
+            <div class="slds-col slds-size_1-of-5">
+                <div class="slds-grid slds-gutters">
+                	<div> <img src= "{!$Resource.tliproductsfamily + '/health_inactive.png'}" class="imas slds-align_absolute-center"/> </div> 
+            
+            	</div>
+                <div class="slds-grid slds-gutters">
+                	<div class="slds-align_absolute-center productfamily">
+                        <span>สุขภาพ</span>
+                    </div> 
+            
+            	</div>
+            </div>
+            <div class="slds-col slds-size_1-of-5">
+                <div class="slds-grid slds-gutters">
+                	<div> <img src= "{!$Resource.tliproductsfamily + '/critical_inactive.png'}" class="imas slds-align_absolute-center"/> </div> 
+            
+            	</div>
+                <div class="slds-grid slds-gutters">
+                	<div class="slds-align_absolute-center productfamily">
+                        <span>โรคร้ายแรง</span>
+                    </div> 
+            
+            	</div>
+            </div>
+            <div class="slds-col slds-size_1-of-5">
+                <div class="slds-grid slds-gutters">
+                	<div> <img src= "{!$Resource.tliproductsfamily + '/family_inactive.png'}" class="imas slds-align_absolute-center"/> </div> 
+            
+            	</div>
+                <div class="slds-grid slds-gutters">
+                	<div class="slds-align_absolute-center productfamily">
+                        <span>ครอบครัว</span>
+                    </div> 
+            
+            	</div>
+            </div>
+        </div>
+    </div>
+</aura:component>

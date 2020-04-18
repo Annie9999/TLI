@@ -1,0 +1,60 @@
+.THIS {
+}
+/*@font-face {
+font-family: 'font';
+src: url(/resource/font);
+}*/
+
+.THIS.headerMB{
+    position: relative;
+    height: 90px;
+    background: #E9E9E9;
+    font-size: 24px;
+}
+
+.THIS .corner-ribbon{
+    z-index: 9999;
+    width: 200px;
+    background: #e43;
+    position: fixed;
+    top: 25px;
+    left: -50px;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 1px;
+    color: #f0f0f0;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    font-family: 'DB Sathorn X', sans-serif;
+    font-size: 18px;
+}
+.THIS .box1{
+    position: relative;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+
+}
+.THIS .box2{
+    position: absolute;
+    top: 25%;
+    left: 13%;
+    width: 30%;
+    height: 50%;
+    border-radius: 50px 20px;
+    background-color: #007ac2;
+}
+.THIS .box2 p{
+      font-size: 18px;
+}
+
+.THIS h1{
+    margin-top: 20px;
+}
+
+.THIS .box3 {
+    height: 107px;
+    font-size: 18px;
+    color: white;
+    background-color: #34384B;
+}

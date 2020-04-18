@@ -1,0 +1,89 @@
+.THIS {
+}
+.THIS .scroll_right2left {
+ 
+ position: absolute;
+ width: max-content;
+ height: 100%;
+ margin: 0;
+ line-height: 50px;
+ text-align: center;
+ /* Starting position */
+ -moz-transform:translateX(20%);
+ -webkit-transform:translateX(20%);	
+ transform:translateX(20%);
+ /* Apply animation to this element */	
+ -moz-animation: scrollText_r2l   linear infinite;
+ -webkit-animation: scrollText_r2l  linear infinite;
+ animation: scrollText_r2l  linear infinite;
+    
+}
+.THIS .scroll_right2left:hover{
+    
+    animation-play-state:paused;
+}
+.THIS .scroll_bottom2Top {
+ position: absolute;
+ width: 100%;
+ height: max-content;
+ margin: 0;
+ line-height: 50px;
+ text-align: center;
+ /* Starting position */
+ -moz-transform:translateY(20%);
+ -webkit-transform:translateY(20%);	
+ transform:translateY(20%);
+ /* Apply animation to this element */	
+ -moz-animation: scrollText_b2t  linear infinite;
+ -webkit-animation: scrollText_b2t  linear infinite;
+ animation: scrollText_b2t  linear infinite;
+    
+}
+.THIS .scroll_bottom2Top:hover{
+    
+    animation-play-state:paused;
+}
+/* Move it from Right to Left */
+@-moz-keyframes scrollText_r2l {
+ 0%   { -moz-transform: translateX(20%); }
+ 100% { -moz-transform: translateX(-100%); }
+}
+@-webkit-keyframes scrollText_r2l {
+ 0%   { -webkit-transform: translateX(20%); }
+ 100% { -webkit-transform: translateX(-100%); }
+}
+@keyframes scrollText_r2l {
+ 0%   { 
+ -moz-transform: translateX(20%); /* Firefox bug fix */
+ -webkit-transform: translateX(20%); /* Firefox bug fix */
+ transform: translateX(20%); 		
+ }
+ 100% { 
+ -moz-transform: translateX(-100%); /* Firefox bug fix */
+ -webkit-transform: translateX(-100%); /* Firefox bug fix */
+ transform: translateX(-100%); 
+ }
+}
+
+/* Move it from bottom to top */
+@-moz-keyframes scrollText_b2t {
+ 0%   { -moz-transform: translateY(20%); }
+ 100% { -moz-transform: translateY(-100%); }
+}
+@-webkit-keyframes scrollText_b2t {
+ 0%   { -webkit-transform: translateY(20%); }
+ 100% { -webkit-transform: translateY(-100%); }
+}
+@keyframes scrollText_b2t {
+ 0%   { 
+ -moz-transform: translateY(20%); /* Firefox bug fix */
+ -webkit-transform: translateY(20%); /* Firefox bug fix */
+ transform: translateY(20%); 		
+ }
+ 100% { 
+ -moz-transform: translateY(-100%); /* Firefox bug fix */
+ -webkit-transform: translateY(-100%); /* Firefox bug fix */
+ transform: translateY(-100%); 
+ }
+    
+}

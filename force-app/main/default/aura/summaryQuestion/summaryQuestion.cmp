@@ -1,0 +1,11 @@
+<aura:component>
+    <aura:attribute name="question" type="Object" />
+    <aura:attribute name="answerList" type="String[]" />
+    <aura:attribute name="answer" type="String" />
+    <aura:attribute name="order" type="Integer" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <p>{!v.question.Question__c}</p>
+    <p>{!v.answer}</p>
+</aura:component>

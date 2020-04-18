@@ -1,0 +1,76 @@
+.THIS.vehicle-tile {
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    padding: 10px 0;
+    margin: 10px 0;
+}
+
+.THIS.vehicle-selected {
+    border: 2px solid #2a94d6;
+}
+
+.THIS .vehicle-icon {
+    margin: auto;
+    text-align: center;
+}
+
+.THIS .vehicle-icon img {
+    width: 100%;
+    max-width: 150px;
+    margin: auto;
+}
+
+.THIS .vehicle-detail {
+    border-left: 1px solid #c8c8c8;
+    line-height: 2.5em;
+    display: flex;
+}
+
+.THIS .vehicle-detail > * {
+    flex: 1 100%;
+}
+
+.THIS .vehicle-detail h1 {
+    font-size: 1.5em;
+    font-weight: 100;
+}
+
+.THIS .vehicle-detail div {
+    flex: 1 auto;
+}
+
+.THIS .vehicle-extra {
+    min-width: 0;
+    text-align: right;
+}
+
+.THIS .license-plate {
+    border-left: 1px solid #c8c8c8;
+    line-height: 2.5em;
+    margin: auto;
+    background: url(https://vplates.com.au/-/media/themes/custom-plates-theme/images/plates/blank-tuxedo.svg) no-repeat;    
+    line-height: 1;
+    background-size: 200px;
+    display: flex;
+      
+}
+
+
+
+.THIS .license-number {
+  
+     text-transform: uppercase;
+     font-family: standard,sans-serif;
+     margin-top: 15px;
+     color: white;
+     font-size: 40px;
+    text-align: center;
+
+}
+
+
+/* @media t(mqSmall) {
+    .THIS .license-plate {
+        display: none;
+    }
+} */

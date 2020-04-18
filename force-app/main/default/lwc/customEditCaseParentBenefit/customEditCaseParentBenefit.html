@@ -1,0 +1,252 @@
+<template>
+    <div class="slds-card">
+        <div class="slds-p-around_medium">
+            <div class="slds-card" style="background-color: #57b6dc;">
+                <div class="slds-p-around_medium">งานดูแลสิทธิประโยชน์</div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_1-of-3">
+                    <lightning-input type="text" name="input5" label="เลขที่รับเรื่องหลัก" required></lightning-input>
+                </div>
+                <div class="slds-col slds-size_1-of-3 d-flex">
+                    <lightning-radio-group name="radioGroup"
+                          label="บันทึกคำร้อง"
+                          options={options}
+                          value={value}
+                          type="radio">
+                    </lightning-radio-group>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <lightning-input type="text" name="input5" label="เลขที่รับเรื่อง" required></lightning-input>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            ประเภท
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-01" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            หัวข้อ
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-02" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            เรื่อง
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-03" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            เรื่องย่อย
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-04" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            สถานะ
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-05" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            สถานะย่อย
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-06" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            ช่องทาง
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-0ึ7" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                </div>
+
+                <div class="slds-col">
+                    <lightning-input type="text" name="input5" label="เลขที่กรมธรรม์" required></lightning-input>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            ระดับความรุนแรง
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-0ึ8" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            ให้บริการภายใน
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-09" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <lightning-input type="text" name="input5" label="ตัวแทนที่ถูกร้องเรียน" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="ตัวแทนที่ถูกร้องเรียน (พ้นสภาพ)" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="สาขาที่ถูกร้องเรียน" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="สาขาต้นสังกัด" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="ส่วนงานที่ถูกร้องเรียน" required></lightning-input>
+                </div>
+                <div class="slds-col">
+                    <lightning-input type="text" name="input5" label="ชื่อ-นามสกุล ผู้เอาประกัน" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="ชื่อ-นามสกุล ผู้ติดต่อ" required></lightning-input>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required">* </abbr>
+                            ความสัมพันธ์
+                        </label>
+                        <div class="slds-form-element__control">
+                            <div class="slds-select_container">
+                                <select class="slds-select" id="select-10" required="">
+                                    <option value="">Please select</option>
+                                    <option>Option One</option>
+                                    <option>Option Two</option>
+                                    <option>Option Three</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="slds-form-element__help" id="error-01">This field is required</div> -->
+                    </div>
+                    <lightning-input type="text" name="input5" label="หมายเลขโทรศัพท์" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="ผู้ให้บริการ" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="ผู้รับเรื่อง" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="วันที่เปิดงาน" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="วันที่ปิดงาน" required></lightning-input>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col slds-size_2-of-3">
+                    <lightning-textarea name="input6" required value="" label="รายละเอียด"></lightning-textarea>
+                </div>
+                <div class="slds-col">
+                    <lightning-input type="text" name="input5" label="ผู้แก้ไข" required></lightning-input>
+                    <lightning-input type="text" name="input5" label="วันที่แก้ไข" required></lightning-input>
+                    <div style="transform: translate(0,40%);">
+                        <lightning-button variant="success" label="Export งานดูแลสิทธิระโยชน์ฯ" class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col">
+                    <lightning-input type="text" name="input5" label="หมายเลขผู้ติดต่อ" required></lightning-input>
+                </div>
+                <div class="slds-col" style="display:flex; transform: translate(0,40%);">
+                    <lightning-button variant="brand" label="ต่อสาย" class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button label="ส่งสายประเมิน" class="slds-m-left_x-small"></lightning-button>
+                </div>
+                <div class="slds-col" style="display:flex; transform: translate(0,40%);">
+                    <lightning-button label="เพิ่มเรื่องย่อย" class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" label="บันทึก" class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" label="ข้อมูลเพิ่มเติม" class="slds-m-left_x-small"></lightning-button>
+                </div>
+            </div>
+            
+        </div>
+
+    </div>
+    <div style="padding-bottom: 50px;">
+        
+    </div>
+</template>

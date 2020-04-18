@@ -1,0 +1,23 @@
+.slds-button{
+    min-width: 125px;
+}
+
+.textHead{
+    font-size: 16px;
+    text-align: center;
+}
+
+.cardSize{
+    border-style: solid;
+    border-color: #004485;
+    border-radius: 3px;
+    height: 175px;
+    background: #fff;
+    width: 450px;
+    padding: 30px;
+    position: relative;
+    margin: auto;
+}
+.whiteSpaceClass{
+    white-space: nowrap;
+}

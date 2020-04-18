@@ -1,0 +1,296 @@
+<aura:component controller="LineChatMainComponentRemote"
+    implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <ltng:require scripts="{!join(',',
+  $Resource.jQuery)}" afterScriptsLoaded="{!c.onInit}" />
+    <aura:attribute name="chatCollectionByDate" type="List" />
+    <aura:attribute name="chatMessageIdList" type="List" />
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="isFinishedLoadJquery" type="Boolean" default="false" />
+    <aura:attribute name="isMoveTop" type="Boolean" default="false" />
+    <aura:attribute name="isOpenEndChat" type="Boolean" default="false" />
+    <aura:attribute name="isOpenWrapUpChat" type="Boolean" default="false" />
+    <aura:attribute name="isOpenTransferChat" type="Boolean" default="false" />
+    <aura:attribute name="lastDate" type="String" />
+    <aura:attribute name="provider" type="String" />
+    <aura:attribute name="chatSession" type="ChatSession__c" />
+    <aura:attribute name="startChatDateTime" type="String" />
+    <aura:attribute name="currentMessage" type="String" />
+    <aura:attribute name="isHasPreviousMessage" type="Boolean" default="false" />
+    <aura:attribute name="previousMessage" type="ChatMessage__c" />
+    <aura:attribute name="chatTopicOptions" type="List" default="[
+                        {'label': 'Sales', 'value': 'Sales'},
+                        {'label': 'Support', 'value': 'Support'},
+                        {'label': 'Others', 'value': 'Others'}
+                        ]" />
+    <aura:attribute name="endChatValue" type="Object" default="{}" />
+    <aura:attribute name="selectedTransferObtionKey" type="String" default="People" />
+    <aura:attribute name="transferObtion" type="Object" />
+    <aura:attribute name="selectedTransferObtion" type="Object" />
+    <aura:attribute name="newTranferPeople" type="String" />
+    <aura:attribute name="transferMessage" type="String" />
+    <aura:attribute name="endChatErrorMessage" type="String" />
+    <aura:attribute name="transferChatErrorMessage" type="String" />
+    <aura:attribute name="playNotifyInboundSound" type="Boolean" default="false" />
+    <aura:attribute name="playNotifyOutboundSound" type="Boolean" default="false" />
+    <aura:attribute name="isDisableInput" type="Boolean" default="false" />
+    <aura:attribute name="imgSourceString" type="String" />
+    <aura:attribute name="acceptFileUpload" type="List" default="['.jpg', '.jpeg','.pdf','.xlsx']" />
+    <!-- <aura:attribute name="playNotifyOutboundSound" type="Boolean" default="false"/> -->
+
+    <aura:handler name="clickShowMoreMessageEvent" event="c:EnlargePictureEvent" action="{!c.handleShowmoreMessage}" />
+    <aura:handler name="clickDownloadFileEvent" event="c:EnlargePictureEvent" action="{!c.handleDownloadFile}" />
+    <aura:handler name="clickDownloadImageEvent" event="c:EnlargePictureEvent" action="{!c.handleDownloadImage}" />
+
+    <!-- <aura:handler name="init" value="{!this}" action="{!c.onInit}"/> -->
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}" />
+
+    <!-- Platform Event Parameters-->
+    <lightning:empApi aura:id="empApi" />
+    <aura:attribute name="channelEvent" type="String" default="/event/LineChatMessageEvent__e" />
+    <aura:attribute name="chatMessageSubscription" type="Map" />
+
+    <lightning:workspaceAPI aura:id="workspace" />
+
+    <div class="container main-container">
+        <!-- Sound -->
+        <aura:if isTrue="{!v.playNotifyInboundSound}">
+            <audio autoplay="true">
+                <source src="{!$Resource.LineChatNotify + '/noti1.mp3'}" type='audio/mp3' />
+            </audio>
+        </aura:if>
+        <aura:if isTrue="{!v.playNotifyOutboundSound}">
+            <audio autoplay="true">
+                <source src="{!$Resource.LineChatNotify + '/noti2.mp3'}" type='audio/mp3' />
+            </audio>
+        </aura:if>
+        <!-- Header -->
+        <div class="header-container">
+            <div class="slds-grid slds-grid_align-spread slds-wrap">
+                <div class="slds-col slds-size_1-of-6">
+
+                </div>
+                <div class="slds-col header-content slds-size_4-of-6" style="text-align: center;
+          align-self: center;">
+                    <lightning:icon iconName="utility:chat" size="xx-small" />
+                    <span> Chat started by <b>{!v.chatSession.Social_ID__r.Display_Name__c} •
+                        </b>{!v.startChatDateTime}</span>
+                </div>
+                <div class="slds-col slds-size_1-of-6" style="text-align: end;">
+                    <!-- <button class="slds-button slds-button_destructive" 
+                    onclick="{!c.onClickEndChat}"
+                    disabled="{!v.chatSession.IsExpired__c}">
+                    End Chat</button> -->
+                    <!-- <button class="slds-button slds-button_destructive" 
+                    onclick="{!c.onClickEndChat}"
+                    >
+                    End Chat</button> -->
+                </div>
+            </div>
+            <lightning:spinner aura:id="mainLoading" class="slds-hide" />
+        </div>
+        <div id="id-container" class="slds-container_fluid slds-scrollable_y">
+            <c:LineChatBoxMessageRenderer collection="{!v.chatCollectionByDate}"
+                isDisplayShowMore="{!v.isHasPreviousMessage}" />
+        </div>
+        <div class="slds-p-around_xx-small slds-border_top slds-theme_shade">
+            <div class="slds-grid ">
+                <lightning:buttonGroup>
+                    <!-- <div class="button-center"> -->
+                    <!-- <lightning:buttonIcon variant="border-filled" iconName="utility:link" title="Attach Link"
+                  alternativeText="Attach Link" disabled="false" /> -->
+                    <lightning:fileUpload name="fileUploader" class="upload-file" multiple="false"
+                        recordId="{!v.recordId}" disabled="{!v.isDisableInput}"
+                        onuploadfinished="{! c.handleUploadFinished }" />
+                    <!-- </div> -->
+                    <!-- <div class="button-center"> -->
+                    <!-- <lightning:buttonIcon variant="border-filled" iconName="utility:change_owner" title="Transfer Chat"
+                        alternativeText="Transfer Chat" disabled="{!v.chatSession.IsExpired__c}"
+                        onclick="{!c.onClickTransferChat}" /> -->
+                    <!-- <lightning:buttonIcon variant="border-filled" iconName="utility:change_owner" title="Transfer Chat"
+                  alternativeText="Transfer Chat" onclick="{!c.onClickTransferChat}"/> -->
+                    <!-- </div> -->
+
+                </lightning:buttonGroup>
+                <!-- <aura:if isTrue="{!v.chatSession.IsExpired__c}">
+                    <div class="slds-col_bump-left">
+                        <button class="slds-button slds-button_brand" onclick="{!c.onClickWrapUpChat}" disabled="false">
+                            Wrap Up Chat</button>
+                        <button class="slds-button slds-button_destructive" onclick="{!c.onClickEndChat}">
+                            End Chat</button>
+                    </div>
+                </aura:if> -->
+                <aura:if isTrue="{!!v.chatSession.IsExpired__c}">
+                    <div class="slds-col_bump-left">
+                        <button class="slds-button slds-button_destructive" disabled="{!v.isDisableInput}"
+                            onclick="{!c.onClickSubmitEndChat}">
+                            End Chat</button>
+                        <!-- <button class="slds-button slds-button_destructive" 
+                              onclick="{!c.onClickEndChat}"
+                              >
+                              End Chat</button> -->
+                    </div>
+                </aura:if>
+
+            </div>
+        </div>
+        <div class="">
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-1" onkeyup="{!c.onKeyPressMessage}">
+                    <lightning:textarea name="inputText" value="{!v.currentMessage}" placeholder="Type a message..."
+                        class="border-input-box" disabled="{!v.isDisableInput}" />
+                </div>
+            </div>
+        </div>
+
+        <aura:if isTrue="{!v.isOpenEndChat}">
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="width: 50% !important;">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-modal__title slds-hyphenate">End Chat</h2>
+                        <p class="slds-m-top_x-small">Are you sure you want to end chat?</p>
+                    </header>
+                    <lightning:spinner aura:id="endChatLoading" class="slds-hide" />
+                    <aura:if isTrue="{!v.endChatErrorMessage != null}">
+                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture slds-banner leftalign"
+                            role="alert">
+                            <h1>
+                                <c:svgIcon class="slds-icon icon-text-email slds-icon--x-small slds-m-right--x-small"
+                                    xlinkHref="/_slds/icons/utility-sprite/svg/symbols.svg#warning" />
+                                {!v.endChatErrorMessage}
+                            </h1>
+                        </div>
+                    </aura:if>
+                    <div class="slds-modal__content slds-p-around_medium"
+                        style="height: auto !important; padding: 1rem 1.5rem !important;">
+                        <lightning:checkboxGroup name="ChatTopicRadio" label="Chat Topic"
+                            options="{! v.chatTopicOptions }" value="{! v.endChatValue.chatTopicValue }" type="radio"
+                            required="true" onchange="{!c.onChangeChatTopicRadio}" />
+                        <lightning:input name="OthersInput" disabled="{!v.endChatValue.isOthersInputDisabled}"
+                            class="margin-others-input" value="{! v.endChatValue.othersInput}" />
+                        <lightning:textarea label="Chat Note" value="{!v.endChatValue.chatNote}" maxlength="255"
+                            messageWhenTooLong="A maximum of 255 characters are allowed."
+                            class="bold-label font-small" />
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button label="Cancel" title="Cancel" onclick="{!c.onClickCancelEndChat}" />
+                        <lightning:button variant="brand" label="Confirm" onclick="{!c.onClickSubmitEndChat}"
+                            title="Confirm" />
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.isOpenWrapUpChat}">
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="width: 50% !important;">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-modal__title slds-hyphenate">Wrap Up Chat</h2>
+                    </header>
+                    <lightning:spinner aura:id="endChatLoading" class="slds-hide" />
+                    <aura:if isTrue="{!v.endChatErrorMessage != null}">
+                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture slds-banner leftalign"
+                            role="alert">
+                            <h1>
+                                <c:svgIcon class="slds-icon icon-text-email slds-icon--x-small slds-m-right--x-small"
+                                    xlinkHref="/_slds/icons/utility-sprite/svg/symbols.svg#warning" />
+                                {!v.endChatErrorMessage}
+                            </h1>
+                        </div>
+                    </aura:if>
+                    <div class="slds-modal__content slds-p-around_medium"
+                        style="height: auto !important; padding: 1rem 1.5rem !important;">
+                        <lightning:checkboxGroup name="ChatTopicRadio" label="Chat Topic"
+                            options="{! v.chatTopicOptions }" value="{! v.endChatValue.chatTopicValue }" type="radio"
+                            required="true" onchange="{!c.onChangeChatTopicRadio}" />
+                        <lightning:input name="OthersInput" disabled="{!v.endChatValue.isOthersInputDisabled}"
+                            class="margin-others-input" value="{! v.endChatValue.othersInput}" />
+                        <lightning:textarea label="Chat Note" value="{!v.endChatValue.chatNote}" maxlength="255"
+                            messageWhenTooLong="A maximum of 255 characters are allowed."
+                            class="bold-label font-small" />
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button label="Cancel" title="Cancel" onclick="{!c.onClickCancelEndChat}" />
+                        <lightning:button variant="brand" label="Confirm" onclick="{!c.onClickSubmitEndChat}"
+                            title="Confirm" />
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+
+        <aura:if isTrue="{!v.isOpenTransferChat}">
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container" style="width: 50% !important;">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-modal__title slds-hyphenate">Transfer Chat</h2>
+                    </header>
+                    <lightning:spinner aura:id="transferChatLoading" class="slds-hide" />
+                    <aura:if isTrue="{!v.transferChatErrorMessage != null}">
+                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture slds-banner leftalign"
+                            role="alert">
+                            <h1>
+                                <c:svgIcon class="slds-icon icon-text-email slds-icon--x-small slds-m-right--x-small"
+                                    xlinkHref="/_slds/icons/utility-sprite/svg/symbols.svg#warning" />
+                                {!v.transferChatErrorMessage}
+                            </h1>
+                        </div>
+                    </aura:if>
+                    <div class="slds-modal__content slds-p-around_medium"
+                        style="height: auto !important; padding: 1rem 1.5rem !important; min-height: 14rem;">
+                        <div class="slds-grid slds-grid_vertical">
+                            <div class="slds-col">
+                                <label class="slds-form-element__label bold-label">
+                                    Select a chat queue, user or skill to transfer this chat.
+                                </label>
+                            </div>
+
+                            <div class="slds-col slds-grid" style="margin-bottom: 1rem;">
+                                <div class="slds-col slds-size_2-of-12" style="margin: auto;">
+                                    <lightning:buttonMenu label="{!v.selectedTransferObtionKey}"
+                                        value="{!v.selectedTransferObtionKey}" onselect="{!c.onSelectTransferObtions}">
+                                        <lightning:menuSubheader label="Transfer to" />
+                                        <lightning:menuDivider variant="tighter" />
+                                        <lightning:menuItem prefixIconName="standard:avatar" label="People"
+                                            value="People" checked="{!(v.selectedTransferObtionKey == 'People')}" />
+                                        <lightning:menuItem prefixIconName="standard:groups" label="Queue" value="Queue"
+                                            checked="{!(v.selectedTransferObtionKey == 'Queue')}" />
+                                    </lightning:buttonMenu>
+                                </div>
+                                <div class="slds-col slds-size_1-of-12" style="margin: auto;text-align: center;">
+                                    :
+                                </div>
+                                <div class="slds-col slds-size_9-of-12">
+                                    <!-- <c:customLookup objectAPIName="Group" selectedRecord="{!v.newTranferPeople}" IconName="standard:avatar" condition="AND Type = 'Queue' " hasLastViewedDate="false"/>                               -->
+                                    <c:customLookup objectAPIName="{!v.selectedTransferObtion.objectAPIName}"
+                                        selectedRecord="{!v.selectedTransferObtion.selectedValue}"
+                                        IconName="{!v.selectedTransferObtion.IconName}"
+                                        condition="{!v.selectedTransferObtion.condition}"
+                                        hasLastViewedDate="{!v.selectedTransferObtion.hasLastViewedDate}" />
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <lightning:textarea label="Message" value="{!v.transferMessage}" maxlength="255"
+                                    messageWhenTooLong="A maximum of 255 characters are allowed."
+                                    class="bold-label font-small" />
+                            </div>
+                        </div>
+
+
+                        <!-- <lightning:input name="OthersInput" disabled= "{!! (v.chatTopicValue == 'Others')}"
+                                    class="margin-others-input" value="{! v.othersInput}"/>
+                    <lightning:textarea label="Chat Note" value="{!v.chatNote}" 
+                                        maxlength="255" messageWhenTooLong="A maximum of 255 characters are allowed."
+                                        class="bold-label"/> -->
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning:button label="Cancel" title="Cancel" onclick="{!c.onClickCancelTransferChat}" />
+                        <lightning:button variant="brand" label="Confirm" onclick="{!c.onClickSubmitTransferChat}"
+                            title="Confirm" />
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

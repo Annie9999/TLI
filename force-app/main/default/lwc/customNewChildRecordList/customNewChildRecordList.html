@@ -1,0 +1,163 @@
+<template>
+    <lightning-record-edit-form object-api-name="Case" >
+        <div class="slds-float_right slds-p-bottom_small">
+            <h1 class="slds-truncate" style="cursor: pointer;" onclick={addRow}>Add Row 
+                <lightning-button-icon icon-name="utility:add"  size="medium" variant="bare" alternative-text="Add" >
+                </lightning-button-icon>
+            </h1>
+        </div>
+        <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <!-- <th scope="col">
+                        <div class="slds-truncate" title="S.No">S.NO</div>
+                    </th> -->
+                    <th scope="col">
+                        <div class="slds-truncate" title="AccountId">AccountId</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Service Request Source">Service Request Source</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="TLI_Division">สายงาน</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="TLI_Subdivision">ส่วนงาน</div>
+                    </th>
+                    <!-- <th scope="col">
+                        <div class="slds-truncate" title="Service_Type">ประเภท</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Service_Topic">หัวข้อ</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Service_Subject">เรื่อง</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Service_Sub_Subject">เรื่องย่อย</div>
+                    </th> -->
+                    
+                    <th scope="col">
+                        <div class="slds-truncate" title="Action">Action
+                            <!-- <lightning-icon icon-name="utility:add" alternative-text="Click to Add" size="small" title="large size" onclick={addRow}>
+                            </lightning-icon> -->
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <template for:each={caseRecList} for:item="ChildCase" for:index="index">
+
+                    <tr key={keyIndex}>
+                        <!-- <td>{index}</td> -->
+                        <td>
+                            <lightning-input-field 
+                                    variant="label-hidden" 
+                                    id={index} 
+                                    access-key={index}  
+                                    name='ChildAccountId' 
+                                    value={ChildCase.AccountId} 
+                                    field-name='AccountId' 
+                                    onchange={handleChangeAccount} ></lightning-input-field>
+                            <!-- <lightning-input name='ChildContactId' access-key={index} id={index} type='text' onchange={changeHandler}  value={ChildCase.AccountId}>
+                            </lightning-input> -->
+                        </td>
+                        <td>
+                            <lightning-input-field 
+                                    variant="label-hidden" 
+                                    id={index} 
+                                    access-key={index}  
+                                    name='ChildSourceId' 
+                                    value={ChildCase.SourceId} 
+                                    field-name='SourceId' 
+                                    onchange={changeHandler} ></lightning-input-field>
+                            <!-- <lightning-input name='accIndustry' access-key={index} id={index} type='text' onchange={changeHandler}   value={ChildCase.Industry}>
+                            </lightning-input> -->
+                        </td>
+                        <td>
+                            <lightning-combobox 
+                                        variant="label-hidden"
+                                        id={index} 
+                                        access-key={index}
+                                        name="ChildTLI_Division" 
+                                        onchange={handleDivisionChange} 
+                                        options={controllingValues} 
+                                        placeholder="--None--" 
+                                        value={ChildCase.TLI_Division}></lightning-combobox>
+                            <!-- <lightning-input-field variant="label-hidden" id={index} access-key={index}  name='ChildTLI_Division' value={ChildCase.TLI_Division} field-name='TLI_Division__c' onchange={changeHandler} ></lightning-input-field> -->
+                            <!-- <lightning-input name='accPhone' access-key={index} type='Phone' id={index}  onchange={changeHandler} value={ChildCase.Phone}></lightning-input> -->
+                        </td>
+                        <td>
+                            <lightning-combobox 
+                                        variant="label-hidden"
+                                        id={index} 
+                                        access-key={index}
+                                        name="ChildTLI_Subdivision"
+                                        onchange={handleSubdivisionChange} 
+                                        options={ChildCase.dependentValues} 
+                                        placeholder="--None--" 
+                                        value={ChildCase.TLI_Subdivision}
+                                        disabled={ChildCase.isEmpty}></lightning-combobox>
+                            <!-- <lightning-input-field variant="label-hidden" id={index} access-key={index}  name='ChildTLI_Subdivision' value={ChildCase.TLI_Subdivision} field-name='TLI_Subdivision__c' onchange={changeHandler} ></lightning-input-field> -->
+                        </td>
+                        <!-- <td>
+                            <lightning-input-field id={index}  name='ChildService_Type' value={ChildCase.ChildService_Type} field-name='Service_Type__c' onchange={changeHandler} ></lightning-input-field>
+                        </td>
+                        <td>
+                            <lightning-input-field id={index}  name='ChildService_Topic' value={ChildCase.ChildService_Topic} field-name='Service_Topic__c' onchange={changeHandler} ></lightning-input-field>
+                        </td>
+                        <td>
+                            <lightning-input-field id={index}  name='ChildService_Subject' value={ChildCase.ChildService_Subject} field-name='Service_Subject__c' onchange={changeHandler} ></lightning-input-field>
+                        </td>
+                        <td>
+                            <lightning-input-field id={index}  name='ChildService_Sub_Subject' value={ChildCase.ChildService_Sub_Subject} field-name='Service_Sub_Subject__c' onchange={changeHandler} ></lightning-input-field>
+                        </td> -->
+                        <td if:true={hideIconRemove}>
+                            <lightning-icon icon-name="utility:delete"  access-key={index} id={index} alternative-text="Click to remove" size="small" title="large size" onclick={removeRow}>
+                            </lightning-icon>
+                        </td>
+                    </tr>
+                    
+                </template>
+            </tbody>
+        </table>
+        <div class="slds-m-top_medium">      
+            <lightning-button variant="brand"  name="save" label="Create Case" onclick={saveMultipleChild}></lightning-button>
+        </div>
+<!-- test -->
+        <!-- <lightning-card title="Custom Dependent Picklist using Lightning Web Components"><br/>
+            test{getrecordTypeId}
+            <div class="slds-grid slds-gutters" style="margin-left:3%">
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning-combobox label="สายงาน" 
+                                        name="country" 
+                                        onchange={handleCountryChange} 
+                                        options={controllingValues} 
+                                        placeholder="--None--" 
+                                        value={selectedCountry}></lightning-combobox><br/>
+                    
+                    <div if:true={selectedCountry}>
+                        สายงาน: <b>{selectedCountry}</b>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-4">
+                    <lightning-combobox label="ส่วนงาน" 
+                                        name="state"
+                                        onchange={handleStateChange} 
+                                        options={dependentValues} 
+                                        placeholder="--None--" 
+                                        value={selectedState}
+                                        disabled={isEmpty}></lightning-combobox><br/>
+                    <div if:true={selectedState}>
+                        ส่วนงาน: <b>{selectedState}</b>
+                    </div>
+                </div>
+            </div><br/>
+    
+            <div if:true={error}>
+                <p>{error}</p>
+            </div>
+        </lightning-card> -->
+    </lightning-record-edit-form>
+</template>

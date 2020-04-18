@@ -1,0 +1,36 @@
+.THIS .vehicle-tile:hover, .THIS.vehicle-tile:hover {
+    border: 2px solid #2a94d6;
+    cursor: cell;
+}
+
+.THIS.message {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    font-size: 1.5em;
+    font-weight: 100;
+}
+
+.THIS .cars-icon {
+    height: 40px;
+    width: 40px;
+}
+.THIS .vehicle-tile:hover, .THIS.vehicle-tile:hover {
+    border: 2px solid #2a94d6;
+    cursor: cell;
+}
+
+.THIS.message {
+    text-align: center;
+    padding: 20px;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    font-size: 1.5em;
+    font-weight: 100;
+}
+
+.THIS .cars-icon {
+    height: 40px;
+    width: 40px;
+}

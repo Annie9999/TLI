@@ -1,0 +1,13 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable,flexipage:availableForAllPageTypes,lightning:actionOverride,force:hasRecordId,lightning:isUrlAddressable,lightning:hasPageReference,force:lightningQuickActionWithoutHeader"
+access="global">
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:attribute name="ObjectType" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="recordId" type="String"/>
+    <c:ccEditCaseParent recordId="{!v.recordId}" ObjectType="{!v.ObjectType}" oncloseclicked="{!c.handleFilterChange}"></c:ccEditCaseParent>
+    <!-- <c:customEditCaseParent></c:customEditCaseParent>
+    <hr></hr>
+    <c:customEditCaseParentDetail></c:customEditCaseParentDetail>
+    <hr></hr>
+    <c:customEditCaseParentBenefit></c:customEditCaseParentBenefit> -->
+</aura:component>

@@ -1,0 +1,32 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="title" type="String" default="Headlines"/>
+    <aura:attribute name="icon" type="String" default="standard:account"/>
+    <aura:attribute name="footer" type="String" default="Powered by Salesforce"/>
+    <aura:attribute name="height" type="String" default="400px"/>
+    <aura:attribute name="width" type="String" default="100%"/>
+    <aura:attribute name="fontsize" type="String" default="16px"/>
+    <aura:attribute name="contactFields" type="String[]" access="global" default="Name,Cust360_CSAT__c"/>
+    <aura:attribute name="textColor" type="String" default="black"/>
+            <aura:attribute name="headLines" type="String" />
+            <aura:attribute name="direction" type="String" default="scroll_right2left"/>
+        <aura:attribute name="speed" type="String" default="25s"/>
+        <aura:attribute name="deLimiter" type="String" default="*****" />
+    
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="fields" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <force:recordData aura:id="recordHandler"
+                      recordId="{!v.recordId}"
+                      fields="{!v.contactFields}"                      
+                      targetRecord="{!v.record}"
+                      targetError="{!v.recordError}"
+                      targetFields="{!v.fields}"
+                      mode="EDIT"
+                        recordUpdated="{!c.handleRecordUpdated}"/>
+
+	<!-- <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> -->
+  <lightning:card  title="{!v.title}" iconName="{!v.icon}" footer="{!v.footer}">
+		<div  style="{!'height:'+v.height+';width:'+v.width+';overflow: hidden;position: relative;'}">
+<h3  class="{!v.direction}" style="{!'font-size:'+v.fontsize+';color:'+v.textColor+';animation-duration:'+v.speed+';-moz-animation-duration:'+v.speed+';-webkit-animation-duration:'+v.speed+';display: inline;'}" ><aura:unescapedHtml value="{!v.headLines}" /></h3>		</div>
+  </lightning:card> 
+</aura:component>

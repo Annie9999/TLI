@@ -1,0 +1,13 @@
+<design:component>
+	 <design:attribute name="title" label="Title" default="Headlines"/>
+    <design:attribute name="icon" label="Icon Name" default="standard:account"/>
+    <design:attribute name="footer" label="Footer Label" default="Powered by Salesforce"/>
+    <design:attribute name="height" label="Height"  default="60px"/>
+    <design:attribute name="width"  label="Width" default="100%"/>
+    <design:attribute name="fontsize"  label="Font Size" default="16px"/>
+    <design:attribute name="textColor"  label="Text Color" default="black"/>
+                <design:attribute name="speed" label="Speed" default="25s"/>
+            <design:attribute name="deLimiter" label="De-Limiter" default="*****"/>
+
+	<design:attribute name="direction" datasource="scroll_right2left,scroll_bottom2Top" default="scroll_right2left" />
+</design:component>

@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Select Record - used by Policy List and Vehicle List in IDO">
+    <aura:attribute name="selectedId" type="String" />
+    <aura:attribute name="assetId" type="String" />
+</aura:event>

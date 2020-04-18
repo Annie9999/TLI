@@ -1,0 +1,42 @@
+<apex:page >
+    
+
+    
+    <apex:includeLightning />
+    <div id="lightning" />
+    <script>
+    $Lightning.use("c:LightningOutContainerApp", function() {
+        $Lightning.createComponent("c:Payment", "", "lightning",  function(cmp) {  
+        });
+        
+    });
+    
+    </script>
+    
+   
+    
+    <!-- <apex:slds />
+<div class="slds-scope" >
+<apex:form id="form" style="height: 200px;">
+
+<div id="spinner" class="slds-spinner_container slds-is-relative"   style=" margin-top:20%;">
+<div role="status" class="slds-spinner slds-spinner--large slds-spinner--brand">
+<div class="slds-spinner__dot-a"></div>
+<div class="slds-spinner__dot-b"></div>
+</div>
+</div>
+
+<div  id="text" class="slds-spinner_container slds-is-relative"   >
+I am hidden
+</div>
+
+
+
+</apex:form>
+</div>-->
+    
+    
+    
+    <!-- <script>  var spinner = document.getElementById('spinner');  var text = document.getElementById('text'); setTimeout    (function() {  spinner.className += ' slds-hide'}, 3000);
+</script>-->
+</apex:page>

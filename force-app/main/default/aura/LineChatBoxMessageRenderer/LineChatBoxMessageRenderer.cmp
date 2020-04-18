@@ -1,0 +1,150 @@
+<aura:component>
+    <aura:attribute name="collection" type="List" />
+    <aura:attribute name="isDisplayShowMore" type="Boolean" default="false" />
+    <aura:attribute name="dataImg" type="String" />
+
+    <aura:attribute name="eventClickShowMoreName" type="String" default="clickShowMoreMessageEvent" />
+    <aura:attribute name="eventClickDownloadFileName" type="String" default="clickDownloadFileEvent" />
+    <aura:attribute name="eventClickDownloadImageName" type="String" default="clickDownloadImageEvent" />
+
+    <aura:registerEvent name="clickShowMoreMessageEvent" type="c:EnlargePictureEvent" />
+    <aura:registerEvent name="clickShowMoreMessageEventInChatHistory" type="c:EnlargePictureEvent" />
+    <aura:registerEvent name="clickDownloadFileEvent" type="c:EnlargePictureEvent" />
+    <aura:registerEvent name="clickDownloadFileEventInChatHistory" type="c:EnlargePictureEvent" />
+    <aura:registerEvent name="clickDownloadImageEvent" type="c:EnlargePictureEvent" />
+    <aura:registerEvent name="clickDownloadImageEventInChatHistory" type="c:EnlargePictureEvent" />
+
+    <div id="id-content" class="content">
+        <aura:if isTrue="{!v.isDisplayShowMore}">
+            <div class="slds-badge box-show-more" onclick="{!c.onClickShowMoreMessage}">
+                Show more message ...
+            </div>
+        </aura:if>
+        <aura:iteration items="{!v.collection}" var="eachday">
+            <div class="slds-badge box-date">{!eachday.sentDate}</div>
+
+            <aura:iteration items="{!eachday.messages}" var="eachtime">
+                <aura:if isTrue="{!eachtime.type == 'sticker'}">
+                    <div class="{!eachtime.owner + '-container'}">
+                        <div class="{! 'slds-chat-message__image sbox-message '}">
+                            <img src="{!eachtime.text}" />
+                        </div>
+                    </div>
+                    <div class="{! 'time-text time-text-' + eachtime.owner}">{!eachtime.ownerName} • {!eachtime.timeStamp}</div>
+                </aura:if>
+
+                <aura:if isTrue="{!eachtime.type == 'image'}">
+                    <div class="{!eachtime.owner + '-container'}">
+                        <div class="{! 'slds-chat-message__image slds-chat-message__image_inbound box-message ' + eachtime.owner + '-box'}">
+                            <div class="slds-file">
+                                <figure>
+                                    <a href="#" class="slds-file__figure" onclick="{!c.onClickPreviewImage}" data-src="{!eachtime.text}">
+                                        <!-- <span class="slds-assistive-text">Preview:</span> -->
+                                        <img src="{!eachtime.text}" />
+                                    </a>
+                                </figure>
+                                <div class="slds-file__title slds-file__title_scrim">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!eachtime.owner == 'provider'}">
+                        <div class="{! 'time-text time-text-' + eachtime.owner}">
+                            <a href="{!eachtime.text}" class="download-text">download</a> • {!eachtime.ownerName} • {!eachtime.timeStamp}
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!eachtime.owner == 'client'}">
+                        <div class="{! 'time-text time-text-' + eachtime.owner}">
+                            {!eachtime.ownerName} • {!eachtime.timeStamp} •
+                            <a href="#" class="download-text" onclick="{!c.onClickDownloadImage}" data-owner="{!eachtime.owner}" data-blob="{!eachtime.text}" data-fileName="image.png">
+                                download
+                            </a>
+
+                        </div>
+                    </aura:if>
+                </aura:if>
+
+                <aura:if isTrue="{!eachtime.type == 'text'}">
+                    <div class="{!eachtime.owner + '-container'}">
+                        <div class="{! 'box-message ' + eachtime.owner + '-box'}">
+                            <span>{!eachtime.text}</span>
+                        </div>
+                    </div>
+                    <div class="{! 'time-text time-text-' + eachtime.owner}">{!eachtime.ownerName} • {!eachtime.timeStamp}
+                    </div>
+                </aura:if>
+                <aura:if isTrue="{!eachtime.type == 'file'}">
+                    <div class="{!eachtime.owner + '-container'}">
+                        <div class="{! 'box-message ' + eachtime.owner + '-box'}">
+                            <span>
+                                <span class="slds-icon_container slds-icon-doctype-attachment slds-chat-icon"
+                                    title="Attachment">
+                                    <lightning:icon iconName="doctype:attachment" size="small" />
+
+                                    <!-- <span class="slds-assistive-text">Attachment</span> -->
+                            </span>
+                            <a href="#" onclick="{!c.onClickDownloadFile}" data-owner="{!eachtime.owner}" data-url="{!eachtime.urlContent}" data-fileName="{!eachtime.text}">
+                                    {!eachtime.text}
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                    <aura:if isTrue="{!eachtime.owner == 'provider'}">
+                        <div class="{! 'time-text time-text-' + eachtime.owner}">
+                            <a href="#" onclick="{!c.onClickDownloadFile}" data-owner="{!eachtime.owner}" data-url="{!eachtime.urlContent}" data-fileName="{!eachtime.text}" class="download-text">download</a> • {!eachtime.ownerName} • {!eachtime.timeStamp}
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!eachtime.owner == 'client'}">
+                        <div class="{! 'time-text time-text-' + eachtime.owner}">
+                            {!eachtime.ownerName} • {!eachtime.timeStamp} •
+                            <a href="#" onclick="{!c.onClickDownloadFile}" data-owner="{!eachtime.owner}" data-url="{!eachtime.urlContent}" data-fileName="{!eachtime.text}" class="download-text">
+                                download
+                            </a>
+
+                        </div>
+                    </aura:if>
+                </aura:if>
+                <aura:if isTrue="{!eachtime.type == 'transfer'}">
+                    <li class="slds-chat-listitem slds-chat-listitem_event" style="align-self: center;">
+                        <div class="slds-chat-event">
+                            <div class="slds-chat-event__body">
+                                <lightning:icon iconName="utility:change_owner" size="xx-small" />
+                                <p style="padding-left: 8px;">
+                                    <b>{!eachtime.ownerName}</b>&nbsp;{!eachtime.text}&nbsp;
+                                    <b>{!eachtime.owner}</b> • {!eachtime.timeStamp}</p>
+                            </div>
+                        </div>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!eachtime.type == 'endchat'}">
+                    <li class="slds-chat-listitem slds-chat-listitem_bookend" style="align-self: center;">
+                        <div class="slds-chat-bookend slds-chat-bookend_stop">
+                            <lightning:icon iconName="utility:end_chat" size="xx-small" />
+                            <p style="padding-left: 8px;">{!eachtime.text}&nbsp;
+                                <b>{!eachtime.ownerName}</b> • {!eachtime.timeStamp}</p>
+                        </div>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!eachtime.type == 'expired'}">
+                    <li class="slds-chat-listitem slds-chat-listitem_bookend" style="align-self: center;">
+                        <div class="slds-chat-bookend slds-chat-bookend_stop">
+                          <lightning:icon iconName="utility:end_chat" size="xx-small"/>
+                          <p style="padding-left: 8px;">Session is Expired&nbsp;• {!eachtime.timeStamp}</p>
+                        </div>
+                      </li>
+                </aura:if>
+
+            </aura:iteration>
+            <!-- <div class="slds-badge box-date">{!eachday.sentDate}</div> -->
+        </aura:iteration>
+        <aura:if isTrue="{!empty(v.collection)}">
+            <div class="slds-badge box-date">No Content...</div>
+        </aura:if>
+    </div>
+    <div aura:id="preview-image" class="modal">
+        <span class="close" onclick="{!c.onClickClose}">&times;</span>
+        <img src="{!v.dataImg}" class="modal-content" />
+        <div id="caption"></div>
+    </div>
+</aura:component>

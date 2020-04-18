@@ -1,0 +1,209 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForRecordHome,lightning:isUrlAddressable"  access="global" controller="qualityCheckController">
+    <!-- Opportunity -->
+    <aura:attribute name="recordId" type="Id" default="006q000000KLbsTAAT" />
+    <aura:attribute name="info" type="Case" />
+    <aura:attribute name="opptyId" type="String" /> 
+
+    <aura:attribute name="questType" type="String" default="QC" />
+    <aura:attribute name="questions" type="Object" />
+    <aura:attribute name="answer" type="List" default="[
+                                                       {'label': 'Yes', 'value': 'Yes'},
+                                                       {'label': 'No', 'value': 'No'} ]"/>
+    
+    <aura:attribute name="valid_information" type="String" />
+    <aura:attribute name="information_question" type="QC_Answer_Form__c" />
+    <aura:attribute name="isAnswered" type="boolean" default="false"/>
+    <aura:attribute name="questionAnswer" type="QC_Answer_Form__c[]"/>
+    <aura:attribute name="rejectDescription" type="String" />
+
+    <aura:attribute name="submitMode" type="String" />
+    <aura:attribute name="modalHeader" type="String" />
+    <aura:attribute name="answerList" type="String[]" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="slds-card" style="padding: 50px;">
+        <div class="slds-grid slds-gutters">
+
+            <div class="slds-col">
+                <!-- <div class="slds-card" style="padding: 50px;"> -->
+                    <div class="head">
+                        <h2>ตวรจสอบข้อมูล</h2>
+                    </div>
+                    <div class="body">
+                        <lightning:input name="firstname" label="ชื่อ" disabled="true" value="{!v.info.Account.Name}" />
+                        <lightning:input name="age" label="อายุ" disabled="true" value="{!v.info.Account.Age__c}" />
+                        <lightning:input name="income" label="รายได้" disabled="true" value="{!v.info.Account.Annual_Income__c}" />
+                        <lightning:input name="email" label="อีเมล์" disabled="true" value="{!v.info.Account.PersonEmail}" />
+                        <lightning:input name="phone" label="เบอร์โทร" disabled="true" value="{!v.info.Account.Phone}" />
+                        <lightning:input name="street" label="ถนน" disabled="true" value="{!v.info.Account.ShippingStreet}" />
+                        <lightning:input name="city" label="เมือง" disabled="true" value="{!v.info.Account.ShippingCity}" />
+                        <lightning:input name="state" label="จังหวัด" disabled="true" value="{!v.info.Account.ShippingState}" />
+                        <lightning:input name="postalcode" label="รหัสไปรษณีย์" disabled="true" value="{!v.info.Account.ShippingPostalCode}" />
+                        <lightning:input name="country" label="ประเทศ" disabled="true" value="{!v.info.Account.ShippingCountry}" />
+                        <!-- <lightning:input name="StageName" label="ประเทศ" disabled="true" value="{!v.info.Account.Name }" /> -->
+                        
+                        <aura:if isTrue="{!v.isAnswered == true }">
+                            <lightning:radioGroup name="information"
+                                                aura:id="checkForm"
+                                                required="true"
+                                                label="ข้อมูลถูกต้องมั้ย" 
+                                                options="{! v.answer}"
+                                                value="{!v.information_question.Answer__c}"
+                                                type="radio" 
+                                                />
+                        </aura:if>
+                        <aura:if isTrue="{!v.isAnswered != true }">
+                            <lightning:radioGroup name="information"
+                                                aura:id="checkForm"
+                                                required="true"
+                                                label="ข้อมูลถูกต้องมั้ย" 
+                                                options="{! v.answer}"
+                                                value="{!v.valid_information.Answer__c}"
+                                                type="radio" 
+                                                />
+                        </aura:if>
+                    </div>
+
+                <!-- </div> -->
+            </div>
+            <div class="slds-col">
+                <!-- <div class="slds-card" style="padding: 50px;"> -->
+                    <div class="head">
+                        <h2>พนักงานได้ถามคำถามต่อไปนี้หรือไม่</h2>
+                    </div>
+                    <aura:if isTrue="{!v.isAnswered == true }">
+                        <aura:iteration items="{!v.questionAnswer}" var="question" indexVar="index">
+                            <div class="slds-box" id="q1" style="margin: 10px;">
+                                <lightning:radioGroup
+                                                    aura:id="checkForm"
+                                                    required="true"
+                                                    label="{!question.Question__c}" 
+                                                    options="{! v.answer}"
+                                                    value="{!question.Answer__c}"
+                                                    type="radio" 
+                                                    />    
+                            </div>
+                        </aura:iteration >
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.isAnswered != true }">
+                        <aura:iteration items="{!v.questions}" var="question" indexVar="index">
+                            <div class="slds-box" style="margin: 10px;">
+                                <lightning:radioGroup label="{!question.Question__c}" 
+                                                    aura:id="checkForm"
+                                                    required="true"
+                                                    options="{! v.answer}"
+                                                    value="{!question.tmpAnswer}"
+                                                    type="radio" 
+                                                    />    
+                            </div>
+                        </aura:iteration >
+                    </aura:if>
+                <!-- </div> -->
+            </div>
+        </div>
+        <!-- <div class="slds-grid slds-gutters slds-grid_align-center">
+            <lightning:textarea name="description" label="เหตุผลการปฏิเสธ (ถ้ามี)" value="{!v.rejectDescription}" />
+        </div> -->
+        <div class="slds-grid slds-grid_align-center slds-wrap" style="padding: 20px;">
+            <!-- <lightning:button type="submit" variant="brand" label="ดำเนินการต่อ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.verify }"/> -->
+<!--             
+            <div class="slds-size_3-of-3 slds-m-bottom_medium">
+                <lightning:textarea name="description" label="เหตุผลการปฏิเสธ (ถ้ามี)" value="{!v.rejectDescription}" placeholder="เหตุผลในการปฏิเสธ..."/>
+            </div> -->
+            <div class="slds-size_1-of-3">
+                <!-- <lightning:button type="submit" variant="brand" label="Accept - Send to NB" iconName="utility:chevronright" iconPosition="right" onclick="{! c.accept }"/> -->
+                <lightning:button type="submit" name="nb" variant="brand" label="Accept - Send to NB" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+
+            </div>
+            <div class="slds-size_1-of-3">
+                <!-- <lightning:button type="submit" name="uw" variant="brand" label="Need Medical Consult" iconName="utility:chevronright" iconPosition="right" onclick="{! c.toConsult }"/> -->
+                <lightning:button type="submit" name="uw" variant="brand" label="Need Medical Consult" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+
+            </div>
+            <div class="slds-size_1-of-3">
+                <!-- <lightning:button type="submit" name="reject" variant="brand" label="Reject" iconName="utility:chevronright" iconPosition="right" onclick="{! c.reject }"/> -->
+                <lightning:button type="submit" name="reject" variant="brand" label="Reject" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open"> -->
+    <div aura:id="summaryModal" role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal" >
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+              <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.modalHeader}</h2>
+            
+          </header>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <aura:if isTrue="{!v.isAnswered == true }">
+                <div class="slds-text-body_small">
+                    1. {! v.information_question.Question__c }
+                </div>
+                <div class="slds-text-body_small">
+                    คำตอบ {! v.information_question.Answer__c }
+                </div>
+                <br/>
+                <aura:iteration items="{!v.questionAnswer}" var="question" indexVar="index">
+                    
+                    <div class="slds-text-body_small">
+                        {!index+2}. {! question.Question__c } 
+                    </div>
+                    <div class="slds-text-body_small">
+                        คำตอบ: {! question.Answer__c }
+                    </div>
+                    <br/>
+                </aura:iteration >
+
+            </aura:if>
+
+            <aura:if isTrue="{!v.isAnswered != true }">
+                <div class="slds-text-body_small">
+                    1. ข้อมูลถูกต้องไหม 
+                </div>
+                <div class="slds-text-body_small">
+                    คำตอบ {! v.valid_information.Answer__c }
+                </div>
+                <br/>
+                <aura:iteration items="{!v.questions}" var="question" indexVar="index">
+                    
+                    
+                    <div class="slds-text-body_small">
+                        {!index+2}. {! question.Question__c } 
+                    </div>
+                    <div class="slds-text-body_small">
+                        คำตอบ: {! question.tmpAnswer }
+                    </div>
+                    <br/>
+                    <!-- <c:summaryQuestion question="{!question}" answerList="{!v.answerList}" order="{!index}" /> -->
+                </aura:iteration >
+                
+            </aura:if>
+
+            
+            <aura:if isTrue="{!v.submitMode == 'reject' }">
+                
+                <div class="">
+                    <lightning:textarea name="description" label="เหตุผลการปฏิเสธ" value="{!v.rejectDescription}" placeholder="เหตุผลในการปฏิเสธ..."/>
+                </div>
+                
+            </aura:if>
+
+          </div>
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick="{!c.closeModal}">ยกเลิก</button>
+            <button class="slds-button slds-button_brand" onclick="{!c.submit}">ตกลง</button>
+          </footer>
+        </div>
+    </div>
+      <!-- <div class="slds-backdrop slds-backdrop_open"></div> -->
+      <div aura:id="summaryBackdrop" class="slds-backdrop"></div>
+
+
+
+</aura:component>

@@ -1,0 +1,176 @@
+.THIS .form-information {
+  border: var(--lwc-borderWidthThin, 1px) solid
+    var(--lwc-colorBorderInput, rgb(221, 219, 218));
+  border-radius: var(--lwc-borderRadiusMedium, 0.25rem);
+  padding: 1rem;
+}
+.THIS .icon-super-small .slds-icon-text-default {
+  fill: #eb0618;
+}
+.THIS .icon-super-small .slds-icon_small {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+.THIS .slds-path__item a:active {
+  color: white;
+}
+.THIS .slds-path__nav .slds-is-complete:before,
+.THIS .slds-path__nav .slds-is-complete:after {
+  /*background: #eb0618;*/
+  background: #4bca81;
+}
+.THIS .slds-path__nav .slds-is-complete:hover {
+  /*background: #a70c18;*/
+  background: #3ca167;
+}
+.THIS .slds-path__nav .slds-is-complete {
+  /*background: #eb0618;*/
+  background: #4bca81;
+}
+.THIS .slds-path__nav .slds-is-complete:hover::before,
+.THIS .slds-path__nav .slds-is-complete:hover::after {
+  /*background: #a70c18;*/
+  background: #3ca167;
+}
+.THIS .slds-spinner_container {
+  background-color: transparent !important;
+  position: fixed;
+}
+
+.THIS .price {
+  font-size: 2rem;
+}
+
+.THIS .inform {
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.THIS .inform lightning-icon {
+  margin-right: 10px;
+}
+
+.THIS .mgt8 {
+  margin-top: 8px;
+}
+
+.THIS .fullRadio .slds-radio_button-group,
+.THIS .gender .slds-radio_button-group {
+  width: 100%;
+}
+
+.THIS .fullRadio .slds-button.slds-radio_button {
+  width: 25%;
+}
+
+.THIS .fullRadio label.slds-radio_button__label,
+.THIS .gender label.slds-radio_button__label {
+  width: 100%;
+  text-align: center;
+  padding: 10px;
+}
+
+.THIS .gender .slds-button.slds-radio_button {
+  width: 50%;
+}
+
+.THIS a {
+  text-decoration: none;
+}
+
+.THIS .fullbutton {
+  width: 100%;
+}
+.THIS .fullbutton-b {
+  width: 95%;
+}
+
+.THIS .inform .detail {
+  font-size: 1rem;
+}
+.THIS .headerInfo {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+.THIS .sectionspiner {
+  /*top: 50%;
+  left: 45%;
+  position: absolute;*/
+  margin-top: 100px;
+  text-align: center;
+}
+
+.THIS .sectionspiner div {
+  font-size: 1.5rem;
+  margin-top: 30px;
+}
+
+.THIS .loader {
+  /*display: none;*/
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #0476b2;
+  border-left: 16px solid rgba(244, 243, 239, 0.8);
+  border-bottom: 16px solid #0476b2;
+  width: 120px;
+  height: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 1.2s linear infinite;
+
+  /*z-index: 9999;*/
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.THIS .blockPayment {
+  position: absolute;
+  bottom: 10%;
+  width: 100%;
+}
+
+.THIS .contentPayment {
+  width: fit-content;
+  border: 1px solid lightgray;
+  padding: 20px 40px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.THIS label.uiLabel {
+  padding-right: 12px;
+}
+
+.THIS .field{
+  border: 1px solid #dce4ec;
+  border-radius: 5px;
+}
+
+.THIS .uiInput--default .form-element__label {
+  font-size: 12px;
+}
+
+.THIS div.uiInputDate {
+  margin-top: 8px;
+}

@@ -1,0 +1,262 @@
+<apex:component controller="SendQuotationTemplateController" access="global" > 
+<apex:attribute name="opprtunityId" type="Id" description="Id of the opportunity" assignTo="{!oppId}"/>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet"/> 
+
+        <title>iiGLife | ไทย ประกันชีวิต</title>
+
+        <!-- GOOGLE FONT -->
+        <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet"/> 
+
+    </head>
+    <body height="3000" marginheight="0" marginwidth="0" topmargin="0" bottommargin="0" leftmargin="0" rightmargin="0" offset="0"
+        style="margin:0; padding:0; text-align:left !important; background-color:rgb(255, 255, 255); 
+        font-family: 'Prompt', Arial, Helvetica, sans-serif;
+        font-weight:normal;
+        font-style:normal;">
+        <apex:repeat value="{!Details}" var="info">
+            <center>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%" style="padding:0px;background-color: rgb(255, 255, 255);" >
+                    <table width="540" border="0" cellpadding="0" cellspacing="0" id="container">
+                        <tr height="60">
+                            <td valign="top" style="text-align: center;">
+                                <div>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                        <tr height="60">
+                                            <td width="85%" style="background-color: #34384B;">
+                                                <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834132000/Logo"
+                                                style="padding-left:20px !important;display:block; max-width:165px; 
+                                                border:0; line-height:100%; outline:none; text-decoration:none;">
+                                                </apex:image>
+                                            </td>
+                                            <td width="15%" style="background-color: #34384B;padding: 28px;">
+                                                <a href="tel:022470247" target="_blank">
+                                                    <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834222000/phone" 
+                                                    style="display:block; height:36px;width:36px; 
+                                                    border:0; line-height:100%; outline:none; text-decoration:none;">
+                                                    </apex:image>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr height="300" style="background: -webkit-linear-gradient(top, rgb(0, 133, 189) 0%, rgb(0, 133, 189) 54%, rgb(0, 133, 189) 54%, #b5dbec 66%, rgba(255,255,255,1) 100%);">
+                            <td valign="top" style="text-align: center;">
+                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                    <!-- <div style="padding-top:40px;font-size: 25px;color: #ffffff;"> -->
+                                    <div style="padding-top:40px;font-size:1.5rem;color:#ffffff;padding-right: 30px;padding-left: 30px;">
+                                        ใบแสดงราคาเบื้องต้นประกันอุบัติเหตุ อีซี แฟมิลี
+                                    </div>
+                                    <div style="font-size: 1rem; color: #E8F9F2;">
+                                        ประกันอุบัติเหตุ อีซี แฟมิลี พร้อมดูแลคุณแล้ว
+                                    </div>
+                                    <div style="font-size: 1rem; color: #E8F9F2;">
+                                        เริ่มต้นความคุ้มครองวันนี้
+                                    </div>
+                                    <div style="font-size: 1rem; color: #E8F9F2;">
+                                        พร้อมส่วนลดพิเศษสำหรับคุณ  &nbsp;20%
+                                    </div>
+                                    
+                                    <!-- <div style="padding:20px;background-color:rgb(255,255,255);width:70%;margin: 0 auto;margin-top: 20px;border:1px solid #f4f4f4;"> -->
+                                        <div style="padding:20px;
+                                        background-color:rgb(255,255,255);
+                                        width:80%;
+                                        margin: 0 auto;
+                                        margin-top: 20px;
+                                        border:1px solid #f4f4f4;
+                                        ">           
+                                        <div style=" font-size: 1rem; color: #000000;">
+                                            เบี้ยประกันพร้อมส่วนลดสำหรับคุณ
+                                        </div>
+                                        <div style="padding-top: 10px; font-size: 1.5rem; color: #000000; font-weight: bold;">
+                                            ฿<apex:outputText value="{0, number, ###,###,##0.00}">
+                                                <apex:param value="{!info.oppty.Amount}" />
+                                            </apex:outputText>
+                    
+                                        </div>
+                                        <form style="padding-top:10px;">
+                                            <a href="" target="_blank" style="text-decoration: none;">
+                                                <!-- <input style="width: 250px; height:40px; background: #EC6453; color: #ffffff;border-color:#EC6453 ; 
+                                                font-size: 14px;" type="button" value="ซื้อออนไลน์ทันที คลิก!"/> -->
+                                                <div style="width:70%;height:40px;background: #ec6453;border-color:#ec6453;font-size:1rem;margin: 0 auto 0 auto;">
+                                                    <p style="color: white;padding-top: 10px;margin-top: 0px;margin-bottom: 0px;">ให้เจ้าหน้าที่ติดต่อกลับ</p>
+                                                </div>
+                                            </a>
+                                        </form>
+                                    </div>
+                                </table>
+                                <div style="padding: 35px 35px 0px;">
+                                    <div style="background-color: white;padding: 35px 35px 0px;font-size: 1.4rem;border-radius: 20px 20px 0px 0px;">
+                                        รายละเอียดแผนประกัน
+                                    </div>
+                                </div>
+                                <div style="margin:auto;padding: 0px 35px 0px 35px;">
+                                    <div style="background-color: white;">
+                                    	<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-left: 25px;padding-right: 25px;">
+                                        <tr height="90" >
+                                            <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
+                                                <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834046000/bed" 
+                                                style="padding:20px;display:block; height:45px;width:45px;margin-left: auto;margin-right: auto;  
+                                                border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
+                                            </td>
+                                            <td style="background-color: rgb(255, 255, 255); text-align: left;border-bottom: 1px solid black;width: 60%">
+                                                <div style="margin-top:10px;font-size: 0.8rem;color: rgb(101, 103, 112); ">
+                                                    ค่าห้องและค่าอาหารต่อวัน
+                                                </div>
+                                                <div style="margin-top:-5px;font-size: 28px;color: #282B3E; ">
+                                                    9,000 บาท
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr height="90">
+                                            <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
+                                                <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834467000/heart" 
+                                                style="padding:20px;display:block; height:40px;width:40px; margin-left: auto;margin-right: auto; 
+                                                border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
+                                            </td>
+                                            <td style="background-color: rgb(255, 255, 255); text-align: left;border-bottom: 1px solid black;width: 60%">
+                                                <div style="margin-top:10px;font-size: 0.8rem;color: rgb(101, 103, 112); ">
+                                                    ค่าแพทย์ค่ายาผู้ป่วยนอก(OPD)ต่อปีกรมธรรม์
+                                                </div>
+                                                <div style="margin-top:-5px;font-size: 28px;color: #282B3E; ">
+                                                    50,000 บาท
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr height="90">
+                                            <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
+                                                    <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834517000/coin" 
+                                                    style="padding:20px;display:block; height:45px;width:40px; margin-left: auto;margin-right: auto; 
+                                                    border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
+                                            </td>
+                                            <td style="background-color: rgb(255, 255, 255); text-align: left;border-bottom: 1px solid black;width: 60%">
+                                                <div style="margin-top:10px;font-size: 0.8rem;color: rgb(101, 103, 112); ">
+                                                        คุ้มครองสุขภาพเหมาจ่ายต่อปีกรมธรรม์
+                                                </div>
+                                                <div style="margin-top:-5px;font-size: 28px;color: #282B3E; ">
+                                                    10,000,000 บาท
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr height="90">
+                                            <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
+                                                    <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834664000/death" 
+                                                    style="padding:15px;display:block; height:45px;width:40px; margin-left: auto;margin-right: auto; 
+                                                    border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
+                                            </td>
+                                            <td style="background-color: rgb(255, 255, 255); text-align: left;border-bottom: 1px solid black;width: 60%">
+                                                <div style="margin-top:10px;font-size: 0.8rem;color: rgb(101, 103, 112); ">
+                                                        คุ้มครองการเสียชีวิต
+                                                </div>
+                                                <div style="margin-top:-5px;font-size: 28px;color: #282B3E; ">
+                                                    50,000 บาท
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>    
+                                    </div>
+                                    
+                                </div>
+                                <div style="margin:auto;padding: 0px 35px 0px 35px;">
+                                    <div style="font-size:1.4rem;text-align:center;color:#000000;background: white;padding:20px 0px; ">
+                                        ข้อมูลผู้ขอเอาประกัน
+                                    </div>
+                                    <div style="margin: auto;background: white;padding: 0px 50px;">
+                                        <table width="100%" border="0" cellpadding="0" cellspacing="0" >
+                                            <tr height="20">
+                                                <td style="width:35%">
+                                                    <div style="font-size:0.8rem;color:#282b3e;text-align:right;padding-right: 30px;">
+                                                        อายุ:
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
+                                                        {!info.age} ปี
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr height="20">
+                                                <td style="width:35%">
+                                                    <div style="font-size:0.8rem;color:#282b3e;text-align:right;padding-right: 30px;">
+                                                        เพศ:
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
+                                                        {!info.acc.Sex__pc}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr height="20">
+                                                <td style="width:35%">
+                                                    <div style="font-size:0.8rem;color:#282b3e;text-align:right;padding-right: 30px;">
+                                                        อีเมล:
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
+                                                        {!info.acc.PersonEmail}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr height="20">
+                                                <td style="width:35%">
+                                                    <div style="font-size:0.8rem;color:#282b3e;text-align:right;padding-right: 30px;">
+                                                        เบอร์มือถือ:
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
+                                                        (065) 513-7953
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                        <tr height="20" style="background-color: #ffffff;">
+                            <td>
+                               
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #34384B;border-top: 1px solid #F4F4F4; padding: 20px 40px; margin-top: 60px;">
+                                    <td width="85%">
+                                        <div style="font-size:0.7rem; color: white">Copyright 2017 All Rights Reserved</div>
+                                        <div style="font-size:0.7rem; color: white; margin-top: 4px;">iiG Insurance (Thailand) Public Company Limited</div>
+                                    </td>
+                                    <td width="15%">
+                                        <table>
+                                            <tr>
+                                                <th width="7.5%">
+                                                    <a href="https://www.facebook.com/thailifepage/" target="_blank">
+                                                        <apex:image url="https://cdn.icon-icons.com/icons2/159/PNG/256/facebook_22567.png" 
+                                                        style="display:block; height:21px; width:21px; 
+                                                        border:0; line-height:100%; outline:none; text-decoration:none;">
+                                                        </apex:image>  
+                                                    </a>
+                                                </th>
+                                                <th width="7.5%">
+                                                    <a href="https://thailife.com/" target="_blank">
+                                                        <apex:image url="https://image.freepik.com/free-icon/world-wide-web_318-9868.jpg" 
+                                                        style="margin-left:5px;display:block; height:18px;width:18px; 
+                                                        border:0; line-height:100%; outline:none; text-decoration:none;">
+                                                        </apex:image> 
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </table>
+            </center>
+        </apex:repeat>
+    </body>
+
+</apex:component>

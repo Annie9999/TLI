@@ -1,0 +1,36 @@
+<!-- Dev Notes:
+*
+* Changes Made:
+> 1/24/2018: pushed component into lightning card, added title & title icon, added actions section
+> 7/03/2019: recreated component to work with the InsurancePolicy Asset object 
+> 7/14/2019: updated helper to work with flow and recrod by setting selected record Id.
+-->
+
+<aura:component controller="INS_VehicleListController" implements="lightning:availableForFlowScreens,force:hasRecordId,flexipage:availableForRecordHome,flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="recordId"          access="global" type="String" />
+    <aura:attribute name="vehicles" access="global" type="InsurancePolicyAsset[]" />
+    <aura:attribute name="selectedVehicleId" access="global" type="String" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="selectVehicleEvent" event="c:SelectRecordId" action="{!c.handleSelect}"/>
+
+    <lightning:card>
+        <aura:set attribute="title">
+            <img src="/resource/INS_PolicyTypes/Auto.png?" class="cars-icon"/>
+            <span class="slds-text-heading_small title slds-m-left_small" style="font-weight:700;">Vehicles Covered: ({!v.vehicles.length})</span>
+        </aura:set>
+        
+        <div class="slds-theme_default slds-p-around_small">
+            <aura:iteration items="{!v.vehicles}" var="vehicle">
+                <c:INS_VehicleTile recordId="{!vehicle.CustomerPropertyId}" selected="{!v.selectedVehicleId == vehicle.CustomerPropertyId}" />
+            </aura:iteration>
+            <aura:if isTrue="{!v.vehicles.length == 0}">
+                <div class="message">
+                    <lightning:icon iconName="utility:warning" size="small" alternativeText="Warning!" variant="warning" />
+                    No vehicles found
+                </div>
+            </aura:if>
+        </div>
+    </lightning:card>
+    
+</aura:component>

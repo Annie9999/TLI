@@ -1,0 +1,58 @@
+<aura:component controller="INS_VehicleListController" implements="lightning:availableForFlowScreens,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="width"  type="String" />
+    <aura:attribute name="vehicle"  type="CustomerProperty" />
+    <aura:attribute name="selected" type="Boolean" default="false" />
+    <aura:attribute name="assetId" type="String"  />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:registerEvent name="selectVehicleEvent" type="c:SelectRecordId" />
+    <lightning:flexipageRegionInfo width="{!v.width}"/> 
+    <div aura:id="vehicle-card" class="{!'vehicle-tile ' + (v.selected ? 'vehicle-selected' : '')}" onclick="{!c.selectPolicy}">        
+        
+        <lightning:layout horizontalAlign="space" >       
+            <aura:if isTrue="{!v.width == 'SMALL'}">  
+                <lightning:layoutItem class="vehicle-icon" padding="around-small" size="3">
+                    <lightning:formattedRichText value="{!v.vehicle.INS_Make_Logo__c}" />
+                </lightning:layoutItem>
+                <lightning:layoutItem class="vehicle-detail" padding="around-small" size="9"> 
+                    <div>
+                        {!v.vehicle.Name}
+                        <h1>VIN {!v.vehicle.Vin}</h1>
+                        {!v.vehicle.Make}&nbsp;{!v.vehicle.ModelName}
+                        <br>
+                            {!v.width}
+                        </br>
+                    </div>
+                    <div aura:id="vehicle-extra" class="vehicle-extra slds-hide">
+                        
+                    </div>
+                </lightning:layoutItem>    
+                
+                <aura:set attribute="else">
+                    <lightning:layoutItem class="vehicle-icon" padding="around-small" size="12" smallDeviceSize="4" mediumDeviceSize="4" largeDeviceSize="4">
+                        <lightning:formattedRichText value="{!v.vehicle.INS_Make_Logo__c}" />
+                    </lightning:layoutItem>
+                    
+
+                    <lightning:layoutItem class="vehicle-detail" padding="around-small" size="12" smallDeviceSize="8" mediumDeviceSize="8" largeDeviceSize="8"> 
+                        <div>
+                            {!v.vehicle.Name}
+                            <h1>VIN {!v.vehicle.Vin}</h1>
+                            {!v.vehicle.Make}&nbsp;{!v.vehicle.ModelName}
+                            <br>
+                                {!v.width}
+                            </br>
+                        </div>
+                        <div aura:id="vehicle-extra" class="vehicle-extra slds-hide">
+                            
+                        </div>
+                    </lightning:layoutItem>  
+                    
+                    
+                    
+                </aura:set>
+            </aura:if> 
+        </lightning:layout>
+    </div>
+</aura:component>

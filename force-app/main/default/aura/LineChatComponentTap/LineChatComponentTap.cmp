@@ -1,0 +1,16 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+  <lightning:layoutItem padding="around-small" size="12">
+    <lightning:layout>
+      <!-- <lightning:layoutItem padding="around-small" size="3">
+        <div class="page-section page-right">
+          <c:LiveChatHistoryComponent recordId="{!v.recordId}" />
+        </div>
+      </lightning:layoutItem> -->
+      <lightning:layoutItem padding="around-small" size="12">
+        <div class="page-section page-main">
+          <c:LineChatMainComponent recordId="{!v.recordId}" />
+        </div>
+      </lightning:layoutItem>
+    </lightning:layout>
+  </lightning:layoutItem>
+</aura:component>

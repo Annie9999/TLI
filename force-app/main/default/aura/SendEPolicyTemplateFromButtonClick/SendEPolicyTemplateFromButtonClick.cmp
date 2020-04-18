@@ -1,0 +1,37 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:lightningQuickAction"
+   Controller="SendEPolicyTemplateController">
+   <aura:attribute name="textName" type="String" />
+   <aura:attribute name="textEmail" type="String" />
+   <aura:attribute name="destinationOppId" type="String" />
+   <aura:attribute name="messageError" type="Boolean" />
+   <aura:attribute name="recordId" type="String" />
+   <aura:handler name="init" value="{!this}" action="{!c.init}" />
+   <div aria-labelledby="sendEmailform">
+      <aura:if isTrue="{!v.messageError}">
+         <!-- Load error -->
+         <div class="userCreateError">
+            <ui:message title="Error" severity="error" closable="true">
+               Unable to send email. Please review your data and try again.
+            </ui:message>
+         </div>
+      </aura:if>
+      <form class="slds-form--stacked">
+         <div class="slds-form-element">
+            <div class="slds-form-element__control">
+               <ui:inputText aura:id="name" label="Name" value="{!v.textName}" disabled="true" class="slds-input"
+                  labelClass="slds-form-element__label" />
+            </div>
+         </div>
+         <div class="slds-form-element">
+            <div class="slds-form-element__control">
+               <ui:inputText aura:id="email" label="Email" value="{!v.textEmail}" disabled="true" class="slds-input"
+                  labelClass="slds-form-element__label" />
+            </div>
+         </div>
+         <br /><br />
+         <div class="slds-align_absolute-center">
+            <ui:button label="Send Email" class="slds-button slds-button--brand" press="{!c.sendEmail}" />
+         </div>
+      </form>
+   </div>
+</aura:component>

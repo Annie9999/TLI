@@ -1,0 +1,111 @@
+<aura:component controller="beneficiaryController">
+    
+    <!--<aura:attribute name="benefList" type="Account[]" default="[{
+        'Role': 'Beneficiary',
+        'Relationship__c': '',
+        'Percentage_Beneficiary__c': '',
+        'Date_Of_Birth__c': ''
+
+    }]" />-->
+
+    <!-- เลขบัตรประชาชนยังเป็น mock -->
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="currentStep" type="String" />
+    
+    <aura:attribute name="benefList" type="Map[]" default="[{
+        'Salutation': '',
+        'FirstName': '',
+        'LastName': '',
+        'Birthdate': '',
+        'Relationship__c': '',
+        'Percentage_Beneficiary__c': ''
+    }]" />
+        
+        <div class="slds-card" style="padding: 0px;">
+                
+            <div class="slds-grid slds-grid--align-center">
+                <lightning:button variant="success" label="เพิ่มผู้รับผลประโยชน์" iconName="utility:add" onclick="{! c.addBenef }"/>
+            </div>
+
+            <div class="head">
+                <h2>ข้อมูลผู้รับประโยชน์</h2>
+            </div>
+            <aura:iteration items="{!v.benefList}" var="benef" indexVar="index">
+            
+            <div class="slds-box box1" id="box1" style="margin: 10px;">
+                <div class="body">
+                    
+                    <div class="slds-grid slds-grid--align-end">
+                        <aura:if isTrue="{!index >= 1}">
+                            <lightning:button name="{!index}" label="ลบ" iconName="utility:delete" variant="destructive" onclick="{! c.removeBenef}"/>
+                        </aura:if>
+                    </div>
+
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning:input aura:id="benefForm" name="priority" label="ลำดับ" required="true" value="{!index+1}" disabled="true" />
+                        </div>
+                        <div class="slds-col slds-size_2-of-12">
+                            <lightning:select aura:id="benefForm" name="pre_name" label="คำนำหน้า" required="true" value="{!benef.Salutation}">
+                                <option value="">เลือก</option>
+                                <option value="Sir.">คุณ</option>
+                                <option value="Mr.">นาย</option>
+                                <option value="Mrs.">นาง</option>
+                                <option value="Ms.">นางสาว</option>
+                            </lightning:select>
+                        </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:input aura:id="benefForm" name="firstname" label="ชื่อ" required="true" value="{!benef.FirstName}" placeholder="ชื่อ"/>
+                        </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:input aura:id="benefForm" name="lastname" label="นามสกุล" required="true" value="{!benef.LastName}" placeholder="นามสกุล"/>
+                        </div>
+                    </div>
+
+                    <div class="slds-grid slds-gutters">
+
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:input aura:id="benefForm"
+                                            type="date"
+                                            name="birthday" 
+                                            label="วันเกิดผู้รับประโยชน์" 
+                                            required="true" 
+                                            value="{!benef.Birthdate}" />
+                        </div>
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:select aura:id="benefForm" name="relation" label="ความสัมพันธ์" required="true" value="{!benef.Relationship__c}">
+                                <option value="">เลือก</option>
+                                <option value="บิดา">บิดา</option>
+                                <option value="มารดา">มารดา</option>
+                                <option value="พี่น้องร่วมสายโลหิต">พี่น้องร่วมสายโลหิต</option>
+                                <option value="ญาติ">ญาติ</option>
+                                <option value="ตนเอง">ตนเอง</option>
+                            </lightning:select>
+                        </div>
+
+                        <div class="slds-col slds-size_4-of-12">
+                            <lightning:input aura:id="benefForm"
+                                            type="number"
+                                            min="1" 
+                                            max="100" 
+                                            formatter="percent-fixed" 
+                                            name="percent_benefit" 
+                                            label="สัดส่วนผู้รับผลประโยชน์(%)" 
+                                            required="true" 
+                                            value="{!benef.Percentage_Beneficiary__c}"
+                                            placeholder="1-100%" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </aura:iteration>
+        </div>
+    
+    <lightning:layout horizontalAlign="center">
+        <lightning:layoutItem padding="around-small">
+            <lightning:button type="submit" variant="brand" label="ดำเนินการต่อ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.verify }"/>
+        </lightning:layoutItem>
+    </lightning:layout>
+
+
+</aura:component>

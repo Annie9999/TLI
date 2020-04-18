@@ -1,0 +1,392 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global"  >
+<div data-aura-rendered-by="1949:0" class="FinServRelationshipMap" data-aura-class="FinServRelationshipMap">
+    <div class="tree" data-aura-rendered-by="1923:0">
+        <ul class="" data-aura-rendered-by="1:1558;a">
+            <li class="" data-aura-rendered-by="2:1558;a">
+                <div class="slds-text-align--left" data-aura-rendered-by="3:1558;a">
+                    <div class="slds-popover FinServRelationshipsTreeLeaf" data-aura-rendered-by="7:1558;a" data-aura-class="FinServRelationshipsTreeLeaf">
+                        <div class="slds-p-top--x-small slds-p-right--x-small slds-p-left--x-small" data-aura-rendered-by="8:1558;a">
+                            
+                            <lightning:icon iconName="utility:contract_alt" size="xx-small" alternativeText="Contact" />
+                            <div class="slds-clear" data-aura-rendered-by="16:1558;a"></div>
+                            <div class="slds-text-align--center leaf-header" data-aura-rendered-by="17:1558;a">
+                                <div class="absoluteRight" data-aura-rendered-by="21:1558;a">
+                                    <div data-aura-rendered-by="74:1558;a">
+                                        <div class="onTop" aria-haspopup="true" align="right" data-aura-rendered-by="28:1558;a">
+                                            <div data-aura-rendered-by="61:1558;a" class="uiMenu" data-aura-class="uiMenu">
+                                                <div id="30:1558;a" data-aura-rendered-by="40:1558;a" class="uiPopupTrigger" data-aura-class="uiPopupTrigger" data-interactive-uid="6">
+                                                    <div data-aura-rendered-by="42:1558;a">
+                                                        <div data-aura-rendered-by="35:1558;a">
+                                                            <a class="slds-button slds-button--icon-border-filled slds-button--icon-x-small" aria-disabled="false" aria-describedby="" aria-haspopup="true" tabindex="0" role="button" title="" data-aura-rendered-by="36:1558;a" href="javascript:void(0);">
+                                                               <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Contact" />
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="actionMenu uiMenuList--left uiMenuList--default popupTargetContainer uiPopupTarget uiMenuList uiMenuList--default" data-aura-rendered-by="56:1558;a" data-aura-class="uiPopupTarget uiMenuList uiMenuList--default" aria-labelledby="30:1558;a">
+                                                    <div class="actionMenu uiMenuList--left uiMenuList--default" role="menu" data-aura-rendered-by="50:1558;a">
+                                                        <!--render facet: 51:1558;a-->
+                                                        <ul class="scrollable" role="presentation" data-aura-rendered-by="52:1558;a">
+                                                            <!--render facet: 53:1558;a-->
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-aura-rendered-by="68:1558;a">
+                                           
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <lightning:icon iconName="standard:household" alternativeText="Household" />
+                                
+                                <h3 class="slds-p-top--x-small slds-text-heading--small" data-aura-rendered-by="79:1558;a">
+                                    <div class="outputLookupContainer forceOutputLookupWithPreview" data-aura-rendered-by="84:1558;a" data-aura-class="forceOutputLookupWithPreview">
+                                        <!--render facet: 87:1558;a-->
+                                        <!--render facet: 89:1558;a-->
+                                        <a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" data-ownerid="85:1558;a" data-refid="recordId" data-recordid="0010a00001POSi6AAH" data-special-link="true" data-navigable="true" href="/lightning/r/0010a00001POSi6AAH/view" target="_blank" rel="noreferrer" title="" data-aura-rendered-by="94:1558;a" data-aura-class="forceOutputLookup">I&amp;I Consulting Group (2)
+                                            <!--render facet: 97:1558;a-->
+                                        </a>
+                                        <!--render facet: 106:1558;a-->
+                                    </div>
+                                </h3>
+                                <div class="slds-text-heading--label-normal" data-aura-rendered-by="107:1558;a">
+                                    <p class="slds-truncate" data-aura-rendered-by="108:1558;a">Household</p>
+                                </div>
+                                <!--render facet: 110:1558;a-->
+                            </div>
+                            <div class="slds-clear" data-aura-rendered-by="111:1558;a"></div>
+                        </div>
+                        <div class="" data-aura-rendered-by="113:1558;a">
+                            <span data-aura-rendered-by="115:1558;a">
+                                <div class="slds-p-horizontal--x-small slds-p-bottom--x-small FinServRelationshipEntityBlock" data-aura-rendered-by="118:1558;a" data-aura-class="FinServRelationshipEntityBlock">
+                                    <div class="slds-p-around--x-small children relType-Individual" data-aura-rendered-by="119:1558;a">
+                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="120:1558;a">
+                                            <lightning:icon iconName="standard:client" size="small" alternativeText="Client" />
+                                        </div>
+                                        <div class="slds-float--left slds-size--8-of-12 slds-p-left--x-small" data-aura-rendered-by="123:1558;a">
+                                            <div class="outputLookupContainer forceOutputLookupWithPreview" data-aura-rendered-by="127:1558;a" data-aura-class="forceOutputLookupWithPreview">
+                                                <!--render facet: 130:1558;a-->
+                                                <!--render facet: 132:1558;a-->
+                                                <a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" data-ownerid="128:1558;a" data-refid="recordId" data-recordid="0030a00001yRjqZAAS" data-special-link="true" data-navigable="true" href="/lightning/r/0030a00001yRjqZAAS/view" target="_blank" rel="noreferrer" title="" data-aura-rendered-by="137:1558;a" data-aura-class="forceOutputLookup">
+                                                Maytha Kornprasert
+                                                    <!--render facet: 140:1558;a-->
+                                                </a>
+                                                <!--render facet: 149:1558;a-->
+                                            </div>
+                                            <div class="slds-text-heading--label-normal" data-aura-rendered-by="150:1558;a">
+                                                <p class="slds-truncate" data-aura-rendered-by="151:1558;a">Business Development Manager</p>
+                                            </div>
+                                            <!--render facet: 153:1558;a-->
+                                        </div>
+                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="154:1558;a">
+                                            <div data-aura-rendered-by="286:1558;a">
+                                                <div class="" aria-haspopup="true" align="right" data-aura-rendered-by="240:1558;a">
+                                                    <div data-aura-rendered-by="273:1558;a" class="uiMenu" data-aura-class="uiMenu">
+                                                        <div id="242:1558;a" data-aura-rendered-by="252:1558;a" class="uiPopupTrigger" data-aura-class="uiPopupTrigger" data-interactive-uid="7">
+                                                            <div data-aura-rendered-by="254:1558;a">
+                                                                <div data-aura-rendered-by="247:1558;a">
+                                                                    <a class="slds-button slds-button--icon-border-filled slds-button--icon-x-small" aria-disabled="false" aria-describedby="" aria-haspopup="true" tabindex="0" role="button" title="" data-aura-rendered-by="248:1558;a" href="javascript:void(0);">
+                                                                        <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Contact" />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="actionMenu uiMenuList--left uiMenuList--default popupTargetContainer uiPopupTarget uiMenuList uiMenuList--default" data-aura-rendered-by="268:1558;a" data-aura-class="uiPopupTarget uiMenuList uiMenuList--default" aria-labelledby="242:1558;a">
+                                                            <div class="actionMenu uiMenuList--left uiMenuList--default" role="menu" data-aura-rendered-by="262:1558;a">
+                                                                <!--render facet: 263:1558;a-->
+                                                                <ul class="scrollable" role="presentation" data-aura-rendered-by="264:1558;a">
+                                                                    <!--render facet: 265:1558;a-->
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-aura-rendered-by="280:1558;a">
+                                                    <!--render facet: 278:1558;a-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-clear" data-aura-rendered-by="166:1558;a"></div>
+                                    </div>
+                                </div>
+                            </span>
+                            <span data-aura-rendered-by="167:1558;a">
+                                <div class="slds-p-horizontal--x-small slds-p-bottom--x-small FinServRelationshipEntityBlock" data-aura-rendered-by="170:1558;a" data-aura-class="FinServRelationshipEntityBlock">
+                                    <div class="slds-p-around--x-small children relType-Individual" data-aura-rendered-by="171:1558;a">
+                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="172:1558;a">
+                                            <lightning:icon iconName="standard:client" size="small" alternativeText="Client" />
+                                        </div>
+                                        <div class="slds-float--left slds-size--8-of-12 slds-p-left--x-small" data-aura-rendered-by="175:1558;a">
+                                            <div class="outputLookupContainer forceOutputLookupWithPreview" data-aura-rendered-by="179:1558;a" data-aura-class="forceOutputLookupWithPreview">
+                                                <!--render facet: 182:1558;a-->
+                                                <!--render facet: 184:1558;a-->
+                                                <a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" data-ownerid="180:1558;a" data-refid="recordId" data-recordid="0030a00001zDwc6AAC" data-special-link="true" data-navigable="true" href="/lightning/r/0030a00001zDwc6AAC/view" target="_blank" rel="noreferrer" title="" data-aura-rendered-by="189:1558;a" data-aura-class="forceOutputLookup">Nattachet Tepu...
+                                                    <!--render facet: 192:1558;a-->
+                                                </a>
+                                                <!--render facet: 201:1558;a-->
+                                            </div>
+                                            <div class="slds-text-heading--label-normal" data-aura-rendered-by="202:1558;a">
+                                                <p class="slds-truncate" data-aura-rendered-by="203:1558;a">Decision Maker</p>
+                                            </div>
+                                            <!--render facet: 205:1558;a-->
+                                        </div>
+                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="206:1558;a">
+                                            <div data-aura-rendered-by="337:1558;a">
+                                                <div class="" aria-haspopup="true" align="right" data-aura-rendered-by="291:1558;a">
+                                                    <div data-aura-rendered-by="324:1558;a" class="uiMenu" data-aura-class="uiMenu">
+                                                        <div id="293:1558;a" data-aura-rendered-by="303:1558;a" class="uiPopupTrigger" data-aura-class="uiPopupTrigger" data-interactive-uid="8">
+                                                            <div data-aura-rendered-by="305:1558;a">
+                                                                <div data-aura-rendered-by="298:1558;a">
+                                                                    <a class="slds-button slds-button--icon-border-filled slds-button--icon-x-small" aria-disabled="false" aria-describedby="" aria-haspopup="true" tabindex="0" role="button" title="" data-aura-rendered-by="299:1558;a" href="javascript:void(0);">
+                                                                        <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Contact" />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="actionMenu uiMenuList--left uiMenuList--default popupTargetContainer uiPopupTarget uiMenuList uiMenuList--default" data-aura-rendered-by="319:1558;a" data-aura-class="uiPopupTarget uiMenuList uiMenuList--default" aria-labelledby="293:1558;a">
+                                                            <div class="actionMenu uiMenuList--left uiMenuList--default" role="menu" data-aura-rendered-by="313:1558;a">
+                                                                <!--render facet: 314:1558;a-->
+                                                                <ul class="scrollable" role="presentation" data-aura-rendered-by="315:1558;a">
+                                                                    <!--render facet: 316:1558;a-->
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-aura-rendered-by="331:1558;a">
+                                                    <!--render facet: 329:1558;a-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-clear" data-aura-rendered-by="218:1558;a"></div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="slds-p-horizontal--x-small slds-p-bottom--small" data-aura-rendered-by="219:1558;a">
+                            <div data-aura-rendered-by="235:1558;a">
+                                <button class="slds-size--12-of-12 slds-button slds-button--neutral" data-selected="false" data-aura-rendered-by="1:1769;a">+ Add Relationship</button>
+                                <div data-aura-rendered-by="229:1558;a">
+                                    <!--render facet: 227:1558;a-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <li data-aura-rendered-by="340:1558;a">
+                    <ul class="tree-branch" data-aura-rendered-by="341:1558;a">
+                        <!--render facet: 342:1558;a-->
+                        <ul class="tree-branch" data-aura-rendered-by="343:1558;a">
+                            <li class="tree-leaf" data-aura-rendered-by="345:1558;a">
+                                <span data-aura-rendered-by="346:1558;a">
+                                    <div class="slds-popover FinServRelationshipsTreeLeaf" data-aura-rendered-by="349:1558;a" data-aura-class="FinServRelationshipsTreeLeaf">
+                                        <div class="slds-p-top--x-small slds-p-right--x-small slds-p-left--x-small" data-aura-rendered-by="350:1558;a">
+                                            <button class="slds-button onTop slds-hidden slds-button_icon-bare" type="button" title="Hide group members" data-aura-rendered-by="353:1558;a">
+                                               
+
+                                                <span class="slds-assistive-text" data-aura-rendered-by="356:1558;a">Hide group members</span>
+                                            </button>
+                                            <div class="slds-clear" data-aura-rendered-by="358:1558;a"></div>
+                                            <div class="slds-text-align--center leaf-header" data-aura-rendered-by="359:1558;a">
+                                                <lightning:icon iconName="standard:household" alternativeText="Household" />
+                                                <h3 class="slds-p-top--x-small slds-text-heading--small" data-aura-rendered-by="367:1558;a">Related Groups</h3>
+                                            </div>
+                                            <div class="slds-clear" data-aura-rendered-by="370:1558;a"></div>
+                                        </div>
+                                        <!--render facet: 371:1558;a-->
+                                        <div class="slds-p-horizontal--x-small slds-p-bottom--small" data-aura-rendered-by="372:1558;a">
+                                            <div data-aura-rendered-by="381:1558;a">
+                                                <button class="slds-size--12-of-12 slds-button slds-button--neutral" data-selected="false" title="+ Add Group" data-aura-rendered-by="1:1819;a">+ Add Group</button>
+                                            </div>
+                                            <!--render facet: 384:1558;a-->
+                                            <!--render facet: 385:1558;a-->
+                                            <!--render facet: 386:1558;a-->
+                                        </div>
+                                    </div>
+                                </span>
+                            </li>
+                            <li class="tree-leaf" data-aura-rendered-by="387:1558;a">
+                                <span data-aura-rendered-by="388:1558;a">
+                                    <div class="slds-popover FinServRelationshipsTreeLeaf" data-aura-rendered-by="391:1558;a" data-aura-class="FinServRelationshipsTreeLeaf">
+                                        <div class="slds-p-top--x-small slds-p-right--x-small slds-p-left--x-small" data-aura-rendered-by="392:1558;a">
+                                            <lightning:icon iconName="utility:contract_alt" size="xx-small" alternativeText="Contact" />
+                                            <div class="slds-clear" data-aura-rendered-by="400:1558;a"></div>
+                                            <div class="slds-text-align--center leaf-header" data-aura-rendered-by="401:1558;a">
+                                                <lightning:icon iconName="standard:account" alternativeText="Account" />
+                                                <h3 class="slds-p-top--x-small slds-text-heading--small" data-aura-rendered-by="409:1558;a">Related Accounts (2)</h3>
+                                            </div>
+                                            <div class="slds-clear" data-aura-rendered-by="412:1558;a"></div>
+                                        </div>
+                                        <div class="" data-aura-rendered-by="414:1558;a">
+                                            <span data-aura-rendered-by="416:1558;a">
+                                                <div class="slds-p-horizontal--x-small slds-p-bottom--x-small FinServRelationshipEntityBlock" data-aura-rendered-by="419:1558;a" data-aura-class="FinServRelationshipEntityBlock">
+                                                    <div class="slds-p-around--x-small children relType-Account" data-aura-rendered-by="420:1558;a">
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="421:1558;a">
+                                                            <lightning:icon iconName="standard:account" size="small" alternativeText="Account" />
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--8-of-12 slds-p-left--x-small" data-aura-rendered-by="424:1558;a">
+                                                            <div class="outputLookupContainer forceOutputLookupWithPreview" data-aura-rendered-by="428:1558;a" data-aura-class="forceOutputLookupWithPreview">
+                                                                <!--render facet: 431:1558;a-->
+                                                                <!--render facet: 433:1558;a-->
+                                                                <a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" data-ownerid="429:1558;a" data-refid="recordId" data-recordid="0010a00001POSiLAAX" data-special-link="true" data-navigable="true" href="/lightning/r/0010a00001POSiLAAX/view" target="_blank" rel="noreferrer" title="" data-aura-rendered-by="438:1558;a" data-aura-class="forceOutputLookup">iCE Consulting ...
+                                                                    <!--render facet: 441:1558;a-->
+                                                                </a>
+                                                                <!--render facet: 450:1558;a-->
+                                                            </div>
+                                                            <div class="slds-text-heading--label-normal" data-aura-rendered-by="451:1558;a">
+                                                                <p class="slds-truncate" data-aura-rendered-by="452:1558;a">Partnership</p>
+                                                            </div>
+                                                            <!--render facet: 454:1558;a-->
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="455:1558;a">
+                                                            <div class="forceVirtualActionMarker forceVirtualAction" data-aura-rendered-by="464:1558;a" data-aura-class="forceVirtualAction">
+                                                                <a class="rowActionsPlaceHolder slds-button slds-button--icon-x-small slds-button--icon-border-filled keyboardMode--trigger" aria-haspopup="true" role="button" title="" data-aura-rendered-by="465:1558;a" href="javascript:void(0);">
+                                                                    <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Contact" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-clear" data-aura-rendered-by="467:1558;a"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                            <span data-aura-rendered-by="468:1558;a">
+                                                <div class="slds-p-horizontal--x-small slds-p-bottom--x-small FinServRelationshipEntityBlock" data-aura-rendered-by="471:1558;a" data-aura-class="FinServRelationshipEntityBlock">
+                                                    <div class="slds-p-around--x-small children relType-Account" data-aura-rendered-by="472:1558;a">
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="473:1558;a">
+                                                            <lightning:icon iconName="standard:account" size="small" alternativeText="Account" />
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--8-of-12 slds-p-left--x-small" data-aura-rendered-by="476:1558;a">
+                                                            <div class="outputLookupContainer forceOutputLookupWithPreview" data-aura-rendered-by="480:1558;a" data-aura-class="forceOutputLookupWithPreview">
+                                                                <!--render facet: 483:1558;a-->
+                                                                <!--render facet: 485:1558;a-->
+                                                                <a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" data-ownerid="481:1558;a" data-refid="recordId" data-recordid="0010a00001POsmUAAT" data-special-link="true" data-navigable="true" href="/lightning/r/0010a00001POsmUAAT/view" target="_blank" rel="noreferrer" title="" data-aura-rendered-by="490:1558;a" data-aura-class="forceOutputLookup">I&amp;I Consulting ...
+                                                                    <!--render facet: 493:1558;a-->
+                                                                </a>
+                                                                <!--render facet: 502:1558;a-->
+                                                            </div>
+                                                            <div class="slds-text-heading--label-normal" data-aura-rendered-by="503:1558;a">
+                                                                <p class="slds-truncate" data-aura-rendered-by="504:1558;a">Management</p>
+                                                            </div>
+                                                            <!--render facet: 506:1558;a-->
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="507:1558;a">
+                                                            <div class="forceVirtualActionMarker forceVirtualAction" data-aura-rendered-by="516:1558;a" data-aura-class="forceVirtualAction">
+                                                                <a class="rowActionsPlaceHolder slds-button slds-button--icon-x-small slds-button--icon-border-filled keyboardMode--trigger" aria-haspopup="true" role="button" title="" data-aura-rendered-by="517:1558;a" href="javascript:void(0);">
+                                                                    <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Contact" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-clear" data-aura-rendered-by="519:1558;a"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="slds-p-horizontal--x-small slds-p-bottom--small" data-aura-rendered-by="520:1558;a">
+                                            <!--render facet: 522:1558;a-->
+                                            <!--render facet: 523:1558;a-->
+                                            <!--render facet: 524:1558;a-->
+                                            <div data-aura-rendered-by="533:1558;a">
+                                                <button class="slds-size--12-of-12 slds-button slds-button--neutral" data-selected="false" title="+ Add Account" data-aura-rendered-by="1:1871;a">+ Add Account</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </li>
+                            <li class="tree-leaf" data-aura-rendered-by="536:1558;a">
+                                <span data-aura-rendered-by="537:1558;a">
+                                    <div class="slds-popover FinServRelationshipsTreeLeaf" data-aura-rendered-by="540:1558;a" data-aura-class="FinServRelationshipsTreeLeaf">
+                                        <div class="slds-p-top--x-small slds-p-right--x-small slds-p-left--x-small" data-aura-rendered-by="541:1558;a">
+                                            <lightning:icon iconName="utility:contract_alt" size="xx-small" alternativeText="Contact" />
+                                            <div class="slds-clear" data-aura-rendered-by="549:1558;a"></div>
+                                            <div class="slds-text-align--center leaf-header" data-aura-rendered-by="550:1558;a">
+                                                 <lightning:icon iconName="standard:contact" alternativeText="Contact" />
+                                                <h3 class="slds-p-top--x-small slds-text-heading--small" data-aura-rendered-by="557:1558;a">Related Contacts (2)</h3>
+                                            </div>
+                                            <div class="slds-clear" data-aura-rendered-by="560:1558;a"></div>
+                                        </div>
+                                        <div class="" data-aura-rendered-by="562:1558;a">
+                                            <span data-aura-rendered-by="564:1558;a">
+                                                <div class="slds-p-horizontal--x-small slds-p-bottom--x-small FinServRelationshipEntityBlock" data-aura-rendered-by="567:1558;a" data-aura-class="FinServRelationshipEntityBlock">
+                                                    <div class="slds-p-around--x-small children relType-Contact" data-aura-rendered-by="568:1558;a">
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="569:1558;a">
+                                                            <lightning:icon iconName="standard:contact" size="small" alternativeText="Contact" />
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--8-of-12 slds-p-left--x-small" data-aura-rendered-by="572:1558;a">
+                                                            <div class="outputLookupContainer forceOutputLookupWithPreview" data-aura-rendered-by="576:1558;a" data-aura-class="forceOutputLookupWithPreview">
+                                                                <!--render facet: 579:1558;a-->
+                                                                <!--render facet: 581:1558;a-->
+                                                                <a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" data-ownerid="577:1558;a" data-refid="recordId" data-recordid="0030a00001zDwc6AAC" data-special-link="true" data-navigable="true" href="/lightning/r/0030a00001zDwc6AAC/view" target="_blank" rel="noreferrer" title="" data-aura-rendered-by="586:1558;a" data-aura-class="forceOutputLookup">Nattachet Tepu...
+                                                                    <!--render facet: 589:1558;a-->
+                                                                </a>
+                                                                <!--render facet: 598:1558;a-->
+                                                            </div>
+                                                            <div class="slds-text-heading--label-normal" data-aura-rendered-by="599:1558;a">
+                                                                <p class="slds-truncate" data-aura-rendered-by="600:1558;a">Architect</p>
+                                                            </div>
+                                                            <!--render facet: 602:1558;a-->
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="603:1558;a">
+                                                            <div class="forceVirtualActionMarker forceVirtualAction" data-aura-rendered-by="612:1558;a" data-aura-class="forceVirtualAction">
+                                                                <a class="rowActionsPlaceHolder slds-button slds-button--icon-x-small slds-button--icon-border-filled keyboardMode--trigger" aria-haspopup="true" role="button" title="" data-aura-rendered-by="613:1558;a" href="javascript:void(0);">
+                                                                   <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Contact" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-clear" data-aura-rendered-by="615:1558;a"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                             
+                                            <span data-aura-rendered-by="616:1558;a">
+                                                <div class="slds-p-horizontal--x-small slds-p-bottom--x-small FinServRelationshipEntityBlock" data-aura-rendered-by="619:1558;a" data-aura-class="FinServRelationshipEntityBlock">
+                                                    <div class="slds-p-around--x-small children relType-Contact" data-aura-rendered-by="620:1558;a">
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="621:1558;a">
+                                                           <lightning:icon iconName="standard:contact" size="small" alternativeText="Contact" />
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--8-of-12 slds-p-left--x-small" data-aura-rendered-by="624:1558;a">
+                                                            <div class="outputLookupContainer forceOutputLookupWithPreview" data-aura-rendered-by="628:1558;a" data-aura-class="forceOutputLookupWithPreview">
+                                                                <!--render facet: 631:1558;a-->
+                                                                <!--render facet: 633:1558;a-->
+                                                                <a class=" textUnderline outputLookupLink slds-truncate forceOutputLookup" data-ownerid="629:1558;a" data-refid="recordId" data-recordid="0030a00001yRjqZAAS" data-special-link="true" data-navigable="true" href="/lightning/r/0030a00001yRjqZAAS/view" target="_blank" rel="noreferrer" title="" data-aura-rendered-by="638:1558;a" data-aura-class="forceOutputLookup">Maytha Kornprasert
+                                                                    <!--render facet: 641:1558;a-->
+                                                                </a>
+                                                                <!--render facet: 650:1558;a-->
+                                                            </div>
+                                                            <div class="slds-text-heading--label-normal" data-aura-rendered-by="651:1558;a">
+                                                                <p class="slds-truncate" data-aura-rendered-by="652:1558;a">Business Development Manager</p>
+                                                            </div>
+                                                            <!--render facet: 654:1558;a-->
+                                                        </div>
+                                                        <div class="slds-float--left slds-size--2-of-12" data-aura-rendered-by="655:1558;a">
+                                                            <div class="forceVirtualActionMarker forceVirtualAction" data-aura-rendered-by="664:1558;a" data-aura-class="forceVirtualAction">
+                                                                <a class="rowActionsPlaceHolder slds-button slds-button--icon-x-small slds-button--icon-border-filled keyboardMode--trigger" aria-haspopup="true" role="button" title="" data-aura-rendered-by="665:1558;a" href="javascript:void(0);">
+                                                                    <lightning:icon iconName="utility:down" size="xx-small" alternativeText="Contact" />
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="slds-clear" data-aura-rendered-by="667:1558;a"></div>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="slds-p-horizontal--x-small slds-p-bottom--small" data-aura-rendered-by="668:1558;a">
+                                            <!--render facet: 670:1558;a-->
+                                            <!--render facet: 671:1558;a-->
+                                            <div data-aura-rendered-by="680:1558;a">
+                                                <button class="slds-size--12-of-12 slds-button slds-button--neutral" data-selected="false" title="+ Add Contact" data-aura-rendered-by="1:1918;a">+ Add Contact</button>
+                                            </div>
+                                            <!--render facet: 683:1558;a-->
+                                        </div>
+                                    </div>
+                                </span>
+                            </li>
+                        </ul>
+                    </ul>
+                </li>
+            </li>
+        </ul>
+    </div>
+</div>
+</aura:component>

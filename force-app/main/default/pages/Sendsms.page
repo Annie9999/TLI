@@ -1,0 +1,11 @@
+<apex:page controller="Sendsms" sidebar="false" showHeader="false" title="Send SMS">
+	<apex:pagemessages />
+    <apex:form >
+        <br/>
+        <center><b>Send SMS</b> <br/><br/>
+        <b>To</b> &nbsp;&nbsp;&nbsp;&nbsp;<apex:inputtext value="{!phNumber}"/> <br/><br/><br/>
+        <b>Body</b>&nbsp;<apex:inputtext value="{!smsBody}"  /> &nbsp;<br/>(160 Char Max)<br/><br/><br/>
+        <apex:commandButton value="Send Sms" action="{!processSms}"/>
+        </center>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,22 @@
+.THIS {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.THIS .slds-radio {  
+
+    display: inline !important;  
+}
+
+
+.THIS .slds-form-element__label {  
+
+
+    font-size: 14px;
+  
+}
+
+.THIS #head{ 
+    font-size: 18px; 
+    border-radius: 0px;
+    text-align: center;
+}

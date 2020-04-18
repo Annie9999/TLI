@@ -1,0 +1,28 @@
+<aura:component controller="INS_PolicyListController" implements="lightning:availableForFlowScreens,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="policy"   type="InsurancePolicy" />
+    <aura:attribute name="selected" type="Boolean" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:registerEvent name="selectPolicyEvent" type="c:SelectRecordId" />
+    
+    <div aura:id="policy-card" class="{!'policy-tile ' + (v.selected ? 'policy-selected' : '')}" onclick="{!c.selectPolicy}">        
+        <lightning:layout >
+            <lightning:layoutItem class="policy-icon" padding="around-small" size="2" smallDeviceSize="2" >
+                <lightning:formattedRichText value="" />
+            </lightning:layoutItem>
+            <lightning:layoutItem class="policy-detail" padding="around-small" size="10" smallDeviceSize="10">
+                <div>
+                    {!v.policy.PolicyType} Insurance
+                    <h1>Expires <lightning:formattedDateTime value="{!v.policy.ExpirationDate}"/></h1>
+                    Policy Number {!v.policy.Name}
+                </div>
+                <div aura:id="policy-extra" class="policy-extra slds-hide">
+                    Premium <ui:outputCurrency value="{!v.policy.PremiumAmount}" />
+                    <p>{!v.policy.PremiumFrequency}</p>
+                    {!v.policy.Policy_Term__c} Days          
+                </div>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+</aura:component>

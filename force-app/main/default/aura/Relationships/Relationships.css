@@ -1,0 +1,47 @@
+.THIS .FinServRelationshipMap ul.tree-branch ul.tree-branch:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 6.5rem;
+    border-left: 3px solid #ccc;
+    width: 0;
+    height: 20px;
+}
+.THIS .FinServRelationshipMap{overflow:auto}
+.THIS .FinServRelationshipMap .placeholder .below-text-body{display:none}
+.THIS .FinServRelationshipMap li.tree-leaf .slds-popover{box-shadow:none;width:13rem;z-index:1}
+.THIS .FinServRelationshipMap ul.tree-branch{padding-top:20px;position:relative;transition:all .5s;display:table}
+.THIS .FinServRelationshipMap li.tree-leaf{display:table-cell;list-style-type:none;position:relative;padding:20px 10px 0 0;transition:all .5s}
+.THIS .FinServRelationshipMap li.tree-leaf:before{content:'';position:absolute;top:0;border-top:3px solid #ccc;width:50%;height:20px}
+.THIS .FinServRelationshipMap li.tree-leaf:after{right:auto;left:6.5rem;border-left:3px solid #ccc;content:'';position:absolute;top:0;right:50%;border-top:3px solid #ccc;width:90%;height:25px}
+.THIS .FinServRelationshipMap li.tree-leaf:only-child:after,
+.THIS .FinServRelationshipMap li.tree-leaf:only-child:before{display:none}
+.THIS .FinServRelationshipMap li.tree-leaf:only-child{padding-top:0}
+.THIS .FinServRelationshipMap li.tree-leaf:first-child:before,
+.THIS .FinServRelationshipMap li.tree-leaf:last-child:after{border:0 none}
+.THIS .FinServRelationshipMap li.tree-leaf:last-child:before{border-right:3px solid #ccc}
+.THIS .FinServRelationshipMap ul.tree-branch ul.tree-branch:before{content:'';position:absolute;top:0;left:6.5rem;border-left:3px solid #ccc;width:0;height:20px}
+.THIS .FinServRelationshipMap .tree-leaf .slds-popover{display:block}
+
+.THIS .FinServRelationshipsTreeLeaf {    border: 1px solid #d8dde6;    border-radius: .25rem;    background-color: #f7f9fb;}
+
+.THIS .FinServRelationshipEntityBlock .children.relType-Individual {border-left-color: #00dbc1;}
+.THIS .FinServRelationshipEntityBlock .children.relType-Account{border-left-color: #7f8de1;}
+.THIS .FinServRelationshipEntityBlock .children.relType-Contact {border-left-color: #a094ed;}
+
+.THIS .FinServRelationshipEntityBlock .children {    background-color: white;    border: 1px solid #ccc;    border-left-width: 3px;    border-radius: 0 .25rem .25rem 0;}
+
+.THIS .FinServRelationshipsTreeLeaf{box-shadow: none;width: 13rem;z-index: 1;}
+
+.THIS ul.tree-branch{padding-top: 20px;position: relative;transition: all .5s;display: table;}
+.THIS ul.tree-branch:before {    content: '';    position: absolute;    top: 0;    left: 6.5rem;    border-left: 3px solid #ccc;    width: 0;    height: 20px;}
+
+.THIS li.tree-leaf {display: table-cell;vertical-align: top;list-style-type: none;    position: relative;    padding: 20px 10px 0 0;   transition: all .5s;}
+.THIS li.tree-leaf:first-child:before, .THIS li.tree-leaf:last-child:after {  border: 0 none;}
+.THIS li.tree-leaf:before{ content: '';    position: absolute;  top: 0;  border-top: 3px solid #ccc; width: 50%; height: 20px;}
+.THIS li.tree-leaf:after {right: auto;left: 6.5rem;border-left: 3px solid #ccc;content: '';position: absolute;top: 0;right: 50%;border-top: 3px solid #ccc;width: 90%; height: 25px;}
+.THIS li.tree-leaf:last-child:before {border-right: 3px solid #ccc;}
+
+.THIS a.textUnderline {border-bottom: 1px dotted;}
+.THIS .leaf-header {  position: relative;    top: -10px;}
+.THIS .absoluteRight {position: absolute;right: 0;}

@@ -1,0 +1,46 @@
+.THIS.policy-tile {
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    padding: 10px 0;
+    margin: 10px 0;
+}
+
+.THIS.policy-selected {
+    border: 2px solid #2a94d6;
+}
+
+.THIS .policy-icon {
+    margin: auto;
+    text-align: center;
+}
+
+.THIS .policy-icon img {
+    width: 100%;
+    max-width: 64px;
+    margin: auto;
+}
+
+.THIS .policy-detail {
+    border-left: 1px solid #c8c8c8;
+    line-height: 2.5em;
+    display: flex;
+}
+
+.THIS .policy-detail > * {
+    flex: 1 100%;
+    padding: 0 10px;
+}
+
+.THIS .policy-detail h1 {
+    font-size: 1.5em;
+    font-weight: 100;
+}
+
+.THIS .policy-detail div {
+    flex: 1 auto;
+}
+
+.THIS .policy-extra {
+    min-width: 0;
+    text-align: right;
+}
