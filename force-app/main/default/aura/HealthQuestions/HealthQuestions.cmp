@@ -1,10 +1,11 @@
 <aura:component controller="HealthQuestion"  implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
     
     
-    <aura:handler event="force:refreshView" action="{!c.doInit}" />
     <aura:attribute name="currentStep" type="String"/>
-
     <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="status" type="boolean" />
+
+    
     <aura:attribute name="questType" type="String"  default="non life"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     
@@ -33,6 +34,7 @@
                                           options="{! v.answer}"
                                           value="{!qa.Answer__c}"
                                           type="radio" 
+                                          disabled="{! v.status}"
                                           />    
                       <hr/>
                 </aura:iteration>
@@ -49,6 +51,7 @@
                                           options="{! v.answer}"
                                           value="{!ques.TmpAnswser}"
                                           type="radio" 
+                                          disabled="{! v.status}"
                                           />  
                     <hr/>
                 </aura:iteration>

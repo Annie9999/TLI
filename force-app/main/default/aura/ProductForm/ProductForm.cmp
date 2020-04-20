@@ -1,5 +1,8 @@
 <aura:component access="global" controller="ProductFormApexController">
     <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="status" type="boolean" />
+
+
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
     <aura:attribute name="opptyRecord" type="Object"/>
     <aura:attribute name="accRecord" type="Object"/>
@@ -39,27 +42,60 @@
                         <lightning:select name="controllerFld"
                                         value="{!v.objDetail.productgroup__c}"
                                         label="ประเภทประกันที่น่าสนใจ"
-                                        onchange="{!c.onControllerFieldChange}">
+                                        onchange="{!c.onControllerFieldChange}"
+                                        disabled="{!v.status}">
                             <aura:iteration items="{!v.listControllingValues}" var="val">
-                                <option value="{!val}">{!val}</option>
+                                <option  value="{!val}" >{!val}</option>
                             </aura:iteration>
                         </lightning:select>
                     </lightning:layoutItem>
-                    
+
                     <!--Dependent Field-->
                     <lightning:layoutItem>
+                      <aura:if isTrue="{!v.status}">
+                        <lightning:select name="dependentFld"
+                            value="{!v.objDetail.Sub_productgroup__c}"
+                            label="แบบประกัน"
+                            disabled="{!v.status}"
+                            class="mgt8"
+                            >
+                            <aura:iteration items="{!v.listDependingValues}" var="val">
+                                <option value="{!val}" >{!val}</option>
+                            </aura:iteration>
+                        </lightning:select>
+
+                        <!--else-->
+                        <aura:set attribute="else">
+                          <lightning:select name="dependentFld"
+                                        value="{!v.objDetail.Sub_productgroup__c}"
+                                        label="แบบประกัน"
+                                        disabled="{!v.bDisabledDependentFld}"
+                                        class="mgt8"
+                                        >
+                            <aura:iteration items="{!v.listDependingValues}" var="val">
+                                <option value="{!val}" >{!val}</option>
+                            </aura:iteration>
+                        </lightning:select>
+                        </aura:set>
+                      </aura:if>
+                    </lightning:layoutItem>
+                    
+
+                    <!--<lightning:layoutItem>
                         <lightning:select name="dependentFld"
                                         value="{!v.objDetail.Sub_productgroup__c}"
                                         label="แบบประกัน"
                                         disabled="{!v.bDisabledDependentFld}"
-                                        class="mgt8">
+                                        class="mgt8"
+                                        >
                             <aura:iteration items="{!v.listDependingValues}" var="val">
-                                <option value="{!val}">{!val}</option>
+                                <option value="{!val}" >{!val}</option>
                             </aura:iteration>
                         </lightning:select>
-                    </lightning:layoutItem>
-                    <lightning:input class="mgt8" name="in" type="date" value="{!v.accRecord.PersonBirthdate}" label="วัน เดือน ปีเกิด" />
+                    </lightning:layoutItem>-->
+                    <lightning:input class="mgt8" name="in" type="date" value="{!v.accRecord.PersonBirthdate}" label="วัน เดือน ปีเกิด"  disabled="{! v.status}"/>
                     <lightning:radioGroup name="gender"
+                            disabled="{! v.status}"
                             label="เพศ"
                             options="{! v.genderList }"
                             value="{! v.genderValue }"
@@ -68,6 +104,7 @@
                     </lightning:radioGroup>
                     
                     <lightning:radioGroup name="payment_method"
+                                    disabled="{! v.status}"
                                     label="เลือกวิธีการชำระเบี้ยฯ"
                                     options="{! v.paymentMethodList }"
                                     value="{! v.paymentmethidValue }"
@@ -136,7 +173,7 @@
                       <div class="detail">ลดหย่อนภาษีได้สูงสุดถึง 100,000 บาทต่อปี(2)</div>
                     </div>
                     <div style="margin-top: 17px;margin-top: 17px;text-align: center;" >
-                        <lightning:button disabled="" variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" />
+                        <lightning:button variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" disabled="{!v.status}"/>
                     </div>
                   </aura:set>
                   </aura:if>

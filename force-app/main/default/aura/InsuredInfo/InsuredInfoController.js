@@ -1,5 +1,7 @@
 ({
 	doInit: function(component, event, helper) {
+        var status = component.get("v.status");
+        console.log('status: '+status);
         // Call Helper
         helper.getInsuredInfo(component, event, helper);
     },

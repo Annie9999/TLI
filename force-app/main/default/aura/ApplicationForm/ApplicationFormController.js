@@ -14,6 +14,24 @@
                 var opptyRecord = response.getReturnValue();
                 component.set("v.opptyRecord", opptyRecord);
                 component.set("v.accountName", opptyRecord.Account.FirstName +' '+ opptyRecord.Account.LastName);
+                console.log('StageName: '+opptyRecord.StageName);
+                console.log('Approval_Status__c: '+opptyRecord.Approval_Status__c);
+
+
+
+                if(opptyRecord.StageName == 'Closed Won' && opptyRecord.Approval_Status__c != 'QC ปฏิเสธ'){
+                    component.set("v.status", true);
+
+                }else{
+                    component.set("v.status", false);
+
+                }
+
+               // component.set("v.stageName", opptyRecord.StageName);
+              //  component.set("v.approvalStatus", opptyRecord.Approval_Status__c);
+
+
+           
             }
             else {
                 console.log("Failed with state: " + state);

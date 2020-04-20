@@ -70,8 +70,11 @@
             
         } else {
             component.set("v.listDependingValues", ['--- None ---']);
+            component.set("v.objDetail.Sub_productgroup__c", '--- None ---');
             component.set("v.bDisabledDependentFld" , true);
         }
+        helper.functionCheckSaveBtn(component, event, helper);
+
     },
 
     fnSendQuotation: function(component, event, helper) {
@@ -81,6 +84,8 @@
     TypePrice : function(component, event, helper) {
         component.set("v.saveSuccess", false);
         helper.functionTypePrice(component, event, helper);
+        helper.functionCheckSaveBtn(component, event, helper);
+
     },
     onNext : function(component, event, helper) {
         console.log(component.get('v.objDetail.productgroup__c'));
@@ -121,4 +126,10 @@
             console.log(error);
         });
     },
+
+    checkBD: function(component, event, helper){
+        helper.functionCheckSaveBtn(component, event, helper);      
+    }
+
+
 })

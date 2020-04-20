@@ -85,6 +85,7 @@
                     var state = response.getState();
                     if(state === "SUCCESS"){
                         //console.log(response.getRetunValue());
+                        
                         console.log(state);
                         var currentStep = parseInt(component.get('v.currentStep'));
                         currentStep = currentStep+1;

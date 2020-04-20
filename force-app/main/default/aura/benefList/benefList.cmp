@@ -1,5 +1,6 @@
 <aura:component controller="beneficiaryController">
     
+
     <!--<aura:attribute name="benefList" type="Account[]" default="[{
         'Role': 'Beneficiary',
         'Relationship__c': '',
@@ -9,9 +10,11 @@
     }]" />-->
 
     <!-- เลขบัตรประชาชนยังเป็น mock -->
+
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="currentStep" type="String" />
-    
+    <aura:attribute name="status" type="boolean" />
+
     <aura:attribute name="benefList" type="Map[]" default="[{
         'Salutation': '',
         'FirstName': '',
@@ -46,7 +49,7 @@
                             <lightning:input aura:id="benefForm" name="priority" label="ลำดับ" required="true" value="{!index+1}" disabled="true" />
                         </div>
                         <div class="slds-col slds-size_2-of-12">
-                            <lightning:select aura:id="benefForm" name="pre_name" label="คำนำหน้า" required="true" value="{!benef.Salutation}">
+                            <lightning:select aura:id="benefForm" name="pre_name" label="คำนำหน้า" required="true" value="{!benef.Salutation}" disabled="{!v.status}" >
                                 <option value="">เลือก</option>
                                 <option value="Sir.">คุณ</option>
                                 <option value="Mr.">นาย</option>
@@ -55,10 +58,10 @@
                             </lightning:select>
                         </div>
                         <div class="slds-col slds-size_4-of-12">
-                            <lightning:input aura:id="benefForm" name="firstname" label="ชื่อ" required="true" value="{!benef.FirstName}" placeholder="ชื่อ"/>
+                            <lightning:input aura:id="benefForm" name="firstname" label="ชื่อ" required="true" value="{!benef.FirstName}" placeholder="ชื่อ" disabled="{!v.status}" />
                         </div>
                         <div class="slds-col slds-size_4-of-12">
-                            <lightning:input aura:id="benefForm" name="lastname" label="นามสกุล" required="true" value="{!benef.LastName}" placeholder="นามสกุล"/>
+                            <lightning:input aura:id="benefForm" name="lastname" label="นามสกุล" required="true" value="{!benef.LastName}" placeholder="นามสกุล" disabled="{!v.status}" />
                         </div>
                     </div>
 
@@ -70,10 +73,11 @@
                                             name="birthday" 
                                             label="วันเกิดผู้รับประโยชน์" 
                                             required="true" 
-                                            value="{!benef.Birthdate}" />
+                                            value="{!benef.Birthdate}" 
+                                            disabled="{!v.status}" />
                         </div>
                         <div class="slds-col slds-size_4-of-12">
-                            <lightning:select aura:id="benefForm" name="relation" label="ความสัมพันธ์" required="true" value="{!benef.Relationship__c}">
+                            <lightning:select aura:id="benefForm" name="relation" label="ความสัมพันธ์" required="true" value="{!benef.Relationship__c}" disabled="{!v.status}" >
                                 <option value="">เลือก</option>
                                 <option value="บิดา">บิดา</option>
                                 <option value="มารดา">มารดา</option>
@@ -93,7 +97,8 @@
                                             label="สัดส่วนผู้รับผลประโยชน์(%)" 
                                             required="true" 
                                             value="{!benef.Percentage_Beneficiary__c}"
-                                            placeholder="1-100%" />
+                                            placeholder="1-100%" 
+                                            disabled="{!v.status}" />
                         </div>
                     </div>
                 </div>
@@ -103,7 +108,15 @@
     
     <lightning:layout horizontalAlign="center">
         <lightning:layoutItem padding="around-small">
-            <lightning:button type="submit" variant="brand" label="ดำเนินการต่อ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.verify }"/>
+
+            <aura:if isTrue="{!v.status}">
+                <lightning:button type="submit" variant="brand" label="ดำเนินการต่อ"  onclick="{! c.onNext }"/>
+
+                <aura:set attribute="else">
+                    <lightning:button type="submit" variant="brand" label="ดำเนินการต่อ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.verify }"/>
+                </aura:set>
+              </aura:if> 
+
         </lightning:layoutItem>
     </lightning:layout>
 

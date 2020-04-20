@@ -1,5 +1,22 @@
 ({
     doInit : function(component, event, helper) {
+        var status =  component.get("v.status");
+        console.log('status: '+ status);
+
+        
+
+       /* var stageName =  component.get("v.stageName");
+        var status =  component.get("v.status");
+
+        console.log('stageName: '+stageName);
+        console.log('status: '+ status);
+
+        if(stageName == 'Closed Won' && status =='QC ปฏิเสธ'){
+
+        }*/
+
+
+
 
         helper.getQuestion(component, event,helper);   
     },

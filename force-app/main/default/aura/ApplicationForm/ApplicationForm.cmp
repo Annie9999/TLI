@@ -16,8 +16,9 @@
     <aura:attribute name="TypeQuotation" type="Boolean" default="true" />
     <aura:attribute name="opptyRecord" type="Object"/>
     <aura:attribute name="accountName" type="String"/>
+    <aura:attribute name="status" type="boolean" />
 
-    
+
     <div style="padding-top: 20px">
         <lightning:progressIndicator currentStep="{!v.currentStep}" type="path" variant="base">
             <lightning:progressStep label="ข้อมูลเบี้ย" value="1" onclick="{!c.onStep}"/>
@@ -30,19 +31,19 @@
     <div style="padding-top: 1.5rem;">
         <div class="headerInfo">ชื่อผู้เอาประกัน : {!v.accountName}</div>
         <aura:if isTrue="{!v.currentStep == '1'}">
-            <c:ProductForm recordId="{!v.recordId}" currentStep="{!v.currentStep}" />
+            <c:ProductForm recordId="{!v.recordId}" currentStep="{!v.currentStep}" status="{!v.status}" />
         </aura:if>
         <aura:if isTrue="{!v.currentStep == '2'}">
-            <c:InsuredInfo recordId="{!v.recordId}" currentStep="{!v.currentStep}"/>
+            <c:InsuredInfo recordId="{!v.recordId}" currentStep="{!v.currentStep}" status="{!v.status}"  />
         </aura:if>
         <aura:if isTrue="{!v.currentStep == '3'}">
-            <c:HealthQuestions recordId="{!v.recordId}" currentStep="{!v.currentStep}"/>
+            <c:HealthQuestions recordId="{!v.recordId}" currentStep="{!v.currentStep}" status="{!v.status}"   />
         </aura:if>
         <aura:if isTrue="{!v.currentStep == '4'}">
-            <c:benefList recordId="{!v.recordId}" currentStep="{!v.currentStep}"/>
+            <c:benefList recordId="{!v.recordId}" currentStep="{!v.currentStep}" status="{!v.status}"/>
         </aura:if>
         <aura:if isTrue="{!v.currentStep == '5'}">
-            <c:PaymentInfomation recordId="{!v.recordId}" customerName="{!v.accountName}" />
+            <c:PaymentInfomation recordId="{!v.recordId}" customerName="{!v.accountName}" status="{!v.status}"/>
         </aura:if>
     </div>
 </aura:component>

@@ -10,6 +10,8 @@
 
     <aura:attribute name="concent" type="String" />
     <aura:attribute name="termEmail" type="String" />
+    <aura:attribute name="status" type="boolean" />
+
 
     <div class="slds-grid slds-gutters">
         <div class="slds-col slds-size_6-of-12" style="text-align: left;">
@@ -18,7 +20,7 @@
                     <h1>ผู้ขอเอาประกันภัยประสงค์จะใช้สิทธิขอยกเว้นภาษีเงินได้ตามกฎหมายว่าด้วยภาษีอากรหรือไม่</h1>
                 </b>
                 <lightning:radioGroup name="radioGroup" options="{! v.consentOptions }" type="radio"
-                    value="{! v.taxConsent }" />
+                    value="{! v.taxConsent }" disabled="{!v.status}"/>
             </div>
         </div>
         <div class="slds-col slds-size_6-of-12" style="text-align: left;">
@@ -26,7 +28,7 @@
                 <b>
                     <h1>ช่องทางการรับกรมธรรม์ประกันภัย</h1>
                 </b>
-                <lightning:select name="ช่องทางการรับกรมธรรม์ประกันภัย" value="{! v.policyChannel}">
+                <lightning:select name="ช่องทางการรับกรมธรรม์ประกันภัย" value="{! v.policyChannel}"  disabled="{!v.status}">
                     <option value="อีเมล">อีเมล</option>
                     <option value="ไปรษณีย์">ไปรษณีย์</option>
                 </lightning:select>

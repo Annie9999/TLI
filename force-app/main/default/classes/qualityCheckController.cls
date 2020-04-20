@@ -12,7 +12,8 @@ public with sharing class qualityCheckController {
     @AuraEnabled
     public static Case getCase(Id caseId){
         System.debug(caseId);
-        Case target = [SELECT Id, Account.Name, Account.Age__c, Account.Annual_Income__c, Account.PersonEmail, Account.Phone, Account.ShippingStreet, Account.ShippingCity, Account.ShippingState, Account.ShippingPostalCode, Account.ShippingCountry, Opportunity__c FROM Case WHERE Id = :caseId LIMIT 1];
+        Case target = [SELECT Id, Account.Name, Account.Age__c, Account.Annual_Income__c, Account.PersonEmail, Account.Phone, Account.ShippingStreet, Account.ShippingCity, Account.ShippingState, Account.ShippingPostalCode, Account.ShippingCountry, Opportunity__c,Status FROM Case WHERE Id = :caseId LIMIT 1];
+        System.debug('target: '+ target.Status);
         return target;
     }
 

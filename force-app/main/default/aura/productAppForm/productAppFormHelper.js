@@ -122,5 +122,26 @@
         $A.enqueueAction(action);
     },
 
+
+    functionCheckSaveBtn: function(component, event, helper){
+        var checkBtn = component.get('v.checkBtn');
+        var product = component.get('v.objDetail.productgroup__c');
+        var subProduct = component.get('v.objDetail.Sub_productgroup__c');
+        var birthdate = component.get('v.opptyRecord.Date_Of_Birth__c');        
+        var gender = component.get('v.genderValue');
+        var payment = component.get('v.paymentmethidValue');
+
+        console.log('product= '+product);
+        console.log('subProduct= '+subProduct);
+        console.log('birthdate= '+birthdate);
+        console.log('gender= '+gender);        
+        console.log('payment= '+payment);        
+
+        if(product == '--- None ---' || subProduct == '--- None ---' || birthdate == '' || gender == '' || payment == ''){
+            component.set('v.checkBtn',true);
+        }else{
+            component.set('v.checkBtn',false);
+        }
+    },
     
 })

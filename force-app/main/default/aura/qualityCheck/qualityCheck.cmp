@@ -1,8 +1,12 @@
 <aura:component implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForRecordHome,lightning:isUrlAddressable"  access="global" controller="qualityCheckController">
     <!-- Opportunity -->
     <aura:attribute name="recordId" type="Id" default="006q000000KLbsTAAT" />
+    <!--<aura:attribute name="status" type="String" default="Closed Won" />-->
+
     <aura:attribute name="info" type="Case" />
     <aura:attribute name="opptyId" type="String" /> 
+    <aura:attribute name="status" type="boolean" />
+
 
     <aura:attribute name="questType" type="String" default="QC" />
     <aura:attribute name="questions" type="Object" />
@@ -51,6 +55,8 @@
                                                 options="{! v.answer}"
                                                 value="{!v.information_question.Answer__c}"
                                                 type="radio" 
+                                                disabled="{!v.status}"
+                                            
                                                 />
                         </aura:if>
                         <aura:if isTrue="{!v.isAnswered != true }">
@@ -61,6 +67,7 @@
                                                 options="{! v.answer}"
                                                 value="{!v.valid_information.Answer__c}"
                                                 type="radio" 
+                                                disabled="{!v.status}"
                                                 />
                         </aura:if>
                     </div>
@@ -82,6 +89,7 @@
                                                     options="{! v.answer}"
                                                     value="{!question.Answer__c}"
                                                     type="radio" 
+                                                    disabled="{!v.status}"
                                                     />    
                             </div>
                         </aura:iteration >
@@ -96,6 +104,7 @@
                                                     options="{! v.answer}"
                                                     value="{!question.tmpAnswer}"
                                                     type="radio" 
+                                                    disabled="{!v.status}"
                                                     />    
                             </div>
                         </aura:iteration >

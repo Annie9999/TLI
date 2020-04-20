@@ -1,0 +1,15 @@
+<!-- <aura:component implements="force:lightningQuickAction,force:hasRecordId,force:appHostable,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" >
+
+</aura:component> -->
+    
+<aura:component implements="force:appHostable" >
+ 
+    <lightning:listView aura:id="listViewPremiumCollection"
+                        objectApiName="Premium__c"
+                        listName="Premium Collection"
+                        rows="5" 
+                        showActionBar="false" 
+                        enableInlineEdit="true"
+                        showRowLevelActions="false" />
+
+</aura:component>

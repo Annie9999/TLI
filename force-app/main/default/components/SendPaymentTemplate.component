@@ -77,8 +77,8 @@
                                                                              <div style="font-family: Arial, sans-serif; font-size: 16px; text-align: center; color: #000000; padding-bottom: 10px; font-weight: bold;">
                                                                                  เบี้ยประกันพร้อมส่วนลดสำหรับคุณ
                                                                              </div>
-                                                                             <div style="font-family: Arial, sans-serif; font-size: 29px; text-align: center; color: #000000; font-weight: bold; word-spacing: -10px;" >
-                                                                                 ฿ {!item.oppty.Amount} /เดือน
+                                                                             <div style="font-family: Arial, sans-serif; font-size: 25px; text-align: center; color: #000000; font-weight: bold; word-spacing: -5px;" >
+                                                                                 ฿ {!item.oppty.Amount}
                                                                                  <!-- ฿<apex:outputText value="{0, number, ###,###,##0.00}">
                                                                                     <apex:param value="{!item.amount}" />
                                                                                 </apex:outputText>/{!item.promotionPaymentMode}-->
@@ -104,13 +104,14 @@
                                                                     </td>
                                                                     
                                                                     <td width="80%" style="background-color:white">
-                                                                        <div style="font-family: Arial, sans-serif; 
+                                                                      <div style="font-family: Arial, sans-serif; 
                                                                         font-size: 16px;
                                                                         font-weight: bold;
                                                                         color:rgb(101,103,112);
                                                                         padding-top: 20px;
                                                                         padding-left: 33px;
-                                                                        text-align: left;">
+                                                                        text-align: left;"
+                                                                        >
                                                                             ข้อมูลผู้ขอเอาประกัน
                                                                         </div>
                                                                     </td>
@@ -125,42 +126,42 @@
                                                                      <td width="80%" style="background-color:white;   border-bottom-left-radius: 10px;  border-bottom-right-radius: 10px;">
                                                                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="padding-top: 10px; line-height: normal;  padding-left: 33px;">
                                                                             <tr>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
-                                                                                    คุณ
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
+                                                                                    คุณ:
                                                                                 </td>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     {!item.acc.FirstName} &nbsp; {!item.acc.LastName}
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     อายุ:
                                                                                 </td>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     {!item.age} ปี
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     เพศ:
                                                                                 </td>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     {!item.acc.Sex__pc} 
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     อีเมล:
                                                                                 </td>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     {!item.acc.PersonEmail}
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     เบอร์มือถือ:
                                                                                 </td>
-                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 16px; text-align: left; color: #000000;">
+                                                                                <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
                                                                                     {!item.acc.phone}
                                                                                 </td>
                                                                             </tr>

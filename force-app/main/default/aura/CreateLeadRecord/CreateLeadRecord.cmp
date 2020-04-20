@@ -1,0 +1,94 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:appHostable" access="global">
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="defaultValueField" type="Object" />
+    <aura:attribute name="dependentField" type="Object" default='{ "purpose_of_buying__c" : "PurposeOfBuyingDisplay__c"}'/>
+    <!--<aura:attribute name="selectedProject" type="Object" />-->
+    <aura:attribute name="projectCondition" type="String" default="AND Active__c = 'TRUE'" />
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="isCreating" type="Boolean" default="true"/>
+
+    <aura:registerEvent name="afterCreateLeadRecord" type="c:EnlargePictureEvent" />
+   
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+    <aura:if isTrue="{!v.errorMessage != null}">
+        <div class="custom-error slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture slds-banner leftalign"
+            role="alert">
+            <h2>
+                <c:svgIcon class="slds-icon icon-text-email slds-icon--x-small slds-m-right--x-small"
+                    xlinkHref="/_slds/icons/utility-sprite/svg/symbols.svg#error" />
+                <span>{!v.errorMessage + ' '}</span>
+            </h2>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!!v.saved}">
+        <lightning:recordEditForm
+        aura:id="leadCreateForm"
+            onload="{!c.handleLoad}"
+            onsubmit="{!c.handleSubmit}"
+            onsuccess="{!c.handleSuccess}"
+            onerror="{!c.handleOnError}"
+            recordId="{!v.recordId}"
+            objectApiName="Lead">
+            <!-- the messages component is for error messages -->
+            <lightning:messages />
+
+
+
+
+            <h3 class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container">
+                <span style="margin: 0 8px;" class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container">
+                        Lead Information
+                </span>
+            </h3>
+
+            <div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium" >
+                        <lightning:inputField fieldName="Name" />
+
+                        
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-around_medium" >
+
+                        <div style="margin-top: 23px;">
+                            <lightning:inputField required="true" fieldName="MobilePhone" />
+                        </div> 
+                        <div style="margin-top: -8px;">
+                            <lightning:inputField fieldName="Email" />
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <h3 class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container">
+                <span style="margin: 0 8px;" class="slds-section__title slds-theme--shade primaryPaletteBorder test-id__section-header-container">
+                        Lead Source Information
+                </span>
+            </h3>
+            <div>
+                <div class="slds-grid">
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                            <lightning:inputField fieldName="LeadSource"/>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
+                            <lightning:inputField fieldName="Status"/>
+                        </div>
+                </div>
+            </div>
+        
+            
+            <div class="custom-footer">
+                <div class="button-container slds-text-align_center">
+                    <lightning:button label="Cancel" onclick="{!c.handleClick}" />
+                    <lightning:button disabled="{!v.disabled}" onclick="{!c.handleClickSave}"  variant="brand" type="submit" name="save" label="Save" />
+                </div>
+            </div>
+        </lightning:recordEditForm>
+   
+    </aura:if>
+</aura:component>

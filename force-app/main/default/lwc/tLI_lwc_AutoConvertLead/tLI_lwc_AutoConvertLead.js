@@ -17,6 +17,15 @@ export default class TLI_lwc_AutoConvertLead extends NavigationMixin(LightningEl
     errorMsg;
     errorTitle;
     @track isShowSpinner;
+    onOpenTab(){
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: '006q000000KYStPAAX',
+                actionName: 'view'
+            }
+        });
+    }
     onClickConvertLead(){
         this.isShowSpinner = true;
         convertLeadApex({
@@ -38,7 +47,7 @@ export default class TLI_lwc_AutoConvertLead extends NavigationMixin(LightningEl
             this[NavigationMixin.Navigate]({
                 type: 'standard__recordPage',
                 attributes: {
-                    recordId: this.oppId,
+                    recordId: this.accId,
                     actionName: 'view'
                 }
             });

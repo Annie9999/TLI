@@ -1,5 +1,21 @@
 ({
     doInit : function(component, event, helper) {
+
+        
+
+      /*  var status = component.get('v.status');
+        console.log(status);
+        if(status === 'Closed Won'){
+
+            component.set('v.status', false);
+            
+        }else{
+            component.set('v.status', true);
+
+        }*/
+
+
+
         var id = component.get('v.recordId');
         console.log(id);
 
@@ -17,6 +33,17 @@
                 console.log('OpptyId'+returnVal.Opportunity__c);
                 component.set('v.opptyId', returnVal.Opportunity__c);
                 component.set('v.info', returnVal);
+
+                console.log('Return status: ',JSON.parse(JSON.stringify(returnVal.Status)));
+                if(returnVal.Status === 'Closed'){
+
+                    component.set("v.status", true);
+
+                }else{
+                    component.set("v.status", false);
+                }
+
+
 
                 var q_type = component.get('v.questType');
                 var opptyId = component.get('v.opptyId');
@@ -41,6 +68,20 @@
                             component.set('v.isAnswered', returnVal.isAnswered);
                             component.set('v.information_question', information);
                             component.set('v.questionAnswer', returnVal.listAnsForm);
+
+                           
+
+                           /* var status = component.get('v.status');
+    
+                             console.log('status:'+status);   */       
+                          /*  if(returnVal.Status == 'open'){
+
+                                omponent.set("v.status", true);
+
+                            }else{
+                                omponent.set("v.status", false);
+                            }*/
+                            
                         }
                         else{
 

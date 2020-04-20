@@ -24,6 +24,7 @@
     <aura:attribute name="genderValue" type="String" default=""/>
     <aura:attribute name="paymentmethidValue" type="String" default=""/>
     <aura:attribute name="saveSuccess" type="Boolean" default="false" />
+    <aura:attribute name="checkBtn" type="Boolean" default="true" />
 
     <aura:attribute name="paymentMethodList" type="List" default="[
                 {'label': 'รายเดือน', 'value': 'รายเดือน'},
@@ -75,7 +76,7 @@
                     </lightning:select>
                 </lightning:layoutItem>
 
-                <ui:inputDate aura:id="expdate" label="วัน เดือน ปีเกิด" class="field" value="{!v.opptyRecord.Date_Of_Birth__c}" displayDatePicker="true"/>     
+                <ui:inputDate aura:id="expdate" label="วัน เดือน ปีเกิด" class="field" value="{!v.opptyRecord.Date_Of_Birth__c}" displayDatePicker="true" />     
             
                 <lightning:radioGroup name="gender"
                         label="เพศ"
@@ -127,7 +128,7 @@
                 <div style="text-align: center;padding-top:20px;">
                     <!-- <lightning:button variant="destructive" type="button" label="ยกเลิก" title="ยกเลิก"  onclick="{!c.onClose}"/>  -->
   
-                    <lightning:button disabled="" variant="brand" label="บันทึก" title="บันทึก" onclick="{! c.onSaveOpp }" />
+                    <lightning:button variant="brand" label="บันทึก" title="บันทึก" onclick="{! c.onSaveOpp }" disabled="{!v.checkBtn}"/>
            
                     <aura:if isTrue="{!v.Spinner}">
                     

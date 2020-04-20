@@ -1,5 +1,10 @@
 ({
+
 	doInit: function(component, event, helper) {
+		var status = component.get("v.status");
+        console.log('status: '+status);
+
+
 		// Create the action
 		var action = component.get("c.getDetail");
         var recordId = component.get("v.recordId");

@@ -715,39 +715,40 @@ export default class CcEditCaseParent extends LightningElement {
             console.log('this.getService_Sub_Subject : '+JSON.stringify(this.getService_Sub_Subject));
             console.log(this.mapService_Sub_Subject);
             console.log('this.mapService_Sub_Subject[keyMap] : '+JSON.stringify(this.mapService_Sub_Subject[keyMap]));
-            if(this.mapService_Sub_Subject[keyMap].length > 1){
-                let listService_Sub_SubjectOptions = [{label:'--None--', value:null}];
-                for(let key in this.mapService_Sub_Subject[keyMap]) {
-                    console.log('key');
-                    console.log(key);
-                    listService_Sub_SubjectOptions.push({
-                        label : this.mapService_Sub_Subject[keyMap][key],
-                        value: this.mapService_Sub_Subject[keyMap][key]
-                    })
+            if(event.target.value != null){
+                if(this.mapService_Sub_Subject[keyMap].length > 1){
+                    let listService_Sub_SubjectOptions = [{label:'--None--', value:null}];
+                    for(let key in this.mapService_Sub_Subject[keyMap]) {
+                        console.log('key');
+                        console.log(key);
+                        listService_Sub_SubjectOptions.push({
+                            label : this.mapService_Sub_Subject[keyMap][key],
+                            value: this.mapService_Sub_Subject[keyMap][key]
+                        })
+                    }
+                    console.log(listService_Sub_SubjectOptions);
+                    this.listService_Sub_Subject = listService_Sub_SubjectOptions;
+                    // for(let key in this.mapService_Sub_Subject[keyMap]) {
+                    //     console.log(key);
+                    //     console.log(this.mapService_Sub_Subject[keyMap][key]);
+                    //         this.listService_Sub_Subject.push({key: key, value: this.mapService_Sub_Subject[keyMap][key]});
+                    // }
+                    if(this.listService_Sub_Subject.length > 0){
+                        this.isEmptyService_Sub_Subject = false;
+                    }
                 }
-                console.log(listService_Sub_SubjectOptions);
-                this.listService_Sub_Subject = listService_Sub_SubjectOptions;
-                // for(let key in this.mapService_Sub_Subject[keyMap]) {
-                //     console.log(key);
-                //     console.log(this.mapService_Sub_Subject[keyMap][key]);
-                //         this.listService_Sub_Subject.push({key: key, value: this.mapService_Sub_Subject[keyMap][key]});
-                // }
-                if(this.listService_Sub_Subject.length > 0){
-                    this.isEmptyService_Sub_Subject = false;
+                else{
+                    let subSubject = this.getService_Sub_Subject;
+                    if(this.getService_Sub_Subject == ''){
+                        subSubject = null;
+                    }
+                    const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+subSubject;
+                    console.log(keyMapSLA);
+                    if(this.mapSLA[keyMapSLA].length > 0){
+                        this.getSLA = this.mapSLA[keyMapSLA][0];
+                    }
                 }
             }
-            else{
-                let subSubject = this.getService_Sub_Subject;
-                if(this.getService_Sub_Subject == ''){
-                    subSubject = null;
-                }
-                const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+subSubject;
-                console.log(keyMapSLA);
-                if(this.mapSLA[keyMapSLA].length > 0){
-                    this.getSLA = this.mapSLA[keyMapSLA][0];
-                }
-            }
-            
         }
         console.log(this.listService_Sub_Subject);
     }

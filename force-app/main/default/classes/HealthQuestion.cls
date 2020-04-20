@@ -6,6 +6,9 @@ public class HealthQuestion {
         public List<Answer_Form__c> listQA {get; set;}
         @AuraEnabled
         public List<Question__c> listQues {get; set;}
+        //public String  stageName {get; set;}
+       // public String  approvalStatus {get; set;}
+
         
       /* @AuraEnabled
         public  List<String> Quest    {get; set;}
@@ -49,7 +52,12 @@ public class HealthQuestion {
         system.debug('recordId: ' +recordId);
         system.debug('questType: ' +questType);
 
+
+
         qaWrapper qaReturn = new qaWrapper();
+
+        List<Question__c> ques = [SELECT Id,Name,Question_Group__c,Question_Order__c,Question__c  FROM Question__c   WHERE Question_Group__c=:questType ORDER BY Question_Order__c ASC];
+
         List<Answer_Form__c> qa =[SELECT Id, Name, Question__c, Answer__c, Opportunity__c, Application_Form__c FROM Answer_Form__c WHERE Opportunity__c =: recordId ];
         if(!qa.isEmpty()){ 
             qaReturn.listQA =qa;
@@ -58,7 +66,7 @@ public class HealthQuestion {
             return qaReturn;
 
         }else{
-            List<Question__c> ques = [SELECT Id,Name,Question_Group__c,Question_Order__c,Question__c  FROM Question__c   WHERE Question_Group__c=:questType ORDER BY Question_Order__c ASC];
+           // List<Question__c> ques = [SELECT Id,Name,Question_Group__c,Question_Order__c,Question__c  FROM Question__c   WHERE Question_Group__c=:questType ORDER BY Question_Order__c ASC];
    			qaReturn.listQues =ques;
             qaReturn.ansId =false;
             system.debug('Question: ' +qaReturn);

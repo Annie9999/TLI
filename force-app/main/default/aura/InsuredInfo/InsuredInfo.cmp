@@ -3,6 +3,7 @@
     access="global" controller="InsuredInfoController">
 
     <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="status" type="boolean" />
     <aura:attribute name="currentStep" type="String"/>
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -17,7 +18,7 @@
     <div class="slds-box">
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_2-of-12">
-                <lightning:select name="คำนำหน้าชื่อ" label="คำนำหน้าชื่อ" value="{! v.newAcc.Salutation}">
+                <lightning:select name="คำนำหน้าชื่อ" label="คำนำหน้าชื่อ" value="{! v.newAcc.Salutation}"  disabled="{!v.status}">
                     <option value="">เลือก</option>
                     <option value="Sir.">คุณ</option>
                     <option value="Mr.">นาย</option>
@@ -26,16 +27,16 @@
                 </lightning:select>
             </div>
             <div class="slds-col slds-size_4-of-12">
-                <lightning:input name="ชื่อจริง" value="{! v.newAcc.FirstName}" label="ชื่อ(ไทย)" />
+                <lightning:input name="ชื่อจริง" value="{! v.newAcc.FirstName}" label="ชื่อ(ไทย)"   disabled="{!v.status}"/>
             </div>
             <div class="slds-col slds-size_6-of-12">
-                <lightning:input name="นามสกุล" value="{! v.newAcc.LastName}" label="นามสกุล(ไทย)" />
+                <lightning:input name="นามสกุล" value="{! v.newAcc.LastName}" label="นามสกุล(ไทย)"  disabled="{!v.status}"/>
             </div>
         </div>
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_6-of-12">
-                <lightning:select name="เพศ" label="เพศ" value="{! v.newAcc.Sex__pc}">
+                <lightning:select name="เพศ" label="เพศ" value="{! v.newAcc.Sex__pc}"  disabled="{!v.status}">
                     <option value="">เลือก</option>
                     <option value="ชาย">ชาย</option>
                     <option value="หญิง">หญิง</option>
@@ -43,7 +44,7 @@
             </div>
 
             <div class="slds-col slds-size_6-of-12">
-                <lightning:select name="เชื้อชาติ" label="เชื้อชาติ" value="{! v.newAcc.Race__pc}"> 
+                <lightning:select name="เชื้อชาติ" label="เชื้อชาติ" value="{! v.newAcc.Race__pc}"  disabled="{!v.status}"> 
                     <option value="">เลือก</option>
                     <option value="ไทย">ไทย</option>
                     <option value="อื่นๆ">อื่นๆ</option>
@@ -53,7 +54,7 @@
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_6-of-12">
-                <lightning:select name="สัญชาติ" label="สัญชาติ" value="{! v.newAcc.Nationality__pc}">
+                <lightning:select name="สัญชาติ" label="สัญชาติ" value="{! v.newAcc.Nationality__pc}"  disabled="{!v.status}">
                     <option value="">เลือก</option>
                     <option value="ไทย">ไทย</option>
                     <option value="อื่นๆ">อื่นๆ</option>
@@ -61,7 +62,7 @@
             </div>
 
             <div class="slds-col slds-size_6-of-12">
-                <lightning:select name="ศาสนา" label="ศาสนา" value="{! v.newAcc.Religion__pc}">
+                <lightning:select name="ศาสนา" label="ศาสนา" value="{! v.newAcc.Religion__pc}"  disabled="{!v.status}">
                     <option value="">เลือก</option>
                     <option value="พุทธ">พุทธ</option>
                     <option value="คริสต์">คริสต์</option>
@@ -83,13 +84,13 @@
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_4-of-12">
-                <lightning:input name="บัตรประจำตัวประชาชน" label="บัตรประจำตัวประชาชน" maxlength="13" value="{! v.newAcc.National_ID__pc}" />
+                <lightning:input name="บัตรประจำตัวประชาชน" label="บัตรประจำตัวประชาชน" maxlength="13" value="{! v.newAcc.National_ID__pc}"  disabled="{!v.status}"/>
             </div>
             <div class="slds-col slds-size_2-of-12">
-                <lightning:input name="วันที่หมดอายุบัตร" type="date" label="วันที่หมดอายุบัตร" value="{! v.newAcc.National_ID_Card_Expire_Date__pc}" />
+                <lightning:input name="วันที่หมดอายุบัตร" type="date" label="วันที่หมดอายุบัตร" value="{! v.newAcc.National_ID_Card_Expire_Date__pc}"  disabled="{!v.status}"/>
             </div>
             <div class="slds-col slds-size_6-of-12">
-                <lightning:select name="อาชีพ" label="อาชีพ" value="{! v.newAcc.Occupation__pc}">
+                <lightning:select name="อาชีพ" label="อาชีพ" value="{! v.newAcc.Occupation__pc}"  disabled="{!v.status}">
                     <option value="">เลือก</option>
                     <option value="พนักงานบริษัท">พนักงานบริษัท</option>
                     <option value="หมอ">หมอ</option>
@@ -102,10 +103,10 @@
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_6-of-12">
-                <lightning:input name="ส่วนสูง" label="ส่วนสูง" type="number" maxlength="3" value="{! v.newAcc.Weight__pc}" />
+                <lightning:input name="ส่วนสูง" label="ส่วนสูง" type="number" maxlength="3" value="{! v.newAcc.Weight__pc}"  disabled="{!v.status}"/>
             </div>
             <div class="slds-col slds-size_6-of-12">
-                <lightning:input name="น้ำหนัก" label="น้ำหนัก" type="number" maxlength="3" value="{! v.newAcc.Height__pc}"/>
+                <lightning:input name="น้ำหนัก" label="น้ำหนัก" type="number" maxlength="3" value="{! v.newAcc.Height__pc}"  disabled="{!v.status}"/>
             </div>
         </div>
 
@@ -114,7 +115,7 @@
                 <lightning:input name="BMI" label="BMI" value="{! v.newAcc.BMI__pc}"/>
             </div> -->
             <div class="slds-col slds-size_6-of-12">
-                <lightning:select name="สถานภาพการสมรส" label="สถานภาพการสมรส" value="{! v.newAcc.Marital_Status__pc}">
+                <lightning:select name="สถานภาพการสมรส" label="สถานภาพการสมรส" value="{! v.newAcc.Marital_Status__pc}"  disabled="{!v.status}">
                     <option value="">เลือก</option>
                     <option value="โสด">โสด</option>
                     <option value="สมรส">สมรส</option>
@@ -123,14 +124,13 @@
                 </lightning:select>
             </div>
             <div class="slds-col slds-size_6-of-12">
-                <lightning:input name="หมายเลขโทรศัพท์มือถือ" type="tel" value="{! v.newAcc.Phone}"
-                    label="หมายเลขโทรศัพท์มือถือ" />
+                <lightning:input name="หมายเลขโทรศัพท์มือถือ" type="tel" value="{! v.newAcc.Phone}" label="หมายเลขโทรศัพท์มือถือ"  disabled="{!v.status}"/>
             </div>
         </div>
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_6-of-12">
-                <lightning:input name="อีเมล" type="email" label="อีเมล" value="{! v.newAcc.Email__c}"/>
+                <lightning:input name="อีเมล" type="email" label="อีเมล" value="{! v.newAcc.Email__c}"  disabled="{!v.status}"/>
             </div>
         </div>
         <br />
@@ -141,29 +141,29 @@
         <div id="censusAddress">
             <div class="head">
                 <h2>ที่อยู่ตามทะเบียนบ้าน</h2>
-                <span><input id="sameAddress" type="checkbox" checked="true" onclick="{!c.toggle}" />
+                <span><input id="sameAddress" type="checkbox" checked="true" onclick="{!c.toggle}"  disabled="{!v.status}"/>
                     <label>ที่อยู่ปัจจุบันเป็นสถานที่เดียวกับที่อยู่ตามทะเบียนบ้าน</label>
                 </span>
             </div>
 
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size_12-of-12">
-                    <lightning:input name="ที่อยู่" label="ที่อยู่" value="{! v.newAcc.BillingStreet}" />
+                    <lightning:input name="ที่อยู่" label="ที่อยู่" value="{! v.newAcc.BillingStreet}"  disabled="{!v.status}"/>
                 </div>
             </div>
 
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size_3-of-12">
-                    <lightning:input name="ตำบล" label="ตำบล" value="{! v.billingSubDistrict}" />
+                    <lightning:input name="ตำบล" label="ตำบล" value="{! v.billingSubDistrict}"  disabled="{!v.status}"/>
                 </div>
                 <div class="slds-col slds-size_3-of-12">
-                    <lightning:input name="อำเภอ" label="อำเภอ" value="{! v.billingDistrict}" />
+                    <lightning:input name="อำเภอ" label="อำเภอ" value="{! v.billingDistrict}"  disabled="{!v.status}"/>
                 </div>
                 <div class="slds-col slds-size_3-of-12">
-                    <lightning:input name="จังหวัด" label="จังหวัด" value="{! v.newAcc.BillingState}" />
+                    <lightning:input name="จังหวัด" label="จังหวัด" value="{! v.newAcc.BillingState}"  disabled="{!v.status}"/>
                 </div>
                 <div class="slds-col slds-size_3-of-12">
-                    <lightning:input name="รหัสไปรษณีย์" label="รหัสไปรษณีย์" value="{! v.newAcc.BillingPostalCode}"/>
+                    <lightning:input name="รหัสไปรษณีย์" label="รหัสไปรษณีย์" value="{! v.newAcc.BillingPostalCode}"  disabled="{!v.status}"/>
                 </div>
             </div>
         </div>
@@ -176,22 +176,22 @@
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_12-of-12">
-                <lightning:input name="ที่อยู่" label="ที่อยู่" value="{! v.newAcc.ShippingStreet}" />
+                <lightning:input name="ที่อยู่" label="ที่อยู่" value="{! v.newAcc.ShippingStreet}"  disabled="{!v.status}"/>
             </div>
         </div>
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_3-of-12">
-                <lightning:input name="ตำบล" label="ตำบล" value="{! v.shippingSubDistrict}"/>
+                <lightning:input name="ตำบล" label="ตำบล" value="{! v.shippingSubDistrict}"  disabled="{!v.status}"/>
             </div>
             <div class="slds-col slds-size_3-of-12">
-                <lightning:input name="อำเภอ" label="อำเภอ" value="{! v.shippingDistrict}"/>
+                <lightning:input name="อำเภอ" label="อำเภอ" value="{! v.shippingDistrict}"  disabled="{!v.status}"/>
             </div>
             <div class="slds-col slds-size_3-of-12">
-                <lightning:input name="จังหวัด" label="จังหวัด" value="{! v.newAcc.ShippingState}"/>
+                <lightning:input name="จังหวัด" label="จังหวัด" value="{! v.newAcc.ShippingState}"  disabled="{!v.status}"/>
             </div>
             <div class="slds-col slds-size_3-of-12">
-                <lightning:input name="รหัสไปรษณีย์" label="รหัสไปรษณีย์" value="{! v.newAcc.ShippingPostalCode}"/>
+                <lightning:input name="รหัสไปรษณีย์" label="รหัสไปรษณีย์" value="{! v.newAcc.ShippingPostalCode}"  disabled="{!v.status}"/>
             </div>
         </div>
     </div>
