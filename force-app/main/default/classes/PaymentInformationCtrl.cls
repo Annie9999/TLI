@@ -91,6 +91,8 @@ public without sharing class PaymentInformationCtrl {
                                     
         if(oppList.size() > 0){
             System.debug('oppList[0].Amount : ' + oppList[0].Amount);
+            system.debug('Payment: ' +oppList[0].Payment_Types__r[0]);
+
             payInfo.Amount = oppList[0].Amount;
             payInfo.taxdeduction =  oppList[0].Taxdeduction__c;
             payInfo.policyChannel = oppList[0].Policy_Trans_Channel__c;

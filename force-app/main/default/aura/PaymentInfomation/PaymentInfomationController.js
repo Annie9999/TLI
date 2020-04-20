@@ -4,38 +4,6 @@
         var status = component.get("v.status");
         console.log('status: '+status);
 
-        //const input  = component.find('status');
-       /* var div = cmp.find("theDiv");
-
-        if (div) {
-            console.log('div: '+div);
-        }*/
-       // component.find("myId").set("v.disabled", true); 
-
-       /* var status = component.get("v.status");
-        var inpAcc = document.getElementById("dcalc");
-            inpAcc.setAttribute("disabled","true");*/ 
-
-       // $("[id$=dcacl]").prop("disabled",true);
-
-      //  $("#dcacl").attr('disabled',status);
-
-       /* var status = component.get("v.status");
-        var value = event.currentTarget.dataset.type;
-        console.log(value);
-        //var div = event.currentTarget;
-      //  var recordId = div.getAttribute('data-record-id');
-       // console.log('recordId: '+recordId);
-       
-        if(status == true){
-            console.log('status: '+status);
-
-        //    $('.paymentType').attr('disabled', true);
-
-
-        }*/
-        
-
 
         helper.setDefault(component);
         helper.functionGetOption(component, helper);
@@ -73,6 +41,9 @@
         console.log('paymentType' + paymentType);
         component.set('v.paymentInfo.payment.Bank_Account_Type__c', paymentType);
     },
+
+    /*----------------*/
     
+   
     
 })

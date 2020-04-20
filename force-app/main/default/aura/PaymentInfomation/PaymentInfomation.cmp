@@ -41,11 +41,12 @@
                 ช่องทางการชำระเงิน
             </div>
             
+            
             <div class="slds-grid slds-gutters slds-m-bottom_medium" >
                 <aura:if isTrue="{!v.status}">
                     <div class="slds-col">
                         <div disabled="{!v.status}" class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType5" 
-                        data-value="5" data-type="Payment Gateway" >
+                        data-value="5" data-type="Payment Gateway" aura:id="hwDiv">
                             Payment Gateway
                         </div>
                     </div>

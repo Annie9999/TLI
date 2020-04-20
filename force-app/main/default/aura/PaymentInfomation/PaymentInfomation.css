@@ -23,3 +23,14 @@
     position: absolute;
     bottom: 0;
 }
+
+.THIS.changeStyle {
+    background-color:blue;
+    color:red;
+}
+
+/*.THIS.changeMe {
+    background-color:yellow;
+    width:200px;
+}*/
+

@@ -33,6 +33,7 @@
                 var returnValue = response.getReturnValue();
                 console.log('optionSelect ' , returnValue);
                 cmp.set('v.optionSelect', returnValue);
+
                 helper.functionGetPaymentinformation(cmp, helper);
             }else if (state === "ERROR") {
                 var errors = response.getError();
@@ -56,6 +57,12 @@
                 var returnValue = response.getReturnValue();
                 console.log('Payment Info ' , returnValue);
                 cmp.set('v.paymentInfo', returnValue);
+                if(returnValue.Payment_Type__c != null){
+                    var cmpDiv = cmp.find('hwDiv');
+                    $A.util.addClass(cmpDiv, 'changeStyle');
+                }
+
+
                 helper.mappingValue(cmp, helper, returnValue.payment.Payment_Type__c);
 
             }else if (state === "ERROR") {
