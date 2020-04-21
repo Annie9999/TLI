@@ -13,16 +13,25 @@
                         <div class="slds-truncate" title="S.No">S.NO</div>
                     </th> -->
                     <th scope="col">
-                        <div class="slds-truncate" title="ชื่อผู้เอาประกัน">ชื่อผู้เอาประกัน</div>
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required" >* </abbr>
+                            <span class="slds-truncate" title={label.sessionLabelAccount}>{label.sessionLabelAccount}</span>
+                        </label>
                     </th>
                     <th scope="col">
-                        <div class="slds-truncate" title="เลขที่กรมธรรม์">เลขที่กรมธรรม์</div>
+                        <div class="slds-truncate" title={label.sessionLabelSource}>{label.sessionLabelSource}</div>
                     </th>
                     <th scope="col">
-                        <div class="slds-truncate" title="สายงาน">สายงาน</div>
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required" >* </abbr>
+                            <span class="slds-truncate" title="สายงาน">สายงาน</span>
+                        </label>
                     </th>
                     <th scope="col">
-                        <div class="slds-truncate" title="ส่วนงาน">ส่วนงาน</div>
+                        <label class="slds-form-element__label" for="select-01">
+                            <abbr class="slds-required" title="required" >* </abbr>
+                            <span class="slds-truncate" title="ส่วนงาน">ส่วนงาน</span>
+                        </label>
                     </th>
                     <!-- <th scope="col">
                         <div class="slds-truncate" title="Service_Type">ประเภท</div>
@@ -83,7 +92,7 @@
                                         name="ChildTLI_Division" 
                                         onchange={handleDivisionChange} 
                                         options={controllingValues} 
-                                        placeholder="--None--" 
+                                        placeholder="--ไม่มี--" 
                                         value={ChildCase.TLI_Division}></lightning-combobox>
                             <!-- <lightning-input-field variant="label-hidden" id={index} access-key={index}  name='ChildTLI_Division' value={ChildCase.TLI_Division} field-name='TLI_Division__c' onchange={changeHandler} ></lightning-input-field> -->
                             <!-- <lightning-input name='accPhone' access-key={index} type='Phone' id={index}  onchange={changeHandler} value={ChildCase.Phone}></lightning-input> -->
@@ -96,7 +105,7 @@
                                         name="ChildTLI_Subdivision"
                                         onchange={handleSubdivisionChange} 
                                         options={ChildCase.dependentValues} 
-                                        placeholder="--None--" 
+                                        placeholder="--ไม่มี--" 
                                         value={ChildCase.TLI_Subdivision}
                                         disabled={ChildCase.isEmpty}></lightning-combobox>
                             <!-- <lightning-input-field variant="label-hidden" id={index} access-key={index}  name='ChildTLI_Subdivision' value={ChildCase.TLI_Subdivision} field-name='TLI_Subdivision__c' onchange={changeHandler} ></lightning-input-field> -->
@@ -123,7 +132,7 @@
             </tbody>
         </table>
         <div class="slds-m-top_medium">      
-            <lightning-button variant="brand"  name="save" label="Create Case" onclick={saveMultipleChild}></lightning-button>
+            <lightning-button variant="brand"  name="save" label={label.sessionLabelCreate_Case} onclick={saveMultipleChild}></lightning-button>
         </div>
 <!-- test -->
         <!-- <lightning-card title="Custom Dependent Picklist using Lightning Web Components"><br/>
@@ -134,7 +143,7 @@
                                         name="country" 
                                         onchange={handleCountryChange} 
                                         options={controllingValues} 
-                                        placeholder="--None--" 
+                                        placeholder="--ไม่มี--" 
                                         value={selectedCountry}></lightning-combobox><br/>
                     
                     <div if:true={selectedCountry}>
@@ -146,7 +155,7 @@
                                         name="state"
                                         onchange={handleStateChange} 
                                         options={dependentValues} 
-                                        placeholder="--None--" 
+                                        placeholder="--ไม่มี--" 
                                         value={selectedState}
                                         disabled={isEmpty}></lightning-combobox><br/>
                     <div if:true={selectedState}>

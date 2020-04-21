@@ -1,10 +1,5 @@
 ({
     doInit : function(component, event, helper) {
-
-        var status = component.get("v.status");
-        console.log('status: '+status);
-
-
         helper.setDefault(component);
         helper.functionGetOption(component, helper);
     },
@@ -41,9 +36,6 @@
         console.log('paymentType' + paymentType);
         component.set('v.paymentInfo.payment.Bank_Account_Type__c', paymentType);
     },
-
-    /*----------------*/
     
-   
     
 })

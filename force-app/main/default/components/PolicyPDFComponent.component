@@ -1,0 +1,11 @@
+<apex:component controller="PolicyPDFController" access="global">
+    
+    <apex:attribute name="SourceId" type="Id" description="Id of Service Request Source (SourceId)" assignTo="{!srcId}"/>
+
+    SourceId : {!SourceId} <br/>
+    <apex:repeat var="rec" value="{!Records}">
+        Records : {!rec.Name} <br/>
+    </apex:repeat>
+    srcId : {!srcId}
+    
+</apex:component>

@@ -1,5 +1,8 @@
 import { LightningElement,track,api,wire} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import sessionLabelAccount from '@salesforce/label/c.Account';
+import sessionLabelSource from '@salesforce/label/c.Source';
+import sessionLabelCreate_Case from '@salesforce/label/c.Save_Service_Request';
 import saveAllChildCase from '@salesforce/apex/CustomNewChildRecordListCtrl.createChildCase';
 import cloneParent from '@salesforce/apex/CustomNewChildRecordListCtrl.caseInfoByParent';
 import getfindPolicy from '@salesforce/apex/CustomNewChildRecordListCtrl.findPolicy';
@@ -31,7 +34,12 @@ export default class CustomNewChildRecordList extends LightningElement {
     totalDependentValues = [];
     
     @track caseRecList = [];
-    //@track caseRecListInsert = [];
+    
+    label = {
+        sessionLabelAccount,
+        sessionLabelSource,
+        sessionLabelCreate_Case
+    };
 
     connectedCallback(){
         console.log(this.objectApiName);
@@ -87,7 +95,7 @@ export default class CustomNewChildRecordList extends LightningElement {
     }
     handleDivisionChange(event) {
         // Selected Country Value
-        this.caseRecList[event.target.accessKey].isEmpty = false;
+        this.caseRecList[event.target.accessKey].isEmpty = true;
         let dependValues = [];
         //this.dependentValues = new Array();
         console.log('accessKey : '+event.target.accessKey);
@@ -97,8 +105,8 @@ export default class CustomNewChildRecordList extends LightningElement {
         }
         if(this.caseRecList[event.target.accessKey].TLI_Division) {
             // if Selected country is none returns nothing
-            if(this.caseRecList[event.target.accessKey].TLI_Division === '--None--') {
-                dependValues = [{label:'--None--', value:'--None--'}];
+            if(this.caseRecList[event.target.accessKey].TLI_Division === '--ไม่มี--') {
+                dependValues = [{label:'--ไม่มี--', value:'--ไม่มี--'}];
                 
                 this.caseRecList[event.target.accessKey].isEmpty = true;
                 this.caseRecList[event.target.accessKey].TLI_Division = null;
@@ -118,6 +126,9 @@ export default class CustomNewChildRecordList extends LightningElement {
 
             //this.dependentValues = dependValues;
             this.caseRecList[event.target.accessKey].dependentValues = dependValues;
+            if(dependValues.length > 0){
+                this.caseRecList[event.target.accessKey].isEmpty = false;
+            }
         }
         
         console.log('Enter ',this.caseRecList);
@@ -199,17 +210,40 @@ export default class CustomNewChildRecordList extends LightningElement {
     //Save Child
     saveMultipleChild() {
         let checkValidate = true;
+        let listfieldEachError = [];
+        let listfieldError = [];
+        let countIndex = 1;
         console.log("childList"+JSON.stringify(this.caseRecList));
         this.caseRecList.forEach(function(item){    
-            console.log(item.AccountId);
-            console.log(item.SourceId);
-            console.log(item.TLI_Division);
-            console.log(item.TLI_Subdivision);
-            console.log(item.AccountId && item.SourceId && item.TLI_Division && item.TLI_Subdivision);
-            if(!(item.AccountId && item.SourceId && item.TLI_Division && item.TLI_Subdivision)){
-                checkValidate = false;
-            }               
+            listfieldEachError = [];
+            console.log('item.AccountId : '+item.AccountId == '');
+            console.log('item.TLI_Division : '+item.TLI_Division);
+            console.log('item.TLI_Subdivision : '+item.TLI_Subdivision);
+            // if(!(item.AccountId  && item.TLI_Division && item.TLI_Subdivision)){
+            //     console.log(item.AccountId  && item.TLI_Division && item.TLI_Subdivision);
+                
+                if(item.AccountId == null || item.AccountId == ''){
+                    console.log('this.label.sessionLabelAccount : '+sessionLabelAccount);
+                    listfieldEachError.push(sessionLabelAccount);
+                }
+                if(item.TLI_Division == null || item.TLI_Division == ''){
+                    console.log('this.TLI_Division : '+'สายงาน');
+                    listfieldEachError.push('สายงาน');
+                }
+                if((item.TLI_Subdivision == null || item.TLI_Subdivision == '') && item.dependentValues.length > 0){
+                    console.log('this.TLI_Subdivision : '+'ส่วนงาน');
+                    listfieldEachError.push('ส่วนงาน');
+                }
+            // }  
+            if(listfieldEachError.length > 0){
+                listfieldError.push('[ '+countIndex+' ] : '+listfieldEachError.join(', '));
+            } 
+            countIndex++;
+            
         });
+        if(listfieldError.length > 0){
+            checkValidate = false;
+        }  
         console.log('checkValidate : '+checkValidate);
         if(checkValidate){
             console.log(this.caseRecList);
@@ -249,8 +283,8 @@ export default class CustomNewChildRecordList extends LightningElement {
                     if(this.message !== undefined) {
                         this.dispatchEvent(
                             new ShowToastEvent({
-                                title: 'Success',
-                                message: 'Accounts Created!',
+                                title: 'สำเร็จ',
+                                message: 'สร้างงานบริการย่อยสำเร็จ!',
                                 variant: 'success',
                             }),
                         );
@@ -272,12 +306,27 @@ export default class CustomNewChildRecordList extends LightningElement {
                     console.log("error", JSON.stringify(this.error));
                 });
         }else{
+            // for(let each in listfieldError){
+            //     this.dispatchEvent(
+            //         new ShowToastEvent({
+            //             // title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+            //             message: 'กรุณากรอกข้อมูลให้ครบถ้วน '+listfieldError[each],
+            //             //message: listfieldError.join(' \n '),
+            //             //message: 'Hello i am Second statement \r\n Hello i am Third statement',
+            //             variant: 'error',
+            //         }),
+            //     );
+            // }
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                    //message: 'กรุณากรอกข้อมูลให้ครบถ้วน '+listfieldError[each],
+                    message: listfieldError.join(' , '),
+                    //message: 'Hello i am Second statement \r\n Hello i am Third statement',
                     variant: 'error',
                 }),
             );
+            
         }
     }
 
@@ -296,7 +345,7 @@ export default class CustomNewChildRecordList extends LightningElement {
         if(data) {
             this.error = null;
 
-            let countyOptions = [{label:'--None--', value:'--None--'}];
+            let countyOptions = [{label:'--ไม่มี--', value:'--ไม่มี--'}];
             //let countyOptions = [];
 
             // Account Country Control Field Picklist values
@@ -310,7 +359,7 @@ export default class CustomNewChildRecordList extends LightningElement {
             
             this.controllingValues = countyOptions;
 
-            let stateOptions = [{label:'--None--', value:'--None--'}];
+            let stateOptions = [{label:'--ไม่มี--', value:'--ไม่มี--'}];
 
              // Account State Control Field Picklist values
             this.controlValues = data.picklistFieldValues.TLI_Subdivision__c.controllerValues;
@@ -326,9 +375,10 @@ export default class CustomNewChildRecordList extends LightningElement {
             //this.caseRecList[event.target.accessKey].dependentValues = stateOptions;
             console.log('countryPicklistValues this.dependentValues');
             //this.dependentValues = stateOptions;
-            this.caseRecList.forEach(function(item){
-                item.dependentValues = stateOptions;
-            });   
+            
+            // this.caseRecList.forEach(function(item){
+            //     item.dependentValues = stateOptions;
+            // });   
         }
         else if(error) {
             this.error = JSON.stringify(error);

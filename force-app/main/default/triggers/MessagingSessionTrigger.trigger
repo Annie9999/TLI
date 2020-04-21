@@ -1,15 +1,11 @@
-trigger MessagingSessionTrigger on MessagingSession (after insert, after update) {
-    for (MessagingSession session : Trigger.new) {
-        if (Trigger.isInsert) {
-            MessagingSessionTriggerHandler.MessagingSessionTrigger(session.Id);
-        }
-    
-        if (Trigger.isUpdate) {
-            // if(trigger.oldMap.get(session.Id).OwnerId != session.OwnerId){
-                MessagingSessionTriggerHandler.UpdateServiceRequestOwner(session.Id);
-            // }        
-        }
+trigger MessagingSessionTrigger on MessagingSession (before insert, after insert,before update, after update) {
+
+    if (Trigger.isInsert && Trigger.isBefore) {
+        System.debug('MessagingSessionTrigger : handleBeforeInsert');
+        MessagingSessionTriggerHandler.handleBeforeInsert(Trigger.new);
+    } else if (Trigger.isUpdate && Trigger.isAfter) {
+        System.debug('MessagingSessionTrigger : handleAfterUpdate');
+        MessagingSessionTriggerHandler.handleAfterUpdate(Trigger.new, Trigger.oldMap);      
     }
-
-
+    
 }

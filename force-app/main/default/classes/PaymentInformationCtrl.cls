@@ -90,9 +90,6 @@ public without sharing class PaymentInformationCtrl {
 
                                     
         if(oppList.size() > 0){
-            System.debug('oppList[0].Amount : ' + oppList[0].Amount);
-            system.debug('Payment: ' +oppList[0].Payment_Types__r[0]);
-
             payInfo.Amount = oppList[0].Amount;
             payInfo.taxdeduction =  oppList[0].Taxdeduction__c;
             payInfo.policyChannel = oppList[0].Policy_Trans_Channel__c;
@@ -169,6 +166,7 @@ public without sharing class PaymentInformationCtrl {
         oppty.id = opptyId;
         oppty.Taxdeduction__c = paymentInfo.taxdeduction;
         oppty.Policy_Trans_Channel__c = paymentInfo.policyChannel;
+        oppty.StageName = 'รอการชำระเงิน';
         update oppty;
 
         /* Paymentinfo */
@@ -282,7 +280,8 @@ public without sharing class PaymentInformationCtrl {
                     Utility.sendEmail(opptyId, 'SendPayment',false);
                 }
             }else {
-                Utility.createCase('ตรวจเช็คสถานะการจ่ายเงิน ' + opptyList[0].name, 'ประเภทการจ่ายเงิน ' +  paymentType, 'Medium', opptyList[0].account.id, opptyId, opptyList[0].OwnerId, 'DM Process');
+                // Owner Id is Hard Code naja
+                Utility.createCase('ตรวจเช็คสถานะการจ่ายเงิน ' + opptyList[0].name, 'ประเภทการจ่ายเงิน ' +  paymentType, 'Medium', opptyList[0].account.id, opptyId, '00Gq0000003NkpH', 'DM Process');
             }
         }
         

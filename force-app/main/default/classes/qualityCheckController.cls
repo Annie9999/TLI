@@ -100,11 +100,15 @@ public with sharing class qualityCheckController {
 
         target.StageName = 'อยู่ในช่วงการพิจารณา';
         target.Approval_Status__c = 'ส่งคำขอเพื่ออนุมัติกรมธรรม์';
-
-        //System.debug(target.StageName);
-
-
         update target;
+
+        updateCaseStatus(target.Id);
+
+       /* Case qcCase = [SELECT Opportunity__c, Status FROM Case WHERE Opportunity__c = :target.Id  limit 1];
+        qcCase.Status = 'ดำเนินการเรียบร้อย';
+        System.debug('oppty Id: ' + qcCase.Opportunity__c);
+        System.debug('Case status: ' + qcCase.Status);
+        update qcCase;*/
         //System.debug(Schema.SObjectType.Case.getRecordTypeInfosByName().get('DM Process').getRecordTypeId());
 
         String subject = 'อนุมัติขั้นตอนการออกกรมธรรม์';
@@ -133,9 +137,23 @@ public with sharing class qualityCheckController {
         target.StageName = 'อยู่ในช่วงการพิจารณา';
         target.Description = description;
         target.Approval_Status__c = 'QC ปฏิเสธ';
-
         System.debug(target);
         update target;
+
+        updateCaseStatus(target.Id);
+
+
+        /*Case qcCase = [SELECT Opportunity__c, Status FROM Case WHERE Opportunity__c = :target.Id  limit 1];
+        qcCase.Status = 'ดำเนินการเรียบร้อย';
+        System.debug('oppty Id: ' + qcCase.Opportunity__c);
+        System.debug('Case status: ' + qcCase.Status);
+        update qcCase;*/
+
+       
+
+        
+
+
     }
 
     @AuraEnabled
@@ -145,8 +163,16 @@ public with sharing class qualityCheckController {
         target.StageName = 'อยู่ในช่วงการพิจารณา';
         target.Approval_Status__c = 'ส่งเรื่องถึง UW';
         System.debug('NB '+target);
-
         update target;
+
+        updateCaseStatus(target.Id);
+
+
+        /*Case qcCase = [SELECT Opportunity__c, Status FROM Case WHERE Opportunity__c = :target.Id  limit 1];
+        qcCase.Status = 'ดำเนินการเรียบร้อย';
+        System.debug('oppty Id: ' + qcCase.Opportunity__c);
+        System.debug('Case status: ' + qcCase.Status);
+        update qcCase;*/
 
         String subject = 'Underwriter ทำการประเมินผลสุขภาพของผู้มุ่งหวัง';
         String description = 'กรุณาประเมินว่าผู้มุ่งหวังมีสิทธิ์รับความคุ้มครองจากผลิตภัณฑ์นั้นๆได้หรือไม่';
@@ -168,4 +194,18 @@ public with sharing class qualityCheckController {
         // System.debug(newCase);
         // upsert newCase;
     }
+
+
+    @AuraEnabled
+    public static void updateCaseStatus(String opptyId){
+
+        System.debug('oppty Id: ' + opptyId);
+        Case qcCase = [SELECT Opportunity__c, Status FROM Case WHERE Opportunity__c = :opptyId  limit 1];
+        qcCase.Status = 'ดำเนินการเรียบร้อย';
+        System.debug('Case oppty: ' + qcCase.Opportunity__c);
+        System.debug('Case status: ' + qcCase.Status);
+        update qcCase;
+    }
+
+    
 }

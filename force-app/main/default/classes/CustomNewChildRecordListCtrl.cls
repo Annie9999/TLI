@@ -2,19 +2,19 @@ public without sharing class CustomNewChildRecordListCtrl {
 
     public static Case parentCaseAllField {get;set;}
 
-    public static Map<String,Group> mapGroupQueue = new Map<String,Group>();
+    public static Map<String,String> mapGroupQueue = new Map<String,String>();
     
     public static void mapGroupQueue(){ 
         List<Group> queryGroupQueue = [ select Id,Name from Group where Type = 'Queue' ];
         for( Group eachGroup : queryGroupQueue ){
-            mapGroupQueue.put(eachGroup.Name,eachGroup);//Queue_Name__c
+            mapGroupQueue.put(eachGroup.Name,eachGroup.Id);//Queue_Name__c
         }      
     }
-    public static Group checkIdGroupQueue(String input){
+    public static String checkIdGroupQueue(String input){
         if( mapGroupQueue.containsKey(input) ){
             return mapGroupQueue.get(input);
         }                
-        return null;
+        return '';
     }
 
     public CustomNewChildRecordListCtrl() {
@@ -26,7 +26,7 @@ public without sharing class CustomNewChildRecordListCtrl {
         System.debug('parentCaseAllField : '+parent);
         mapGroupQueue();
         for(ChildDetail eachChild :childList){
-            System.debug('checkIdGroupQueue() : '+checkIdGroupQueue(eachChild.TLI_Subdivision).Name);
+            System.debug('checkIdGroupQueue() : '+checkIdGroupQueue(eachChild.TLI_Subdivision));
 
             Case childSet = new Case();
             childSet = parent.clone(false,true);
@@ -36,7 +36,10 @@ public without sharing class CustomNewChildRecordListCtrl {
             childSet.TLI_Division__c = eachChild.TLI_Division;
             childSet.TLI_Subdivision__c = eachChild.TLI_Subdivision;
             childSet.Status = 'งานใหม่';
-            childSet.OwnerId = checkIdGroupQueue(eachChild.TLI_Subdivision).Id;
+            if(checkIdGroupQueue(eachChild.TLI_Subdivision) != ''){
+                childSet.OwnerId = checkIdGroupQueue(eachChild.TLI_Subdivision);
+            }
+            
             System.debug('childSet : '+childSet);
             listInsertCase.add(childSet);
         }

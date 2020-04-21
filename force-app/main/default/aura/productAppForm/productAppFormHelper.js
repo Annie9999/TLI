@@ -32,12 +32,23 @@
         var subProductValue = component.get('v.objDetail.Sub_productgroup__c');
         var genderValue = component.get('v.genderValue');
         var paymentmethidValue = component.get('v.paymentmethidValue');
+        var birthdate = component.get('v.opptyRecord.Date_Of_Birth__c');        
         var price = 1200.50;
+        var today = new Date();
+        var year = Number(birthdate.substr(0, 4));
+        var month = Number(birthdate.substr(5, 2))-1;
+        var day = Number(birthdate.substr(8, 2));
+        var age = today.getFullYear() - year;
+
+        if (today.getMonth() < month || (today.getMonth() == month && today.getDate() < day)) {
+            age = age-1;
+        }
         console.log('subProductValue: ' + subProductValue);
         console.log('genderValue: ' + genderValue);
         console.log('paymentmethidValue: ' + paymentmethidValue);
 
-        if(subProductValue !== '' && genderValue !== '' && paymentmethidValue  !== '') {
+        if(subProductValue !== '' && genderValue !== '' && paymentmethidValue  !== '') {           
+            price += age*0.725
             if(genderValue === 'F'){
                 price += 500.00;
             }
@@ -83,7 +94,7 @@
         var amount = component.get('v.amount');
         var payment = component.get('v.paymentmethidValue');
         console.log('==== save ====');
-
+        amount = amount.toFixed(2);
         if(gender==='M'){
             gender = 'ชาย';
         }
@@ -139,9 +150,12 @@
 
         if(product == '--- None ---' || subProduct == '--- None ---' || birthdate == '' || gender == '' || payment == ''){
             component.set('v.checkBtn',true);
+            component.set('v.amount',0);
         }else{
             component.set('v.checkBtn',false);
         }
     },
+
+
     
 })

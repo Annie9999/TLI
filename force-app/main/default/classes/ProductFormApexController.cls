@@ -55,7 +55,8 @@ public class ProductFormApexController {
         try{
             Opportunity opp = opptyList[0];
             opp.Date_Of_Birth__c = date.valueOf(birthdate);
-            opp.totalamount__c = amount;
+            opp.totalamount__c = amount.replaceAll(',','');
+            // opp.totalamount__c = '1000.98';
             opp.productgroup__c = product;
             opp.Sub_productgroup__c = subProduct;
             opp.gender__c = gender;

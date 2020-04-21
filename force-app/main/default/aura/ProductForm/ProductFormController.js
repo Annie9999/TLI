@@ -24,6 +24,8 @@
                 component.set("v.opptyRecord", opptyRecord);
                 component.set("v.accRecord", accRecord);
                 component.set("v.depnedentFieldMap", storeResponse);
+                
+                
                 if(opptyRecord.Amount!=null){
                     component.set("v.price", opptyRecord.Amount);
                 }

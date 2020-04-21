@@ -29,11 +29,15 @@ public with sharing class ccEditCaseParentCtrl {
     @AuraEnabled
     public static Case getInfo(String recordId){
         Case editCase = [SELECT Id, ContactId, SourceId, AccountId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
-        return editCase;
+        System.debug('editCase : ' + editCase);
+        if(editCase != null){
+            return editCase;
+        }
+        return null;
     }
 
     @AuraEnabled
-    public static void save(String recordId,String contact,String source,String account, String status, String type, String topic,String subject, String sub_subject, String division, String subDivision, String origin, String description, String SLA){
+    public static String save(String recordId,String contact,String source,String account, String status, String type, String topic,String subject, String sub_subject, String division, String subDivision, String origin, String description, String SLA){
         System.debug('recordId : ' + recordId);
         System.debug('contact : ' + contact);
         System.debug('source : ' + source);
@@ -49,28 +53,33 @@ public with sharing class ccEditCaseParentCtrl {
         System.debug('description : ' + description);
         System.debug('SLA : ' + SLA);
 
-        Case editCase = [SELECT Id, ContactId, SourceId, AccountId, OwnerId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
+        List<Case> editCase = [SELECT Id, ContactId, SourceId, AccountId, OwnerId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
 
-        editCase.ContactId = contact;
-        editCase.SourceId = source;
-        editCase.AccountId = account;
-        // editCase.OwnerId = owner;
-        editCase.Status = status;
-        editCase.Service_Type__c = type;
-        editCase.Service_Topic__c = topic;
-        editCase.Service_Subject__c = subject;
-        editCase.Service_Sub_Subject__c = sub_subject;
-        editCase.TLI_Division__c = division;
-        editCase.TLI_Subdivision__c = subDivision;
-        editCase.Origin = origin;
-        editCase.Description = description;
+        System.debug('editCase : ' + editCase);
 
-        
+        editCase[0].ContactId = contact;
+        editCase[0].SourceId = source;
+        editCase[0].AccountId = account;
+        editCase[0].Status = status;
+        editCase[0].Service_Type__c = type;
+        editCase[0].Service_Topic__c = topic;
+        editCase[0].Service_Subject__c = subject;
+        editCase[0].Service_Sub_Subject__c = sub_subject;
+        editCase[0].TLI_Division__c = division;
+        editCase[0].TLI_Subdivision__c = subDivision;
+        editCase[0].Origin = origin;
+        editCase[0].Description = description;
 
         System.debug('editCase.SLA__ : ' + SLA);
-        editCase.SLA__c = Decimal.valueOf(SLA);
+        editCase[0].SLA__c = Decimal.valueOf(SLA);
 
-        update editCase;
+        if(editCase.size() > 0){
+            update editCase;
+            return 'Success';
+        }
+        else{
+            return  'Failed';
+        }
     }
 
     // DYNAMIC FILTER

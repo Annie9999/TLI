@@ -1,4 +1,5 @@
 <aura:component implements = "force:lightningQuickAction,force:hasRecordId" >
+	<lightning:workspaceAPI aura:id="workspace" />
 	<aura:html tag="style">
 		.modal-container.slds-modal__container{
 			background: transparent;
@@ -17,5 +18,5 @@
             display:none;
         }
     </aura:html>
-	<c:tLI_lwc_AutoConvertLead recordId="{!v.recordId}" onclose="{!c.closeQA}" oncloseandrefresh="{!c.closeandrefresh}" />
+	<c:tLI_lwc_AutoConvertLead recordId="{!v.recordId}" onopentabandsubtab="{!c.onOpenTabAndSubTab}" onclose="{!c.closeQA}" oncloseandrefresh="{!c.closeandrefresh}" />
 </aura:component>

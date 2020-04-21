@@ -1,6 +1,5 @@
 public class PremiumCollectionController {
 
-    @AuraEnabled
     public static List<Premium__C> getPremiumCollection(String opptyId, String policyId){
 
         List<Premium__C> result = [SELECT Id, Insurance_Type__c, Opportunity__c, Premium_Amount__c, 
@@ -13,8 +12,10 @@ public class PremiumCollectionController {
         return result;
     }
 
-    @AuraEnabled
-    public static string createPremiumCollection(String opptyId){
+    @InvocableMethod(label='Create Premium Collection')
+    public static void createPremiumCollection(List<Opportunity> opportunity){
+        
+        String opptyId = opportunity[0].Id;
 
         Opportunity opp = [SELECT Id, Amount, productgroup__c, Sub_productgroup__c, Payment_Mode__c
                             FROM Opportunity 
@@ -22,13 +23,14 @@ public class PremiumCollectionController {
 
         InsurancePolicy poli = [SELECT Id, PremiumAmount, PremiumFrequency, Status, PaymentDueDate, SourceOpportunityId 
                                     FROM InsurancePolicy
-                                    WHERE SourceOpportunityId=:opptyId 
+                                    WHERE SourceOpportunityId =:opptyId 
                                     ORDER BY LastModifiedDate DESC LIMIT 1];  
 
         System.debug('Opportunity :'+ opp);
         System.debug('InsurancePolicy :'+ poli);
 
         Date dueDate = Date.today();
+        List<Premium__C> listPremium = new List<Premium__C>();
 
         if (opp.Payment_Mode__c == 'รายเดือน') {
             for (Integer i = 0; i < 11; i++) {
@@ -48,11 +50,11 @@ public class PremiumCollectionController {
 
                 System.debug('Result' + pc);
 
-                insert pc;
+                listPremium.add(pc);
 
-                return 'Success';
+                System.debug('Success Create Premium Collection.');
             }
-        } else if(opp.Payment_Mode__c == '3 เดือน'){
+        } else if(opp.Payment_Mode__c == 'ราย 3 เดือน'){
             for (Integer i = 0; i < 3; i++) {
                 Premium__C pc = new Premium__C();
                 pc.Insurance_Policy__c = poli.Id;
@@ -65,12 +67,12 @@ public class PremiumCollectionController {
 
                 System.debug('Result' + pc);
 
-                insert pc;
+                listPremium.add(pc);
 
-                return 'Success';
+                System.debug('Success Create Premium Collection.');
             }
-        } else if(opp.Payment_Mode__c == '6 เดือน'){
-            for (Integer i = 0; i < 1; i++) {
+        } else if(opp.Payment_Mode__c == 'ราย 6 เดือน'){
+                Integer i = 1;
                 Premium__C pc = new Premium__C();
                 pc.Insurance_Policy__c = poli.Id;
                 pc.Insurance_Type__c = 'ปีแรก';
@@ -82,14 +84,16 @@ public class PremiumCollectionController {
                 
                 System.debug('Result' + pc);
 
-                insert pc;
+                listPremium.add(pc);
 
-                return 'Success';
-            }
+                System.debug('Success Create Premium Collection.');
         } else {
-            return 'Fail';
+            System.debug('Can not create Premium Collection.');
         }
-        
-        return 'Fail';
+
+        System.debug('Result Collection List : ' + listPremium);
+
+        insert listPremium;
     }
+    
 }

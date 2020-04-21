@@ -42,13 +42,15 @@
 
     <div>
         <div>
-            <div class="form-information" style="margin-left:0px; margin-right: 0px;background-color:white;">
+           
+            <div class="form-information" style="margin-left:0px;margin-top:0px margin-right: 0px;background-color:white;">
                 <div>
-                    <div class="slds-is-relative">
+                    <div >
                         <aura:if isTrue="{! v.Spinner }">
-                            <lightning:spinner size="medium" variant="brand" />
+                            <lightning:spinner alternativeText="Loading" size="large" variant="brand"/>
                         </aura:if>
                     </div>
+                   
                 </div>
 
                 <lightning:layoutItem>    
@@ -76,7 +78,7 @@
                     </lightning:select>
                 </lightning:layoutItem>
 
-                <ui:inputDate aura:id="expdate" label="วัน เดือน ปีเกิด" class="field" value="{!v.opptyRecord.Date_Of_Birth__c}" displayDatePicker="true" />     
+                <ui:inputDate aura:id="expdate" label="วัน เดือน ปีเกิด" class="field" value="{!v.opptyRecord.Date_Of_Birth__c}" displayDatePicker="true" change="{!c.TypePrice}"/>     
             
                 <lightning:radioGroup name="gender"
                         label="เพศ"

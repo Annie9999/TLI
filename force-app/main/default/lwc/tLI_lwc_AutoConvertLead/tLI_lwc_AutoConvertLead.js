@@ -17,15 +17,18 @@ export default class TLI_lwc_AutoConvertLead extends NavigationMixin(LightningEl
     errorMsg;
     errorTitle;
     @track isShowSpinner;
-    onOpenTab(){
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: '006q000000KYStPAAX',
-                actionName: 'view'
-            }
-        });
-    }
+    // onOpenTab(){
+    //     // this[NavigationMixin.Navigate]({
+    //     //     type: 'standard__recordPage',
+    //     //     attributes: {
+    //     //         recordId: '006q000000KYStPAAX',
+    //     //         actionName: 'view'
+    //     //     }
+    //     // });
+    //     this.dispatchEvent(new CustomEvent('opentabandsubtab', {
+    //         detail: { accId: '001q000001GpROjAAN',oppId: '006q000000KYStPAAX'  }
+    //       }));
+    // }
     onClickConvertLead(){
         this.isShowSpinner = true;
         convertLeadApex({
@@ -36,24 +39,31 @@ export default class TLI_lwc_AutoConvertLead extends NavigationMixin(LightningEl
             console.log('result ',result);
             
             this.isShowSpinner = false;
-            const evt = new ShowToastEvent({
-                title: successConvertLeadMsg,
-                // message: successConvertLeadMsg,
-                variant: 'success',
-            });
+            // // const evt = ;
             this.accId = result.data.accountId;
             this.oppId = result.data.opportunityId;
             console.log('Account Id= '+this.accId);
-            this[NavigationMixin.Navigate]({
-                type: 'standard__recordPage',
-                attributes: {
-                    recordId: this.accId,
-                    actionName: 'view'
-                }
-            });
-            
+            // this[NavigationMixin.Navigate]({
+            //     type: 'standard__recordPage',
+            //     attributes: {
+            //         recordId: this.oppId,
+            //         actionName: 'view'
+            //     }
+            // });
             console.log('Account Id After= ');
-            this.dispatchEvent(evt);
+
+            this.dispatchEvent(new CustomEvent('opentabandsubtab', { 
+                                                    detail: {   accId: this.accId,
+                                                                oppId: this.oppId  
+                                                            }
+                                                }));
+            
+            this.dispatchEvent(new ShowToastEvent({
+                                        title: successConvertLeadMsg,
+                                        // message: successConvertLeadMsg,
+                                        variant: 'success',
+                                    }));
+                                    
             this.dispatchEvent(new CustomEvent('closeandrefresh'));
             
             return refreshApex(this.TLI_lwc_AutoConvertLead);

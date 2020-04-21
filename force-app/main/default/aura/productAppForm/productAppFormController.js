@@ -70,9 +70,11 @@
             
         } else {
             component.set("v.listDependingValues", ['--- None ---']);
-            component.set("v.objDetail.Sub_productgroup__c", '--- None ---');
             component.set("v.bDisabledDependentFld" , true);
         }
+        component.set("v.objDetail.Sub_productgroup__c", '--- None ---');
+
+
         helper.functionCheckSaveBtn(component, event, helper);
 
     },
@@ -101,7 +103,8 @@
     },
 
     onSaveOpp : function(component, event, helper) {
-
+        scrollTo('custom', 0, 0);
+       
         component.set("v.Spinner", true);
         helper.functionSave(component, event, helper);
         window.setTimeout(

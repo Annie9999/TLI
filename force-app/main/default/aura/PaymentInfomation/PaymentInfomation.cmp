@@ -1,6 +1,7 @@
 <aura:component controller="PaymentInformationCtrl" implements="flexipage:availableForAllPageTypes" access="global">
     
-
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
     <aura:attribute name="data"         type="Object"/>
     <aura:attribute name="columns"      type="List"/>
     <aura:attribute name="paymentType"  type="Object"/>
@@ -11,12 +12,11 @@
     <aura:attribute name="recordId"     type="String" />
     <aura:attribute name="customerName" type="String" />
     <aura:attribute name="loaded" type="Boolean" default="true" />
-    <aura:attribute name="status" type="boolean" />
-
-
+    <aura:attribute name="status" type="Boolean"/>
+    
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-
-
+    
+    
     <aura:if isTrue="{! v.loaded }">
         <lightning:spinner alternativeText="Loading" />
     </aura:if>
@@ -26,7 +26,7 @@
                 จำนวนเงินที่ต้องชำระ
             </div>
             <div class="SumPremium">
-               
+                
                 --  <ui:outputCurrency value="{!v.paymentInfo.Amount}" format="#,###.00" /> ฿ --
             </div>
             <div class="SumFooter">
@@ -34,98 +34,92 @@
             </div>
         </div>
         <div class="slds-box slds-m-bottom_medium Summary">
-            <c:ConsentAndTerm taxConsent="{!v.paymentInfo.taxdeduction}" policyChannel="{!v.paymentInfo.policyChannel}" status="{!v.status}"/>
+            <c:ConsentAndTerm taxConsent="{!v.paymentInfo.taxdeduction}" policyChannel="{!v.paymentInfo.policyChannel}" status="{!v.status}" />
         </div>
         <div class="slds-box">
             <div class="slds-align_absolute-center slds-m-bottom_small subHead">
                 ช่องทางการชำระเงิน
             </div>
-            
-            
             <div class="slds-grid slds-gutters slds-m-bottom_medium" >
                 <aura:if isTrue="{!v.status}">
                     <div class="slds-col">
-                        <div disabled="{!v.status}" class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType5" 
-                        data-value="5" data-type="Payment Gateway" aura:id="hwDiv">
+                        <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType5" 
+                             data-value="5" data-type="Payment Gateway" >
                             Payment Gateway
                         </div>
                     </div>
                     <div class="slds-col">
-                        <div  disabled="{!v.status}" class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType1" 
-                        data-value="1" data-type="ชำระผ่านบัตรเครดิต">
+                        <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType1" 
+                             data-value="1" data-type="ชำระผ่านบัตรเครดิต">
                             ชำระผ่านบัตรเครดิต
                         </div>
                     </div>
                     <div class="slds-col">
-                        <div disabled="{!v.status}" class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType2" 
-                        data-value="2" data-type="โอนเงินผ่านบัญชีธนาคาร">
+                        <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType2" 
+                             data-value="2" data-type="โอนเงินผ่านบัญชีธนาคาร">
                             โอนเงินผ่านบัญชีธนาคาร
                         </div>
                     </div>
                     <div class="slds-col">
-                        <div disabled="{!v.status}" class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType3" 
-                        data-value="3" data-type="ชำระผ่านเคาน์เตอร์">
+                        <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType3" 
+                             data-value="3" data-type="ชำระผ่านเคาน์เตอร์">
                             เคาน์เตอร์เซอร์วิส
                         </div>
                     </div>
                     <div class="slds-col">
-                        <div disabled="{!v.status}"  class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType4" 
-                        data-value="4" data-type="หักผ่านบัญชีเงินฝาก">
+                        <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType4" 
+                             data-value="4" data-type="หักผ่านบัญชีเงินฝาก">
                             หักผ่านบัญชีเงินฝาก
                         </div>
                     </div>
-
+                    
                     <!--else-->
                     <aura:set attribute="else">
                         <div class="slds-col">
                             <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType5" 
-                            data-value="5" data-type="Payment Gateway" onclick="{!c.changePayment}" >
+                                 data-value="5" data-type="Payment Gateway" onclick="{!c.changePayment}">
                                 Payment Gateway
                             </div>
                         </div>
                         <div class="slds-col">
-                            <div  class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType1" 
-                            data-value="1" data-type="ชำระผ่านบัตรเครดิต" onclick="{!c.changePayment}">
+                            <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType1" 
+                                 data-value="1" data-type="ชำระผ่านบัตรเครดิต" onclick="{!c.changePayment}">
                                 ชำระผ่านบัตรเครดิต
                             </div>
                         </div>
                         <div class="slds-col">
                             <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType2" 
-                            data-value="2" data-type="โอนเงินผ่านบัญชีธนาคาร" onclick="{!c.changePayment}">
+                                 data-value="2" data-type="โอนเงินผ่านบัญชีธนาคาร" onclick="{!c.changePayment}">
                                 โอนเงินผ่านบัญชีธนาคาร
                             </div>
                         </div>
                         <div class="slds-col">
                             <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType3" 
-                            data-value="3" data-type="ชำระผ่านเคาน์เตอร์"  onclick="{!c.changePayment}">
+                                 data-value="3" data-type="ชำระผ่านเคาน์เตอร์"  onclick="{!c.changePayment}">
                                 เคาน์เตอร์เซอร์วิส
                             </div>
                         </div>
                         <div class="slds-col">
                             <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType4" 
-                            data-value="4" data-type="หักผ่านบัญชีเงินฝาก" onclick="{!c.changePayment}">
+                                 data-value="4" data-type="หักผ่านบัญชีเงินฝาก" onclick="{!c.changePayment}">
                                 หักผ่านบัญชีเงินฝาก
                             </div>
                         </div>
-                    </aura:set>
+                    </aura:set>                    
+                    
                 </aura:if>
-
-                
-
-
             </div>
-    
             
-            <!--<div class="slds-grid slds-gutters slds-m-bottom_medium" >
-                
+            
+            <!--<div class="slds-grid slds-gutters slds-m-bottom_medium">
                 <div class="slds-col">
                     <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType5" 
-                    data-value="5" data-type="Payment Gateway" onclick="{!c.changePayment}" >
+                    data-value="5" data-type="Payment Gateway" onclick="{!c.changePayment}">
                         Payment Gateway
                     </div>
                 </div>
                 <div class="slds-col">
-                    <div  class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType1" 
+                    <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType1" 
                     data-value="1" data-type="ชำระผ่านบัตรเครดิต" onclick="{!c.changePayment}">
                         ชำระผ่านบัตรเครดิต
                     </div>
@@ -149,7 +143,7 @@
                     </div>
                 </div>
             </div>-->
-
+            
             <aura:if isTrue="{!v.paymentType.havePayment}">
                 <div class="slds-box slds-m-bottom_medium">
                     <aura:if isTrue="{!v.paymentType.paymentGatway}">
@@ -194,32 +188,32 @@
                     </aura:if> 
                     <aura:if isTrue="{!v.paymentType.transferBanking}">
                         <lightning:datatable
-                            columns="{! v.columns }"
-                            data="{! v.data }"
-                            keyField="id"
-                            maxRowSelection="1"
-                            selectedRows="{! v.selectedRows }"
-                            resizeColumnDisabled = "true"
-                            onrowselection="{! c.updateSelectedText }"
-                            hideCheckboxColumn="{!v.status}"
-                            />
-
+                                             columns="{! v.columns }"
+                                             data="{! v.data }"
+                                             keyField="id"
+                                             maxRowSelection="1"
+                                             selectedRows="{! v.selectedRows }"
+                                             resizeColumnDisabled = "true"
+                                             onrowselection="{! c.updateSelectedText }"/>
+                        
                         <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
                             <div class="slds-col slds-size_12-of-12">
                                 การเลือกประเภทบัญชี
                             </div>
                             <div class="slds-col slds-size_4-of-12">
                                 <lightning:input type="radio" label="เคาเตอร์/กระแสรายวัน" name="accountType" value="เคาเตอร์/กระแสรายวัน" 
-                                checked="{!v.paymentInfo.payment.Bank_Account_Type__c == 'เคาเตอร์/กระแสรายวัน' ? true : false}"
-                                onclick="{!c.setBankAccountType}" disabled="{!v.status}"/>
+                                                 checked="{!v.paymentInfo.payment.Bank_Account_Type__c == 'เคาเตอร์/กระแสรายวัน' ? true : false}"
+                                                 onclick="{!c.setBankAccountType}"
+                                                 disabled="{!v.status}"/>
                             </div>
                             <div class="slds-col slds-size_4-of-12">
                                 <lightning:input type="radio" label="ATM/ออมทรัพย์" name="accountType" value="ATM/ออมทรัพย์" 
-                                checked="{!v.paymentInfo.payment.Bank_Account_Type__c == 'ATM/ออมทรัพย์' ? true : false}"
-                                onclick="{!c.setBankAccountType}" disabled="{!v.status}"/>
+                                                 checked="{!v.paymentInfo.payment.Bank_Account_Type__c == 'ATM/ออมทรัพย์' ? true : false}"
+                                                 onclick="{!c.setBankAccountType}" 
+                                                 disabled="{!v.status}"/>
                             </div>
                         </div>
-
+                        
                     </aura:if> 
                     <aura:if isTrue="{!v.paymentType.counterService}">
                         <div class="slds-grid slds-gutters">
@@ -268,7 +262,7 @@
                         </div>
                         
                     </aura:if> 
-
+                    
                     <aura:if isTrue="{! !v.paymentType.paymentGatway}">
                         <div class="slds-grid slds-wrap slds-gutters slds-m-top_medium">
                             <div class="slds-col slds-size_12-of-12">
@@ -309,18 +303,18 @@
                                 </div>
                                 <div class="slds-col slds-size_4-of-12">
                                     <lightning:input type="radio" label="ที่อยู่ปัจจุบัน" name="addressType" value="Shipping" data-value="Shipping" onchange="{!c.changeAddressType}"
-                                    checked="{!v.addressType == 'Shipping' ? true : false}" disabled="{!v.status}"/>
+                                                     checked="{!v.addressType == 'Shipping' ? true : false}" disabled="{!v.status}"/>
                                 </div>
                                 <div class="slds-col slds-size_4-of-12">
                                     <lightning:input type="radio" label="สถานที่ทำงาน" name="addressType" value="Mailing" data-value="Mailing" onchange="{!c.changeAddressType}"
-                                    checked="{!v.addressType == 'Mailing' ? true : false}" disabled="{!v.status}"/>
+                                                     checked="{!v.addressType == 'Mailing' ? true : false}" disabled="{!v.status}"/>
                                 </div>
                                 <div class="slds-col slds-size_4-of-12">
                                     <lightning:input type="radio" label="ที่อยู่ตามทะเบียนบ้าน" name="addressType" value="Billing" data-value="Billing" onchange="{!c.changeAddressType}"
-                                    checked="{!v.addressType == 'Billing' ? true : false}" disabled="{!v.status}"/>
+                                                     checked="{!v.addressType == 'Billing' ? true : false}" disabled="{!v.status}"/>
                                 </div>
                             </div>
-        
+                            
                             <aura:iteration items="{!v.paymentInfo.address}" var="item">
                                 
                                 <aura:if isTrue="{!item.type == v.addressType}">
@@ -356,18 +350,18 @@
                         
                     </aura:if>
                     
-
+                    
                 </div>
             </aura:if>
-
+            
             <div class="slds-box">
                 <div class="slds-align_absolute-center subHead">บทปิดการขาย (Legal)</div><br/>
                 (ดิฉัน/ผม)วีระยา ชลวิธี เลขที่ใบอนญาตตัวแทน 5801010404 <br/>
                 ขออนุญาตบันทึกบทสนทนาเพื่อเป็นการสมัครเข้ารับความคุ้มครองโดยไม่ต้องกรอกเอกสารใดๆทั้งสิ้น <br/>
                 โดยข้อความที่กล่าวต้องตรงตามความจริง หากตรวจสอบแล้วมีการให้ข้อมูลอันเป็นความเท็จ หรือปกปิดข้อเท็จจริงจะมีผลให้บริษัทฯบอกล้างสัญญาได้(ครับ/ค่ะ)<br/>
-
+                
                 ขณะนี้ คุณ{!v.customerName} มีอายุระหว่าง5-60ปี ต้องการสมัครทำประกันชีวิตแบบ Inrurance Product กับบริษัท ไทยประกันชีวิต จำกัด (มหาชน)<br/>
-
+                
                 (ดิฉัน/ผม)ขออนุญาตยืนยันผลประโยชน์ที่ คุณ {!v.customerName} จะได้รับ<br/>
                 Insurance Plan
                 

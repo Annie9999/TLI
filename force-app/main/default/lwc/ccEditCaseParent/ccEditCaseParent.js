@@ -2,15 +2,19 @@ import { LightningElement,api,wire,track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import Case_Information from '@salesforce/label/c.Case_Information';
 import Contact_Information from '@salesforce/label/c.Contact_Information';
+import labelAccount from '@salesforce/label/c.Account';
+import labelContact from '@salesforce/label/c.Contact';
+import labelSource from '@salesforce/label/c.Source';
+import labelSave_Service_Request from '@salesforce/label/c.Save_Service_Request';
 import filterMatrix_type from '@salesforce/apex/ccEditCaseParentCtrl.filterMatrix_type';
 import filterMatrix_topic from '@salesforce/apex/ccEditCaseParentCtrl.filterMatrix_topic';
 import filterMatrix_subject from '@salesforce/apex/ccEditCaseParentCtrl.filterMatrix_subject';
 import filterMatrix_subSubject from '@salesforce/apex/ccEditCaseParentCtrl.filterMatrix_subSubject';
 import filterMatrix_sla from '@salesforce/apex/ccEditCaseParentCtrl.filterMatrix_sla';
-import getPickListDivision from '@salesforce/apex/ccEditCaseParentCtrl.getPickListDivision';
-import getPickListSubDivision from '@salesforce/apex/ccEditCaseParentCtrl.getPickListSubDivision';
-import getPickListOrigin from '@salesforce/apex/ccEditCaseParentCtrl.getPickListOrigin';
-import getPickListStatus from '@salesforce/apex/ccEditCaseParentCtrl.getPickListStatus';
+// import getPickListDivision from '@salesforce/apex/ccEditCaseParentCtrl.getPickListDivision';
+// import getPickListSubDivision from '@salesforce/apex/ccEditCaseParentCtrl.getPickListSubDivision';
+// import getPickListOrigin from '@salesforce/apex/ccEditCaseParentCtrl.getPickListOrigin';
+// import getPickListStatus from '@salesforce/apex/ccEditCaseParentCtrl.getPickListStatus';
 
 import listTypeMatrix from '@salesforce/apex/customNewCaseParentCtrl.listTypeMatrix';
 
@@ -25,13 +29,18 @@ import CASE_OBJECT from '@salesforce/schema/Case';
 export default class CcEditCaseParent extends LightningElement {
     @track label = {
         Case_Information,
-        Contact_Information
+        Contact_Information,
+        labelAccount,
+        labelContact,
+        labelSource,
+        labelSave_Service_Request
     };
 
     @api recordId;
     @api objectApiName;
     @api ObjectType;
-    @api recordTypeId;
+    @api recTypeId;
+    @api sObjectName;
 
     // Service Type Matrix
     @track lstService_All;
@@ -64,9 +73,12 @@ export default class CcEditCaseParent extends LightningElement {
     @track getService_Sub_Subject;
     @track isEmptyService_Sub_Subject = false;
 
+    @track getService_Status;
     @track getService_Origin;
-    @track getService_SubDivision;
     @track getService_Division;
+    @track getService_SubDivision;
+    @track isEmptySubDivision;
+    @track isNonEmptySubDivision = true;
 
     @track mapSLA = [];
     @track keySLA;
@@ -99,52 +111,35 @@ export default class CcEditCaseParent extends LightningElement {
     controlSubDivisionValues;
     totalDependentValues = [];
 
-    @track labelService_Type;
-    @track labelService_Topic;
-    @track labelService_Subject;
-    @track labelService_Sub_Subject;
     @track labelStatus;
     @track labelDivision;
     @track labelSubDivision;
     @track labelOrigin;
     @track labelSLA;
 
-    handleSuccess(event) {
-        // close Tab
-        var close = {
-            close:true, 
-            recordCaseId:event.detail.id
-        };
-        const closeclickedevt = new CustomEvent('closeclicked', {
-            detail: { close },
-        });
-        this.dispatchEvent(closeclickedevt);
-        this.dispatchEvent(
-            new ShowToastEvent({
-                title: 'Success',
-                message: event.detail.apiName + ' updated.',
-                variant: 'success',
-            }),
-        );
-    }
+    @track isNonEmptyService_Topic = true;
+    @track isNonEmptyService_Subject = true;
+    @track isNonEmptyService_Sub_Subject = true;
+
+    checkValidate = true;
 
     constructor(){
         super();
-        // console.log('labelName : ',this.labelName);
     }
 
     connectedCallback(){
 
-        console.log('connectedCallback this.ObjectType : '+this.ObjectType);
         console.log('connectedCallback this.recordId : '+this.recordId);
         console.log('connectedCallback objectApiName : '+this.objectApiName);
-        
+        console.log('connectedCallback this.ObjectType : '+this.ObjectType);
+        console.log('connectedCallback recTypeId : '+this.recTypeId);
+        console.log('connectedCallback sObjectName : '+this.sObjectName);
+
         this.get_matrix();
         // this.get_type();
     }
 
     //Get select object
-    // var objSelect = document.getElementById("Mobility");
     //Set selected
     setSelectedValue(selectObj, valueToSet) {
         for (var i = 0; i < selectObj.options.length; i++) {
@@ -174,57 +169,99 @@ export default class CcEditCaseParent extends LightningElement {
             console.log("Error Occured ---> " + error);
         }
     }
-    // fetch account object all picklist fields based on recordTypeId
-    
-    // @wire(getPicklistValuesByRecordType, {
-    //     objectApiName: CASE_OBJECT,
-    //     recordTypeId: '$recordTypeId'
-    // })
-    // wiredRecordTypeInfo({ data, error }) {
-    //     if (data) {
-    //         // set lstStatuss property with Rating field Picklist values from returned data
-    //         this.lstStatus = data.picklistFieldValues.Status.values;
-    //     }
-    //     else if (error) {
-    //         console.log("field Error Occured ---> " + JSON.stringify(error));
-    //     }
-    // }
 
     // fetch Case object all picklist fields based on recordTypeId
     @wire(getPicklistValuesByRecordType, {
         objectApiName: CASE_OBJECT,
-        recordTypeId: '$recordTypeId'
+        recordTypeId: '$recTypeId'
     })
     wiredRecordTypeInfo({ data, error }) {
         if (data) {
-            //========== Status ==========//
-            this.lstStatus = data.picklistFieldValues.Status.values;
-            this.getstatus = 'งานใหม่';
-            //========== division ==========//
-            this.lstOrigin = data.picklistFieldValues.Origin.values;
-            let divisionOptions = [{label:'--None--', value:'--None--'}];
-            data.picklistFieldValues.TLI_Division__c.values.forEach(key => {
-                // console.log(key);
-                divisionOptions.push({
-                    label : key.label,
-                    value: key.value
-                })
-            });
-            this.lstDivision = divisionOptions;
-            //========== SubDivision ==========//
-            let subDivisionOptions = [{label:'--None--', value:'--None--'}];
-            this.controlSubDivisionValues = data.picklistFieldValues.TLI_Subdivision__c.controllerValues;
-            this.totalDependentValues = data.picklistFieldValues.TLI_Subdivision__c.values;
+            new Promise((resolve, reject) => {
+                //========== Status ==========//
+                this.lstStatus = data.picklistFieldValues.Status.values;
+                this.getService_Status = 'งานใหม่';
+                //========== Origin ==========//
+                this.lstOrigin = data.picklistFieldValues.Origin.values;
+                this.getService_Origin = 'โทรเข้า';
+                //========== division ==========//
+                let divisionOptions = [{label:'--ไม่มี--', value:null}];
+                data.picklistFieldValues.TLI_Division__c.values.forEach(key => {
+                    
+                    // console.log(key);
+                    divisionOptions.push({
+                        label : key.label,
+                        value: key.value
+                    })
+                });
+                this.lstDivision = divisionOptions;
+                // console.log('key TLI_Division__c');
+                // console.log(this.lstDivision[1]);
+                this.getService_Division = this.lstDivision[1].value;
+                //========== SubDivision ==========//
+                //let subDivisionOptions = [{label:'--ไม่มี--', value:'--ไม่มี--'}];
+                this.controlSubDivisionValues = data.picklistFieldValues.TLI_Subdivision__c.controllerValues;
+                this.totalDependentValues = data.picklistFieldValues.TLI_Subdivision__c.values;
 
-            this.totalDependentValues.forEach(key => {
-                // console.log(key);
-                subDivisionOptions.push({
-                    label : key.label,
-                    value: key.value
+                // this.totalDependentValues.forEach(key => {
+                //     console.log(key);
+                //     subDivisionOptions.push({
+                //         label : key.label,
+                //         value: key.value
+                //     })
+                // });
+                //this.lstSubDivision = subDivisionOptions;
+                this.isEmpty = false;
+                let dependValues = [];
+                this.dependentValues = new Array();
+
+                if(this.getService_Division) {
+                    
+                    // filter the total dependent values based on selected country value 
+                    this.totalDependentValues.forEach(conValues => {
+                        if(conValues.validFor[0] === this.controlSubDivisionValues[this.getService_Division]) {
+                            dependValues.push({
+                                label: conValues.label,
+                                value: conValues.value
+                            })
+                        }
+                    })
+
+                    this.lstSubDivision = dependValues;
+                    if(this.lstSubDivision.length > 0){
+                        this.isEmptySubDivision = false;
+                    }else{
+                        this.isEmptySubDivision = true;
+                    }
+                    this.isNonEmptySubDivision = !this.isEmptySubDivision;
+                }
+                resolve();
+            })
+            .then(() => {
+                // if(this.chooseStatus != null || this.chooseStatus != undefined || this.chooseStatus != 'undefined')
+                // this.getService_Status = this.chooseStatus;
+                // if(this.chooseOrigin != null || this.chooseOrigin != undefined || this.chooseOrigin != 'undefined')
+                // this.getService_Origin = this.chooseOrigin;
+                if(this.chooseDivision != null || this.chooseDivision != undefined || this.chooseDivision != 'undefined')
+                this.getService_Division = this.chooseDivision;
+                console.log('wiredRecordTypeInfo | this.getService_Division : ',this.getService_Division)
+                if(this.chooseSubDivision != null || this.chooseSubDivision != undefined || this.chooseSubDivision != 'undefined')
+                this.getService_SubDivision = this.chooseSubDivision;
+                var sub_division = this.getService_SubDivision;
+                console.log('wiredRecordTypeInfo | this.getService_SubDivision : ',this.getService_SubDivision)
+                new Promise((resolve, reject) => {
+                    console.log('2th promise | this.getService_Division : ',this.getService_Division)
+                    this.Startup_stampDivision(this.getService_Division);
+                    resolve();
                 })
-            });
-            this.lstSubDivision = subDivisionOptions;
-            console.log('lstSubDivision : ',lstSubDivision)
+                .then(() => {
+                    this.getService_SubDivision = sub_division;
+                    console.log('wiredRecordTypeInfo | this.getService_Sub_Subject : ',this.getService_SubDivision)
+                    if(this.getService_SubDivision != null || this.getService_SubDivision != undefined || this.getService_SubDivision != 'undefined'){
+                        this.Startup_stampSubDivision(this.getService_SubDivision);
+                    }
+                })
+            })
         }
         else if (error) {
             console.log("field Error Occured ---> " + JSON.stringify(error));
@@ -232,43 +269,50 @@ export default class CcEditCaseParent extends LightningElement {
     }
 
     set_data(){
-        // this.setSelectedValue(status, this.chooseStatus)
-
-        // let type = this.template.querySelector(`[data-id="service_type"]`);
-        // if(this.chooseType == null){
-        //     type.value = '';
-        // }
-        // else{
-        //     type.value = this.chooseType;
-        // }
-        
-        // let topic = this.template.querySelector(`[data-id="service_topic"]`);
-        // if(this.chooseTopic == null){
-        //     topic.value = '';
-        // }
-        // else{
-        //     topic.value = this.chooseTopic;
-        // }
-
-        // let subject = this.template.querySelector(`[data-id="service_subject"]`);
-        // if(this.chooseSubject == null){
-        //     subject.value = '';
-        // }
-        // else{
-        //     subject.value = this.chooseSubject;
-        // }
-
-        // let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
-        // if(this.chooseSubSubject == null){
-        //     sub_subject.value = '';
-        // }
-        // else{
-        //     sub_subject.value = this.chooseSubSubject;
-        // }
         this.getService_Type = this.chooseType;
         this.getService_Topic = this.chooseTopic;
         this.getService_Subject = this.chooseSubject;
         this.getService_Sub_Subject = this.chooseSubSubject;
+
+        console.log('getService_Type : ',this.getService_Type);
+        console.log('getService_Topic : ',this.getService_Topic);
+        console.log('getService_Subject : ',this.getService_Subject);
+        console.log('getService_Sub_Subject : ',this.getService_Sub_Subject);
+
+        var topic = this.getService_Topic;
+        var subject = this.getService_Subject;
+        var sub_subject = this.getService_Sub_Subject;
+
+        // this.getService_Status = this.chooseStatus;
+        // this.getService_Origin = this.chooseOrigin;
+        // this.getService_Division = this.chooseDivision;
+        // this.getService_SubDivision = this.chooseSubDivision;
+
+        // Promise for wait all data finish
+        new Promise((resolve, reject) => {
+            this.Startup_Service_TypeChange(this.getService_Type);
+            resolve();
+        })
+        .then(() => {
+            new Promise((resolve, reject) => {
+                // console.log('this.getService_Topic then : ',this.getService_Topic)
+                this.Startup_Service_TopicChange(topic);
+                resolve();
+            })
+            .then(() => {
+                new Promise((resolve, reject) => {
+                    this.Startup_Service_SubjectChange(subject);
+                    resolve();
+                })
+                .then(() => {
+                    if(this.getService_Sub_Subject != null || this.getService_Sub_Subject != undefined || this.getService_Sub_Subject != 'undefined'){
+                        this.Startup_Service_Sub_SubjectChange(sub_subject);
+
+                        console.log('-------- END get Info --------');
+                    }
+                })
+            })
+        })
     }
 
     get_matrix(){
@@ -338,7 +382,7 @@ export default class CcEditCaseParent extends LightningElement {
                 console.log(this.mapService_Subject);
                 console.log(this.mapService_Sub_Subject);
                 console.log(this.mapSLA);
-                let listService_TypeOptions = [{label:'--None--', value:null}];
+                let listService_TypeOptions = [{label:'--ไม่มี--', value:null}];
                 for(let key in this.mapService_Type) {
                     console.log(key);
                     listService_TypeOptions.push({
@@ -347,13 +391,16 @@ export default class CcEditCaseParent extends LightningElement {
                     })
                 }
                 this.listService_Type = listService_TypeOptions;
+                this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
+                this.isNonEmptyService_Subject = !this.isEmptyService_Subject;
+                this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
                 console.log(this.listService_Type);
                 //================== End Service_Type_Matrix ==================//
+    
                 resolve();
             })
             .then(() => {
                 this.getInfo(this.recordId);
-                throw new Error('Something failed');
             })
         })
         .catch(error => {
@@ -365,18 +412,10 @@ export default class CcEditCaseParent extends LightningElement {
         filterMatrix_type({})
         .then(result => {
             console.log('get type : ', result);
-            // this.type = [];
-            // this.topic = [];
-            // this.subject = [];
-            // this.sub_subject = [];
-            
+
             // Promise for wait all data finish
             new Promise((resolve, reject) => {
-                // console.log('Initial');
-                // for(let key in result.set_type) {
-                //     this.type.push(result.set_type[key]);
-                // }
-                let listService_TopicOptions = [{label:'--None--', value:null}];
+                let listService_TopicOptions = [{label:'--ไม่มี--', value:null}];
                 for(let key in result.set_topic) {
                     listService_TopicOptions.push({
                         label : result.set_topic[key],
@@ -385,12 +424,7 @@ export default class CcEditCaseParent extends LightningElement {
                 }
                 this.listService_Topic = listService_TopicOptions;
                 
-                // for(let key in result.set_topic) {
-                //     console.log('topic : ',result.set_topic[key])
-                //     this.listService_Topic.push(result.set_topic[key]);
-                // }
-                
-                let listService_SubjectOptions = [{label:'--None--', value:null}];
+                let listService_SubjectOptions = [{label:'--ไม่มี--', value:null}];
                 for(let key in result.set_subject) {
                     listService_SubjectOptions.push({
                         label : result.set_subject[key],
@@ -399,11 +433,7 @@ export default class CcEditCaseParent extends LightningElement {
                 }
                 this.listService_Subject = listService_SubjectOptions;
 
-                // for(let key in result.set_subject) {
-                //     this.listService_Subject.push(result.set_subject[key]);
-                // }
-
-                let listService_SubSubjectOptions = [{label:'--None--', value:null}];
+                let listService_SubSubjectOptions = [{label:'--ไม่มี--', value:null}];
                 for(let key in result.set_subSubject) {
                     listService_SubSubjectOptions.push({
                         label : result.set_subSubject[key],
@@ -412,19 +442,16 @@ export default class CcEditCaseParent extends LightningElement {
                 }
                 this.listService_Sub_Subject = listService_SubSubjectOptions;
 
-                // for(let key in result.set_subSubject) {
-                //     this.listService_Sub_Subject.push(result.set_subSubject[key]);
-                // }
+                console.log('this.listService_Topic : ',this.listService_Topic);
+                console.log('this.listService_Subject : ',this.listService_Subject);
+                console.log('this.listService_Sub_Subject : ',this.listService_Sub_Subject);
+
                 resolve();
             })
             .then(() => {
+                console.log('---- END get type ----')
                 this.set_data();
             })
-
-
-            // let type = this.template.querySelector(`[data-id="service_type"]`);
-            // console.log('select type : ',this.chooseType);
-            // type.value = this.chooseType;
         })
         .catch(error => {
             alert(error.message);
@@ -517,7 +544,6 @@ export default class CcEditCaseParent extends LightningElement {
             if(this.getSLA === '' || this.getSLA === null){
                 this.getSLA = 0;
             }
-            console.log('se SLA : ',this.getSLA);
         })
         .catch(error => {
             alert(error.message);
@@ -525,9 +551,11 @@ export default class CcEditCaseParent extends LightningElement {
     }
 
     getInfo(recordId){
+        console.log('-------- get Info --------');
+        console.log('recordId : ',recordId)
         getInfo({recordId: recordId})
         .then(result => {
-            // console.log('getInfo : ', result);
+            console.log('getInfo : ', result);
             this.recordTypeId = result.RecordTypeId;
             // let status = this.template.querySelector(`[data-id="status"]`);
             // let type = this.template.querySelector(`[data-id="service_type"]`);
@@ -538,14 +566,16 @@ export default class CcEditCaseParent extends LightningElement {
             this.chooseStatus = result.Status;
             this.chooseOrigin = result.Origin;
             this.chooseDivision = result.TLI_Division__c;
-            this.chooseSubDivision =  result.TLI_Subdivision__c;
+            this.chooseSubDivision = result.TLI_Subdivision__c;
+            
+            this.recTypeId = result.RecordTypeId;
+            // console.log('info recTypeId : ',this.recTypeId);
 
             this.chooseType = result.Service_Type__c;
             this.chooseTopic = result.Service_Topic__c;
             this.chooseSubject = result.Service_Subject__c;
             this.chooseSubSubject = result.Service_Sub_Subject__c;
 
-            console.log('result.SLA__c : ',result.SLA__c)
             if(result.SLA__c === '' || result.SLA__c === null || result.SLA__c === undefined){
                 this.getSLA = 0;
             }
@@ -553,22 +583,10 @@ export default class CcEditCaseParent extends LightningElement {
                 this.getSLA = result.SLA__c;
             }
 
-            // if(this.chooseTopic != null){
-            //     topic.disabled = false;
-            // }
-
-            // if(this.chooseSubject != null){
-            //     subject.disabled = false;
-            // }
-
-            // if(this.chooseSubSubject != null){
-            //     sub_subject.disabled = false;
-            // }
-
             this.get_type();
         })
         .catch(error => {
-            alert(error.message);
+            console.log('ERROR : ',error);
         });
     }
 
@@ -593,7 +611,7 @@ export default class CcEditCaseParent extends LightningElement {
     StatusChange(event) {
         const field = event.target.name;
         if (field === 'StatusOption') {
-            this.getstatus = event.target.value;
+            this.getService_Status = event.target.value;
         }
     }
 
@@ -623,116 +641,111 @@ export default class CcEditCaseParent extends LightningElement {
         this.listService_Topic = new Array();
         this.listService_Subject = new Array();
         this.listService_Sub_Subject  = new Array();
-        this.getService_Topic = '';
-        this.getService_Subject = '';
-        this.getService_Sub_Subject = '';
-        this.getSLA = '';
+        this.getService_Topic = null;
+        this.getService_Subject = null;
+        this.getService_Sub_Subject = null;
+        this.getSLA = null;
         this.isEmptyService_Topic = true;
         this.isEmptyService_Subject = true;
         this.isEmptyService_Sub_Subject = true;
         const field = event.target.name;
         if (field === 'Service_TypeOption') {
             this.getService_Type = event.target.value;
-            console.log('event.target.value : '+event.target.value);
-            const keyMap = this.getService_Type;
-            console.log('this.getService_Type : '+JSON.stringify(this.getService_Type));
-            console.log(this.mapService_Topic);
-            console.log('this.mapService_Topic[keyMap] : '+JSON.stringify(this.mapService_Topic[keyMap]));
-            let listService_TopicOptions = [{label:'--None--', value:null}];
-            for(let key in this.mapService_Topic[keyMap]) {
-                console.log(key);
-                console.log(this.mapService_Topic[keyMap][key]);
-                listService_TopicOptions.push({
-                    label : this.mapService_Topic[keyMap][key],
-                    value: this.mapService_Topic[keyMap][key]
-                })
-            }
-            console.log(listService_TopicOptions);
-            this.listService_Topic = listService_TopicOptions;
+            if(event.target.value != null){
+                // console.log('event.target.value : '+event.target.value);
+                const keyMap = this.getService_Type;
+                // console.log('this.getService_Type : '+JSON.stringify(this.getService_Type));
+                // console.log(this.mapService_Topic);
+                // console.log('this.mapService_Topic[keyMap] : '+JSON.stringify(this.mapService_Topic[keyMap]));
+                let listService_TopicOptions = [{label:'--ไม่มี--', value:null}];
+                for(let key in this.mapService_Topic[keyMap]) {
+                    // console.log(key);
+                    // console.log(this.mapService_Topic[keyMap][key]);
+                    listService_TopicOptions.push({
+                        label : this.mapService_Topic[keyMap][key],
+                        value: this.mapService_Topic[keyMap][key]
+                    })
+                }
+                // console.log(listService_TopicOptions);
+                this.listService_Topic = listService_TopicOptions;
 
-            // for(let key in this.mapService_Topic[keyMap]) {
-            //     console.log(key);
-            //     console.log(this.mapService_Topic[keyMap][key]);
-            //         this.listService_Topic.push({key: key, value: this.mapService_Topic[keyMap][key]});
-            // }
-            if(this.listService_Topic.length > 0){
-                this.isEmptyService_Topic = false;
+                if(this.listService_Topic.length > 0){
+                    this.isEmptyService_Topic = false;
+                }
             }
         }
-        console.log(this.listService_Topic);
+        this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
+        this.isNonEmptyService_Subject = !this.isEmptyService_Subject;
+        this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
+        // console.log(this.listService_Topic);
     }
     Service_TopicChange(event) {
         this.listService_Subject = new Array();
         this.listService_Sub_Subject  = new Array();
-        this.getService_Subject = '';
-        this.getService_Sub_Subject = '';
-        this.getSLA = '';
+        this.getService_Subject = null;
+        this.getService_Sub_Subject =  null;
+        this.getSLA = null;
         this.isEmptyService_Subject = true;
         this.isEmptyService_Sub_Subject = true;
         const field = event.target.name;
         if (field === 'Service_TopicOption') {
             this.getService_Topic = event.target.value;
-            const keyMap = this.getService_Type+'|'+this.getService_Topic;
+            if(event.target.value != null){
+                const keyMap = this.getService_Type+'|'+this.getService_Topic;
 
-            console.log('event.target.value : '+event.target.value);
-            console.log('this.getService_Topic : '+JSON.stringify(this.getService_Topic));
-            console.log(this.mapService_Subject);
-            console.log('this.mapService_Subject[keyMap] : '+JSON.stringify(this.mapService_Subject[keyMap]));
+                // console.log('event.target.value : '+event.target.value);
+                // console.log('this.getService_Topic : '+JSON.stringify(this.getService_Topic));
+                // console.log(this.mapService_Subject);
+                // console.log('this.mapService_Subject[keyMap] : '+JSON.stringify(this.mapService_Subject[keyMap]));
 
-            let listService_SubjectOptions = [{label:'--None--', value:null}];
-            for(let key in this.mapService_Subject[keyMap]) {
-                console.log('key');
-                console.log(key);
-                listService_SubjectOptions.push({
-                    label : this.mapService_Subject[keyMap][key],
-                    value: this.mapService_Subject[keyMap][key]
-                })
-            }
-            console.log(listService_SubjectOptions);
-            this.listService_Subject = listService_SubjectOptions;
+                let listService_SubjectOptions = [{label:'--ไม่มี--', value:null}];
+                for(let key in this.mapService_Subject[keyMap]) {
+                    // console.log('key');
+                    // console.log(key);
+                    listService_SubjectOptions.push({
+                        label : this.mapService_Subject[keyMap][key],
+                        value: this.mapService_Subject[keyMap][key]
+                    })
+                }
+                // console.log(listService_SubjectOptions);
+                this.listService_Subject = listService_SubjectOptions;
 
-            // for(let key in this.mapService_Subject[keyMap]) {
-            //     console.log(key);
-            //     console.log(this.mapService_Subject[keyMap][key]);
-            //         this.listService_Subject.push({key: key, value: this.mapService_Subject[keyMap][key]});
-            // }
-            if(this.listService_Topic.length > 0){
-                this.isEmptyService_Subject = false;
+                if(this.listService_Topic.length > 0){
+                    this.isEmptyService_Subject = false;
+                }
             }
         }
-        console.log(this.listService_Subject);
+        this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
+        this.isNonEmptyService_Subject = !this.isEmptyService_Subject;
+        this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
+        // console.log(this.listService_Subject);
     }
     Service_SubjectChange(event) {
         this.listService_Sub_Subject  = new Array();
-        this.getService_Sub_Subject = '';
-        this.getSLA = '';
+        this.getService_Sub_Subject = null;
+        this.getSLA = null;
         this.isEmptyService_Sub_Subject = true;
         const field = event.target.name;
         if (field === 'Service_SubjectOption') {
             this.getService_Subject = event.target.value;
-            console.log('event.target.value : '+event.target.value);
+            // console.log('event.target.value : '+event.target.value);
             const keyMap = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject;
-            console.log('this.getService_Sub_Subject : '+JSON.stringify(this.getService_Sub_Subject));
-            console.log(this.mapService_Sub_Subject);
-            console.log('this.mapService_Sub_Subject[keyMap] : '+JSON.stringify(this.mapService_Sub_Subject[keyMap]));
+            // console.log('this.getService_Sub_Subject : '+JSON.stringify(this.getService_Sub_Subject));
+            // console.log(this.mapService_Sub_Subject);
+            // console.log('this.mapService_Sub_Subject[keyMap] : '+JSON.stringify(this.mapService_Sub_Subject[keyMap]));
             if(event.target.value != null){
                 if(this.mapService_Sub_Subject[keyMap].length > 1){
-                    let listService_Sub_SubjectOptions = [{label:'--None--', value:null}];
+                    let listService_Sub_SubjectOptions = [{label:'--ไม่มี--', value:null}];
                     for(let key in this.mapService_Sub_Subject[keyMap]) {
-                        console.log('key');
-                        console.log(key);
+                        // console.log('key');
+                        // console.log(key);
                         listService_Sub_SubjectOptions.push({
                             label : this.mapService_Sub_Subject[keyMap][key],
                             value: this.mapService_Sub_Subject[keyMap][key]
                         })
                     }
-                    console.log(listService_Sub_SubjectOptions);
+                    // console.log(listService_Sub_SubjectOptions);
                     this.listService_Sub_Subject = listService_Sub_SubjectOptions;
-                    // for(let key in this.mapService_Sub_Subject[keyMap]) {
-                    //     console.log(key);
-                    //     console.log(this.mapService_Sub_Subject[keyMap][key]);
-                    //         this.listService_Sub_Subject.push({key: key, value: this.mapService_Sub_Subject[keyMap][key]});
-                    // }
                     if(this.listService_Sub_Subject.length > 0){
                         this.isEmptyService_Sub_Subject = false;
                     }
@@ -743,72 +756,87 @@ export default class CcEditCaseParent extends LightningElement {
                         subSubject = null;
                     }
                     const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+subSubject;
-                    console.log(keyMapSLA);
+                    // console.log(keyMapSLA);
                     if(this.mapSLA[keyMapSLA].length > 0){
                         this.getSLA = this.mapSLA[keyMapSLA][0];
                     }
                 }
             }
         }
-        console.log(this.listService_Sub_Subject);
+        this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
+        this.isNonEmptyService_Subject = !this.isEmptyService_Subject;
+        this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
+        // console.log(this.listService_Sub_Subject);
     }
     Service_Sub_SubjectChange(event) {
         const field = event.target.name;
-        this.getSLA = '';
+        this.getSLA = null;
         if (field === 'Service_Sub_SubjectOption') {
             this.getService_Sub_Subject = event.target.value;
-            const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+this.getService_Sub_Subject;
-            console.log(keyMapSLA);
-            console.log(this.mapSLA[keyMapSLA]);
-            if(this.mapSLA[keyMapSLA].length > 0){
-                this.getSLA = this.mapSLA[keyMapSLA][0];
+            if(event.target.value != null){
+                const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+this.getService_Sub_Subject;
+                // console.log(keyMapSLA);
+                // console.log(this.mapSLA[keyMapSLA]);
+                if(this.mapSLA[keyMapSLA].length > 0){
+                    this.getSLA = this.mapSLA[keyMapSLA][0];
+                }
             }
         }   
     }
 
     stampStatus(event){
-        this.chooseStatus = event.target.value;
-        console.log('Status : ',this.chooseStatus)
+        this.getService_Status = event.target.value;
+        console.log('Status : ',this.getService_Status)
     }
     stampOrigin(event){
-        this.chooseOrigin = event.target.value;
-        console.log('Origin : ',this.chooseOrigin)
+        this.getService_Origin = event.target.value;
+        console.log('Origin : ',this.getService_Origin)
     }
-    stampDivision(){
-        let service_division = this.template.querySelector(`[data-id="service_division"]`);
-        this.chooseDivision = service_division.value;
-        console.log('สายงาน : ',this.chooseDivision)
+    stampDivision(event){
+        // let service_division = this.template.querySelector(`[data-id="service_division"]`);
+        this.getService_Division = event.target.value;
 
         this.isEmpty = false;
         let dependValues = [];
+        this.lstSubDivision = [];
         this.dependentValues = new Array();
-
-        if(this.chooseDivision) {
+        this.getService_SubDivision = null;
+        // console.log(this.getService_Division);
+        if(this.getService_Division) {
             // if Selected country is none returns nothing
-            if(this.chooseDivision === '--None--') {
+            if(this.getService_Division == null) {
                 this.isEmpty = true;
-                dependValues = [{label:'--None--', value:'--None--'}];
-                this.chooseDivision = null;
-                this.chooseSubDivision = null;
+                dependValues = [{label:'--ไม่มี--', value:null}];
+                this.getService_Division = null;
+                this.getService_SubDivision = null;
                 return;
+            }else{
+                this.totalDependentValues.forEach(conValues => {
+                    if(conValues.validFor[0] === this.controlSubDivisionValues[this.getService_Division]) {
+                        dependValues.push({
+                            label: conValues.label,
+                            value: conValues.value
+                        })
+                    }
+                })
             }
 
             // filter the total dependent values based on selected country value 
-            this.totalDependentValues.forEach(conValues => {
-                if(conValues.validFor[0] === this.controlSubDivisionValues[this.chooseDivision]) {
-                    dependValues.push({
-                        label: conValues.label,
-                        value: conValues.value
-                    })
-                }
-            })
+            
 
             this.lstSubDivision = dependValues;
+            
         }
+        if(this.lstSubDivision.length > 0){
+            this.isEmptySubDivision = false;
+        }else{
+            this.isEmptySubDivision = true;
+        }
+        this.isNonEmptySubDivision = !this.isEmptySubDivision;
     }
     stampSubDivision(event){
-        this.chooseSubDivision = event.target.value;
-        console.log('Sub Division : ',this.chooseSubDivision)
+        this.getService_SubDivision = event.target.value;
+        // console.log('Sub Division : ',this.chooseSubDivision)
     }
 
     test(){
@@ -832,42 +860,300 @@ export default class CcEditCaseParent extends LightningElement {
         // let subDivision = this.template.querySelector(`[data-id="service_subDivision"]`);
         // let origin = this.template.querySelector(`[data-id="service_origin"]`);
 
-        console.log('recordId : ',this.recordId)
-        console.log('contact',contact.value)
-        console.log('source',source.value)
-        console.log('account',account.value)
-        console.log('type',type.value)
-        console.log('topic',topic.value)
-        console.log('subject',subject.value)
-        console.log('sub_subject',sub_subject.value)
-        console.log('status',this.chooseStatus)
-        console.log('division',this.chooseDivision)
-        console.log('subDivision',this.chooseSubDivision)
-        console.log('origin',this.chooseOrigin)
-        console.log('SLA : ',this.getSLA)
+        let listfieldError = [];
+
+        console.log('type : ', this.getService_Type)
+        console.log('topic : ', this.getService_Topic)
+        console.log('subject : ', this.getService_Subject)
+        console.log('sub subject : ', this.getService_Sub_Subject)
+        console.log('division : ', this.chooseDivision)
+        console.log('sub division : ', this.chooseSubDivision)
+
+        if(this.getService_Type == null || this.getService_Type == undefined || this.getService_Type == 'undefined'){
+            listfieldError.push(this.labelService_Type);
+        }
+        if(this.getService_Topic == null || this.getService_Topic == undefined || this.getService_Topic == 'undefined'){
+            listfieldError.push(this.labelService_Topic);
+        }
+        if(this.getService_Subject == null || this.getService_Subject == undefined || this.getService_Subject == 'undefined' && this.listService_Subject.length > 0){
+            listfieldError.push(this.labelService_Subject);
+        }
+        if(this.getService_Sub_Subject == null && this.listService_Sub_Subject.length > 0){
+            listfieldError.push(this.labelService_Sub_Subject);
+        }
         
-        save({
-            recordId: this.recordId,
-            contact: contact.value,
-            source: source.value,
-            account: account.value,
-            status: this.chooseStatus,
-            type: type.value,
-            topic: topic.value,
-            subject: subject.value,
-            sub_subject: sub_subject.value, 
-            division: this.chooseDivision, 
-            subDivision: this.chooseSubDivision, 
-            origin: this.chooseOrigin,
-            description: description.value,
-            SLA: this.getSLA
-        })
-        .then(result => {
-            console.log('save : ', result);
-        })
-        .catch(error => {
-            this.error = error;
-        });
+        if(this.chooseDivision == null || this.chooseDivision == undefined || this.chooseDivision == 'undefined'){
+            listfieldError.push(this.labelDivision);
+        }
+        if(this.chooseSubDivision == null || this.chooseSubDivision == undefined || this.chooseSubDivision == 'undefined'){
+            listfieldError.push(this.labelSubDivision);
+        }
+
+        console.log('listfieldError.length : ', listfieldError.length)
+        
+        if(listfieldError.length > 0){
+            this.checkValidate = false;
+        }
+        else{
+            this.checkValidate = true;
+        }
+
+
+        if(this.checkValidate){
+            save({
+                recordId: this.recordId,
+                contact: contact.value,
+                source: source.value,
+                account: account.value,
+                status: this.chooseStatus,
+                type: type.value,
+                topic: topic.value,
+                subject: subject.value,
+                sub_subject: sub_subject.value, 
+                division: this.chooseDivision, 
+                subDivision: this.chooseSubDivision, 
+                origin: this.chooseOrigin,
+                description: description.value,
+                SLA: this.getSLA
+            })
+            .then(result => {
+                console.log('save : ', result);
+                // console.log('this.recordId : ',this.recordId)
+                // console.log('this.sObjectName : ',this.sObjectName)
+
+                // close Tab
+                var close = {
+                    close:true, 
+                    recordCaseId: this.recordId
+                };
+                const closeclickedevt = new CustomEvent('closeclicked', {
+                    detail: { close },
+                });
+                this.dispatchEvent(closeclickedevt);
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Success',
+                        message: this.sObjectName + ' บันทึกเรียบร้อยแล้ว',
+                        variant: 'success',
+                    }),
+                );
+            })
+            .catch(error => {
+                this.error = error;
+            });
+        }
+        else{
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'กรุณากรอกข้อมูลให้ครบถ้วน',
+                    message: listfieldError.join(', '),
+                    variant: 'error',
+                }),
+            );
+        }  
     }
 
+    //---------------Matrix For retrieve data---------------//
+    Startup_Service_TypeChange(event) {
+        this.listService_Topic = new Array();
+        this.listService_Subject = new Array();
+        this.listService_Sub_Subject  = new Array();
+        this.getService_Topic = null;
+        this.getService_Subject = null;
+        this.getService_Sub_Subject = null;
+        this.getSLA = null;
+        this.isEmptyService_Topic = true;
+        this.isEmptyService_Subject = true;
+        this.isEmptyService_Sub_Subject = true;
+
+        // this.getService_Type = event;
+        if(event != null){
+            // console.log('event : '+event);
+            const keyMap = event;
+
+            // console.log('----Startup_Service_TypeChange----')
+            // console.log('Startup_Service_TypeChange -> keyMap : ', keyMap);
+            // console.log('Startup_Service_TypeChange -> this.mapService_Topic[keyMap] : ', this.mapService_Topic[keyMap]);
+            // console.log('this.getService_Type : '+JSON.stringify(this.getService_Type));
+            // console.log(this.mapService_Topic);
+            // console.log('this.mapService_Topic[keyMap] : '+JSON.stringify(this.mapService_Topic[keyMap]));
+            let listService_TopicOptions = [{label:'--ไม่มี--', value:null}];
+            for(let key in this.mapService_Topic[keyMap]) {
+                // console.log(key);
+                // console.log(this.mapService_Topic[keyMap][key]);
+                listService_TopicOptions.push({
+                    label : this.mapService_Topic[keyMap][key],
+                    value: this.mapService_Topic[keyMap][key]
+                })
+            }
+            // console.log(listService_TopicOptions);
+            this.listService_Topic = listService_TopicOptions;
+
+            if(this.listService_Topic.length > 0){
+                this.isEmptyService_Topic = false;
+            }
+        }
+        this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
+        this.isNonEmptyService_Subject = !this.isEmptyService_Subject;
+        this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
+        // console.log(this.listService_Topic);
+        // console.log('----END Startup_Service_TypeChange----')
+    }
+    Startup_Service_TopicChange(event) {
+        // console.log('----Startup_Service_TopicChange----')
+        // console.log('Startup_Service_TopicChange event -> ',event)
+        this.listService_Subject = new Array();
+        this.listService_Sub_Subject  = new Array();
+        this.getService_Subject = null;
+        this.getService_Sub_Subject =  null;
+        this.getSLA = null;
+        this.isEmptyService_Subject = true;
+        this.isEmptyService_Sub_Subject = true;
+        this.getService_Topic = event;
+
+        if(event != null){
+
+            const keyMap = this.getService_Type+'|'+this.getService_Topic;
+
+            // console.log('Startup_Service_TypeChange -> keyMap : ', keyMap);
+            // console.log('Startup_Service_TypeChange -> this.mapService_Subject[keyMap] : ', this.mapService_Subject[keyMap]);
+            // console.log('event : '+event);
+            // console.log('this.getService_Topic : '+JSON.stringify(this.getService_Topic));
+            // console.log(this.mapService_Subject);
+            // console.log('this.mapService_Subject[keyMap] : '+JSON.stringify(this.mapService_Subject[keyMap]));
+
+            let listService_SubjectOptions = [{label:'--ไม่มี--', value:null}];
+            for(let key in this.mapService_Subject[keyMap]) {
+                // console.log('key');
+                // console.log(key);
+                listService_SubjectOptions.push({
+                    label : this.mapService_Subject[keyMap][key],
+                    value: this.mapService_Subject[keyMap][key]
+                })
+            }
+            // console.log(listService_SubjectOptions);
+            this.listService_Subject = listService_SubjectOptions;
+
+            if(this.listService_Topic.length > 0){
+                this.isEmptyService_Subject = false;
+            }
+        }
+        this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
+        this.isNonEmptyService_Subject = !this.isEmptyService_Subject;
+        this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
+        // console.log('----END Startup_Service_TopicChange----')
+        // console.log(this.listService_Subject);
+    }
+    Startup_Service_SubjectChange(event) {
+        // console.log('---Startup_Service_SubjectChange---')
+        // console.log('Startup_Service_SubjectChange event : ',event)
+        this.listService_Sub_Subject  = new Array();
+        this.getService_Sub_Subject = null;
+        this.getSLA = null;
+        this.isEmptyService_Sub_Subject = true;
+        this.getService_Subject = event;
+        // console.log('event : '+event);
+        const keyMap = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject;
+        // console.log('this.getService_Sub_Subject : '+JSON.stringify(this.getService_Sub_Subject));
+        // console.log('Startup_Service_SubjectChange this.mapService_Sub_Subject --> : ',this.mapService_Sub_Subject);
+        // console.log('this.mapService_Sub_Subject[keyMap] : '+JSON.stringify(this.mapService_Sub_Subject[keyMap]));
+        if(event != null){
+            if((this.mapService_Sub_Subject[keyMap]).length > 1){
+                let listService_Sub_SubjectOptions = [{label:'--ไม่มี--', value:null}];
+                for(let key in this.mapService_Sub_Subject[keyMap]) {
+                    // console.log('key');
+                    // console.log(key);
+                    listService_Sub_SubjectOptions.push({
+                        label : this.mapService_Sub_Subject[keyMap][key],
+                        value: this.mapService_Sub_Subject[keyMap][key]
+                    })
+                }
+                // console.log(listService_Sub_SubjectOptions);
+                this.listService_Sub_Subject = listService_Sub_SubjectOptions;
+                if(this.listService_Sub_Subject.length > 0){
+                    this.isEmptyService_Sub_Subject = false;
+                }
+            }
+            else{
+                let subSubject = this.getService_Sub_Subject;
+                if(this.getService_Sub_Subject == ''){
+                    subSubject = null;
+                }
+                const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+subSubject;
+                // console.log(keyMapSLA);
+                if(this.mapSLA[keyMapSLA].length > 0){
+                    this.getSLA = this.mapSLA[keyMapSLA][0];
+                }
+            }
+        }
+        this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
+        this.isNonEmptyService_Subject = !this.isEmptyService_Subject;
+        this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
+        // console.log(this.listService_Sub_Subject);
+    }
+    Startup_Service_Sub_SubjectChange(event) {
+        this.getSLA = null;
+        this.getService_Sub_Subject = event;
+        if(event != null){
+            const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+this.getService_Sub_Subject;
+            // console.log(keyMapSLA);
+            // console.log(this.mapSLA[keyMapSLA]);
+            if(this.mapSLA[keyMapSLA].length > 0){
+                this.getSLA = this.mapSLA[keyMapSLA][0];
+            }
+        }
+    }
+
+    Startup_stampDivision(event){
+        console.log('----Startup_stampDivision----');
+        // let service_division = this.template.querySelector(`[data-id="service_division"]`);
+        this.getService_Division = event;
+        console.log('Startup_stampDivision | this.getService_Division -> ',this.getService_Division);
+
+        this.isEmpty = false;
+        let dependValues = [];
+        this.lstSubDivision = [];
+        this.dependentValues = new Array();
+        this.getService_SubDivision = null;
+        // console.log(this.getService_Division);
+        // if(this.getService_Division) {
+            // if Selected country is none returns nothing
+            if(this.getService_Division == null) {
+                console.log('Startup_stampDivision | IF');
+                this.isEmpty = true;
+                dependValues = [{label:'--ไม่มี--', value:null}];
+                this.getService_Division = null;
+                this.getService_SubDivision = null;
+                return;
+            }else{
+                console.log('Startup_stampDivision | ELSE');
+                this.totalDependentValues.forEach(conValues => {
+                    if(conValues.validFor[0] === this.controlSubDivisionValues[this.getService_Division]) {
+                        dependValues.push({
+                            label: conValues.label,
+                            value: conValues.value
+                        })
+                    }
+                })
+            }
+
+            // filter the total dependent values based on selected country value 
+            
+
+            this.lstSubDivision = dependValues;
+            // console.log('Startup_stampDivision | this.lstSubDivision :',this.lstSubDivision)
+        // }
+        if(this.lstSubDivision.length > 0){
+            this.isEmptySubDivision = false;
+        }else{
+            this.isEmptySubDivision = true;
+        }
+        this.isNonEmptySubDivision = !this.isEmptySubDivision;
+    }
+
+    Startup_stampSubDivision(event){
+        console.log('Startup_stampSubDivision | event : ',event)
+        this.getService_SubDivision = event;
+    }
+    //---------------For retrieve data---------------//
 }

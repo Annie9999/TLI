@@ -33,7 +33,6 @@
                 var returnValue = response.getReturnValue();
                 console.log('optionSelect ' , returnValue);
                 cmp.set('v.optionSelect', returnValue);
-
                 helper.functionGetPaymentinformation(cmp, helper);
             }else if (state === "ERROR") {
                 var errors = response.getError();
@@ -57,12 +56,6 @@
                 var returnValue = response.getReturnValue();
                 console.log('Payment Info ' , returnValue);
                 cmp.set('v.paymentInfo', returnValue);
-                if(returnValue.Payment_Type__c != null){
-                    var cmpDiv = cmp.find('hwDiv');
-                    $A.util.addClass(cmpDiv, 'changeStyle');
-                }
-
-
                 helper.mappingValue(cmp, helper, returnValue.payment.Payment_Type__c);
 
             }else if (state === "ERROR") {
@@ -164,6 +157,8 @@
                 var payType = cmp.get('v.paymentInfo.payment.Payment_Type__c');
                 console.log('payType ' + payType);
                 helper.checkSendSMS(cmp, helper, payType);
+                helper.refreshFocusedTab(cmp);
+
             }else if (state === "ERROR") {
                 cmp.set('v.loaded', false);
                 var errors = response.getError();
@@ -248,5 +243,19 @@
             "type" : "success"
         });
         toastEvent.fire();
+    },
+    refreshFocusedTab : function(component) {
+        var workspaceAPI = component.find("workspace");
+        console.log('TestTAE');
+        workspaceAPI.getFocusedTabInfo().then(function(response) {
+            var focusedTabId = response.tabId;
+            workspaceAPI.refreshTab({
+                      tabId: focusedTabId,
+                      includeAllSubtabs: true
+             });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
     }
 })

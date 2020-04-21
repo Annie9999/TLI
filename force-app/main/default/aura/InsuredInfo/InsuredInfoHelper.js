@@ -10,21 +10,28 @@
 		action.setCallback(this, function (response) {
 			var state = response.getState();
 			if (state === "SUCCESS") {
-				// Parse Json
 				var result = response.getReturnValue();
 
-				//console.log(result);
 				component.set("v.newAcc", result);
 
-				var billing = result['BillingCity'].split(",");
-				var shipping = result['ShippingCity'].split(",");
+				// Console.log(JSON.parse(result));
+				console.log(JSON.stringify(result));
 
-				//console.log(billing + ' - ' + shipping);
+				// var billing = result.BillingCity.split(",");
+				// var shipping = result.ShippingCity.split(",");
 
-				component.set("v.billingDistrict", billing[0]);
-				component.set("v.billingSubDistrict", billing[1]);
-				component.set("v.shippingDistrict", shipping[0]);
-				component.set("v.shippingSubDistrict", shipping[1]);
+				console.log(result.BillingCity + '-' + result.ShippingCity);
+
+				if(billing.size() > 0){
+					// component.set("v.billingDistrict", billing[0]);
+					// component.set("v.billingSubDistrict", billing[1]);
+				}
+				
+				if(shipping.size() > 0){
+					// component.set("v.shippingDistrict", shipping[0]);
+					// component.set("v.shippingSubDistrict", shipping[1]);
+				}
+				
 			}
 			else {
 				alert('Unable to fetch data from server');

@@ -35,7 +35,7 @@
                 component.set('v.info', returnVal);
 
                 console.log('Return status: ',JSON.parse(JSON.stringify(returnVal.Status)));
-                if(returnVal.Status === 'Closed'){
+                if(returnVal.Status === 'ดำเนินการเรียบร้อย'){
 
                     component.set("v.status", true);
 

@@ -26,14 +26,14 @@
                                         <tr>
                                             <td>
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                                                    <tr>
+                                                    <tr height="60">
                                                         <td width="85%" style="background-color: #34384B;">
                                                             <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834132000/Logo"
                                                                         style="padding-left:20px !important;display:block; max-width:165px; 
                                                                                border:0; line-height:100%; outline:none; text-decoration:none;">
                                                             </apex:image>
                                                         </td>
-                                                        <td width="15%" style="background-color: #34384B;padding: 28px;">
+                                                        <td width="15%" style="background-color: #34384B;padding: 28px; border-left: 1px solid #282B3E; padding: 28px;">
                                                             <a href="tel:022470247" target="_blank">
                                                                 <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834222000/phone" 
                                                                             style="display:block; height:36px;width:36px; 

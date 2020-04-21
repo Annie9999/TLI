@@ -1,5 +1,7 @@
 <template>
-    <lightning-record-edit-form record-id={recordId} object-api-name="Case" onsuccess={handleSuccess} >
+    <lightning-record-edit-form record-id={recordId} object-api-name="Case">
+        <lightning-messages>
+        </lightning-messages>
         <lightning-card>
             <div class="slds-box">
                 <div class="slds-section slds-is-open">
@@ -12,13 +14,13 @@
                         <div class="slds-grid slds-gutters">
                             <div class="slds-col slds-size_1-of-2">
                                 <div class="labelField">
-                                    <label class="slds-form-element__label"> {labelContact}</label>
+                                    <label class="slds-form-element__label"> {label.labelContact}</label>
                                     <lightning-input-field variant="label-hidden" value={searchContactId} data-id="contact" field-name='ContactId' onchange={handleChange}></lightning-input-field>
                                 </div>
                             </div>
                             <div class="slds-col slds-size_1-of-2">
                                 <div>
-                                    <label class="slds-form-element__label"> {labelAccount}</label>
+                                    <label class="slds-form-element__label"> {label.labelAccount}</label>
                                     <lightning-input-field variant="label-hidden" value={searchAccountId} data-id="account" field-name='AccountId' onchange={handleChangeAccount}></lightning-input-field>
                                 </div>
                             </div>
@@ -26,13 +28,14 @@
                         <div class="slds-grid slds-gutters">
                             <div class="slds-col slds-size_1-of-2">
                                 <div>
-                                    <lightning-input-field value={searchSourceId} data-id="source" field-name='SourceId'></lightning-input-field>
+                                    <label class="slds-form-element__label"> {label.labelSource}</label>
+                                    <lightning-input-field variant="label-hidden" value={searchSourceId} data-id="source" field-name='SourceId'></lightning-input-field>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!-- //========================= Case Information =========================// -->
-                    <h3 class="slds-section__title slds-theme_shade">
+                    <h3 class="slds-section__title slds-theme_shade mt">
                         <span class="slds-truncate slds-p-horizontal_small" title="Section Title">{label.Case_Information}</span>
                     </h3>
                 
@@ -47,7 +50,7 @@
                                         </label>
                                         <div class="slds-select_container">
                                             <select class="slds-select" required="" name="Service_Type__c" data-id="service_type" onchange={filterType}>
-                                                <option value="">---None---</option>
+                                                <option value="">---ไม่มี---</option>
                                                 <template for:each={type} for:item="item">
                                                     <option key={item} value={item}>{item}</option>
                                                 </template>
@@ -61,7 +64,7 @@
                                     name="Service_TypeOption" 
                                     onchange={Service_TypeChange} 
                                     options={listService_Type} 
-                                    placeholder="--None--" 
+                                    placeholder="--ไม่มี--" 
                                     value={getService_Type}
                                     required></lightning-combobox>
                                 </div>
@@ -84,21 +87,26 @@
                                         </label>
                                         <div class="slds-select_container">
                                             <select class="slds-select" required="" name="Service_Topic__c" data-id="service_topic" onchange={filterTopic} disabled>
-                                                <option value="">---None---</option>
+                                                <option value="">---ไม่มี---</option>
                                                 <template for:each={topic} for:item="item">
                                                     <option key={item} value={item}>{item}</option>
                                                 </template>
                                             </select>
                                         </div>
                                     </div> -->
+                                    <label class="slds-form-element__label" for="select-01">
+                                        <abbr class="slds-required" title="required" if:true={isNonEmptyService_Topic}>* </abbr>
+                                        {labelService_Topic}
+                                    </label>
                                     <lightning-combobox 
+                                        variant="label-hidden"
                                         label={labelService_Topic} 
                                         id="Service_Topic" 
                                         data-id="service_topic" 
                                         name="Service_TopicOption" 
                                         onchange={Service_TopicChange} 
                                         options={listService_Topic} 
-                                        placeholder="--None--" 
+                                        placeholder="--ไม่มี--" 
                                         value={getService_Topic}
                                         disabled={isEmptyService_Topic}
                                         required></lightning-combobox>
@@ -112,8 +120,8 @@
                                         name="StatusOption" 
                                         onchange={stampStatus} 
                                         options={lstStatus} 
-                                        placeholder="--None--" 
-                                        value={chooseStatus}></lightning-combobox>
+                                        placeholder="--ไม่มี--" 
+                                        value={getService_Status}></lightning-combobox>
                                 </div>
                                 
                             </div>
@@ -128,21 +136,26 @@
                                     <div class="slds-form-element__control">
                                         <div class="slds-select_container">
                                             <select class="slds-select" required="" name="Service_Subject__c" data-id="service_subject" onchange={filterSubject} disabled>
-                                                <option value="">---None---</option>
+                                                <option value="">---ไม่มี---</option>
                                                 <template for:each={subject} for:item="item">
                                                     <option key={item} value={item}>{item}</option>
                                                 </template>
                                             </select>
                                         </div>
                                     </div> -->
+                                    <label class="slds-form-element__label" for="select-01">
+                                        <abbr class="slds-required" title="required" if:true={isNonEmptyService_Subject}>* </abbr>
+                                        {labelService_Subject}
+                                    </label>
                                     <lightning-combobox 
+                                        variant="label-hidden"
                                         label={labelService_Subject} 
                                         id="Service_Subject" 
                                         data-id="service_subject" 
                                         name="Service_SubjectOption" 
                                         onchange={Service_SubjectChange} 
                                         options={listService_Subject} 
-                                        placeholder="--None--" 
+                                        placeholder="--ไม่มี--" 
                                         value={getService_Subject}
                                         disabled={isEmptyService_Subject}
                                         required></lightning-combobox>
@@ -156,8 +169,8 @@
                                         data-id="service_origin"
                                         onchange={stampOrigin} 
                                         options={lstOrigin} 
-                                        placeholder="--None--" 
-                                        value={chooseOrigin}
+                                        placeholder="--ไม่มี--" 
+                                        value={getService_Origin}
                                         required></lightning-combobox>
                                 </div>
                             </div>
@@ -172,21 +185,26 @@
                                     <div class="slds-form-element__control">
                                         <div class="slds-select_container">
                                             <select class="slds-select" required="" name="Service_Sub_Subject__c" data-id="service_sub_subject" onchange={filterSubSubject} disabled>
-                                                <option value="">---None---</option>
+                                                <option value="">---ไม่มี---</option>
                                                 <template for:each={sub_subject} for:item="item">
                                                     <option key={item} value={item}>{item}</option>
                                                 </template>
                                             </select>
                                         </div>
                                     </div> -->
+                                    <label class="slds-form-element__label" for="select-01">
+                                        <abbr class="slds-required" title="required" if:true={isNonEmptyService_Sub_Subject}>* </abbr>
+                                        {labelService_Sub_Subject}
+                                    </label>
                                     <lightning-combobox 
+                                        variant="label-hidden" 
                                         label={labelService_Sub_Subject} 
                                         id="Service_Sub_Subject" 
                                         data-id="service_sub_subject" 
                                         name="Service_Sub_SubjectOption" 
                                         onchange={Service_Sub_SubjectChange} 
                                         options={listService_Sub_Subject} 
-                                        placeholder="--None--" 
+                                        placeholder="--ไม่มี--" 
                                         value={getService_Sub_Subject}
                                         disabled={isEmptyService_Sub_Subject}
                                         required></lightning-combobox>
@@ -200,8 +218,8 @@
                                         name="TLI_Division__c" 
                                         onchange={stampDivision} 
                                         options={lstDivision} 
-                                        placeholder="--None--" 
-                                        value={chooseDivision}
+                                        placeholder="--ไม่มี--" 
+                                        value={getService_Division}
                                         required></lightning-combobox>
                                 </div>
                             </div>
@@ -225,8 +243,8 @@
                                         name="TLI_Subdivision__c" 
                                         onchange={stampSubDivision} 
                                         options={lstSubDivision} 
-                                        placeholder="--None--" 
-                                        value={chooseSubDivision}
+                                        placeholder="--ไม่มี--" 
+                                        value={getService_SubDivision}
                                         required></lightning-combobox>
                                 </div>
                             </div>
@@ -250,7 +268,7 @@
                         <lightning-input-field value={getService_Topic} field-name='Subject' class="hide"></lightning-input-field>
                         <lightning-input-field value={getService_Topic} field-name='Subject' class="hide"></lightning-input-field> -->
 
-                        <lightning-button variant="brand" type="submit" name="save" label="Save Case" onclick={save}></lightning-button>
+                        <lightning-button variant="brand" type="submit" name="save" label={label.labelSave_Service_Request} onclick={save}></lightning-button>
                     </div>
                 </div>
             </div>

@@ -145,7 +145,7 @@
                       <div class="detail">เงินชดเชยรายได้ระหว่างเข้าพักรักษาตัวในโรงพยาบาล จากอุบัติเหตุ วันละ 500 บาท</div>
                     </div>
                     <div style="margin-top: 17px;margin-top: 17px;text-align: center;" >
-                        <lightning:button disabled="" variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" />
+                        <lightning:button disabled="{! v.status}" variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" />
                     </div>
                   <aura:set attribute="else">
                     <div class="inform">
@@ -173,7 +173,7 @@
                       <div class="detail">ลดหย่อนภาษีได้สูงสุดถึง 100,000 บาทต่อปี(2)</div>
                     </div>
                     <div style="margin-top: 17px;margin-top: 17px;text-align: center;" >
-                        <lightning:button variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" disabled="{!v.status}"/>
+                        <lightning:button  disabled="{! v.status}" variant="brand" label="รับใบเสนอราคา" title="ใบเสนอราคา" onclick="{! c.fnSendQuotation }" />
                     </div>
                   </aura:set>
                   </aura:if>

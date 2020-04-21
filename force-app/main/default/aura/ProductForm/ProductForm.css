@@ -1,3 +1,6 @@
+.THIS .oneWorkspace .oneConsoleTabset .slds-template__container .slds-spinner_container{
+  z-index: 50 !important;
+}
 .THIS .form-information {
   border: var(--lwc-borderWidthThin, 1px) solid
     var(--lwc-colorBorderInput, rgb(221, 219, 218));
@@ -160,4 +163,9 @@
   margin-right: auto;
   text-align: center;
   font-size: 1rem;
+}
+
+/* Override CSS*/
+.THIS.slds-spinner_container.cProductForm{
+  z-index: 50 !important;
 }

@@ -43,11 +43,15 @@
         $A.enqueueAction(action);
     },
     update : function(component, event, helper){
+
         var questionAnswer = component.get('v.questionAnswer');
         var informationQuestion = component.get('v.information_question');
         questionAnswer.push(informationQuestion);
+
         var action = component.get("c.updateQuestionAnswer");
-        console.log('questionAnswer'+ Object.values(questionAnswer));
+        //console.log('questionAnswer'+ Object.values(questionAnswer));
+        console.log('questionAnswer: ',JSON.parse(JSON.stringify(questionAnswer)));
+
         action.setParams({
             questionAnswer: questionAnswer
         });
@@ -105,6 +109,7 @@
                 });
                 toastEvent.fire();
                 console.log('good');
+                helper.refreshFocusedTab(component);
             }
             else{
                 toastEvent.setParams({
@@ -158,6 +163,7 @@
                 });
                 toastEvent.fire();
                 console.log('good');
+                helper.refreshFocusedTab(component);
             }
             else{
                 toastEvent.setParams({
@@ -213,7 +219,7 @@
                     "type": "success"
                 });
                 toastEvent.fire();
-
+                helper.refreshFocusedTab(component);
             }
             else{
                 console.log('bad');
@@ -229,5 +235,19 @@
         $A.enqueueAction(action);
         //Update Opty Status
 
+    },
+    refreshFocusedTab : function(component) {
+        var workspaceAPI = component.find("workspace");
+        // console.log('TestTAE');
+        workspaceAPI.getFocusedTabInfo().then(function(response) {
+            var focusedTabId = response.tabId;
+            workspaceAPI.refreshTab({
+                      tabId: focusedTabId,
+                      includeAllSubtabs: true
+             });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
     }
 })

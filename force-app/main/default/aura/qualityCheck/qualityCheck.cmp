@@ -3,6 +3,8 @@
     <aura:attribute name="recordId" type="Id" default="006q000000KLbsTAAT" />
     <!--<aura:attribute name="status" type="String" default="Closed Won" />-->
 
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
     <aura:attribute name="info" type="Case" />
     <aura:attribute name="opptyId" type="String" /> 
     <aura:attribute name="status" type="boolean" />

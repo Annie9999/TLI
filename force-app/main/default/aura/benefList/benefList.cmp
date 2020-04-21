@@ -25,9 +25,16 @@
     }]" />
         
         <div class="slds-card" style="padding: 0px;">
-                
+           
+            
             <div class="slds-grid slds-grid--align-center">
-                <lightning:button variant="success" label="เพิ่มผู้รับผลประโยชน์" iconName="utility:add" onclick="{! c.addBenef }"/>
+                <aura:if isTrue="{!v.status}">
+                    
+                    <aura:set attribute="else">
+                        <lightning:button variant="success" label="เพิ่มผู้รับผลประโยชน์" iconName="utility:add" onclick="{! c.addBenef }"/>
+
+                    </aura:set>
+                  </aura:if> 
             </div>
 
             <div class="head">
@@ -114,6 +121,7 @@
 
                 <aura:set attribute="else">
                     <lightning:button type="submit" variant="brand" label="ดำเนินการต่อ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.verify }"/>
+
                 </aura:set>
               </aura:if> 
 
