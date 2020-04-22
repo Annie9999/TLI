@@ -1,7 +1,7 @@
 import { LightningElement,track,api,wire} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import sessionLabelAccount from '@salesforce/label/c.Account';
-import sessionLabelSource from '@salesforce/label/c.Source';
+import sessionLabelSource from '@salesforce/label/c.Insurance_Policy';
 import sessionLabelCreate_Case from '@salesforce/label/c.Save_Service_Request';
 import saveAllChildCase from '@salesforce/apex/CustomNewChildRecordListCtrl.createChildCase';
 import cloneParent from '@salesforce/apex/CustomNewChildRecordListCtrl.caseInfoByParent';
@@ -55,7 +55,7 @@ export default class CustomNewChildRecordList extends LightningElement {
             this.caseRecList = [];
             this.caseRecList.push ({            
                 AccountId : this.setChild.AccountId,
-                SourceId : this.setChild.SourceId,
+                InsurePolicy : this.setChild.Insurance_Policy__c,
                 TLI_Division : '',
                 TLI_Subdivision: '',
                 isEmpty: true,
@@ -88,8 +88,8 @@ export default class CustomNewChildRecordList extends LightningElement {
         console.log('name:'+event.target.name);  
         console.log(this.caseRecList);     
         
-        if(event.target.name==='ChildSourceId'){
-            this.caseRecList[event.target.accessKey].SourceId = event.target.value;
+        if(event.target.name==='ChildInsurePolicy'){
+            this.caseRecList[event.target.accessKey].InsurePolicy = event.target.value;
         }
         console.log(this.caseRecList);
     }
@@ -148,7 +148,7 @@ export default class CustomNewChildRecordList extends LightningElement {
         console.log('name:'+event.target.name);  
         console.log(this.caseRecList); 
         console.log(this.caseRecList[event.target.accessKey]);
-        let getSourceId;
+        let getInsurePolicy;
         let getaccessKey = event.target.accessKey;
         if(event.target.name==='ChildAccountId'){
             this.caseRecList[event.target.accessKey].AccountId = event.target.value;
@@ -157,16 +157,16 @@ export default class CustomNewChildRecordList extends LightningElement {
             Id: event.target.value
         })
         .then(result => {
-            getSourceId = result;
-            console.log('getSourceId.Id : '+getSourceId.Id);
+            getInsurePolicy = result;
+            console.log('getInsurePolicy.Id : '+getInsurePolicy.Id);
             console.log('getaccessKey : '+getaccessKey);
             console.log(this.caseRecList);
             console.log(this.caseRecList[getaccessKey]);
-            this.caseRecList[getaccessKey].SourceId = getSourceId.Id;
+            this.caseRecList[getaccessKey].InsurePolicy = getInsurePolicy.Id;
         })
         .catch(error => {
             this.error = error;
-            this.caseRecList[getaccessKey].SourceId = '';
+            this.caseRecList[getaccessKey].InsurePolicy = '';
         });
         
     }
@@ -177,7 +177,7 @@ export default class CustomNewChildRecordList extends LightningElement {
         console.log('Enter ',this.caseRecList);
         this.caseRecList.push ({            
             AccountId : this.setChild.AccountId,
-            SourceId : this.setChild.SourceId,
+            InsurePolicy : this.setChild.Insurance_Policy__c,
             TLI_Division : '',
             TLI_Subdivision: '',
             isEmpty: true,
@@ -252,7 +252,7 @@ export default class CustomNewChildRecordList extends LightningElement {
                 
                 caseRecListInsert.push ({            
                     AccountId : item.AccountId,
-                    SourceId : item.SourceId,
+                    InsurePolicy : item.InsurePolicy,
                     TLI_Division : item.TLI_Division,
                     TLI_Subdivision: item.TLI_Subdivision
                 });             
@@ -264,7 +264,7 @@ export default class CustomNewChildRecordList extends LightningElement {
                     this.error = undefined;                
                     // this.caseRecList.forEach(function(item){                   
                     //     item.AccountId='';
-                    //     item.SourceId='';
+                    //     item.InsurePolicy='';
                     //     item.TLI_Division='';
                     //     item.TLI_Subdivision='';
                     // });
@@ -272,7 +272,7 @@ export default class CustomNewChildRecordList extends LightningElement {
                     this.caseRecList = new Array();
                     this.caseRecList.push ({            
                         AccountId : this.setChild.AccountId,
-                        SourceId : this.setChild.SourceId,
+                        InsurePolicy : this.setChild.Insurance_Policy__c,
                         TLI_Division : '',
                         TLI_Subdivision: '',
                         isEmpty: true,

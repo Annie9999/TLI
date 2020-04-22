@@ -8,17 +8,36 @@ global class Generate_GetAccountsToFollowUp {
         Account[] accounts = [SELECT Name, Description, PersonBirthdate,Customer_Age__c, OwnerId FROM Account WHERE Id = :inputData[0] ];
         List<Recommendation> recs = new List<Recommendation>(); 
         for (Account account:accounts) {
-            if (account.Customer_Age__c  != null){
+            //account.Customer_Age__c = 5;
+            //if (account.Customer_Age__c  != null){
                     Recommendation rec = new Recommendation(
                         Name = account.Name,
                         Description = 'Connect with the ' + account.Name + ' account, Prefer Refferral Friend Campaign. As a customer '+account.Customer_Age__c+' year',
                         //Pre-req: Create a screen flow with the name simpleFlow                        
-                        ActionReference = 'Referral_Friend',
+                        ActionReference = 'Ref_Flow',
+                        AcceptanceLabel = 'Review'
+                    );
+            
+            		Recommendation rec2 = new Recommendation(
+                        Name = account.Name,
+                        Description = 'Connect with the ' + account.Name + ' account, Prefer Refferral Friend Campaign. As a customer '+account.Customer_Age__c+' year',
+                        //Pre-req: Create a screen flow with the name simpleFlow                        
+                        ActionReference = 'Assets_and_Liabilities',
+                        AcceptanceLabel = 'Review'
+                    );
+            
+            		Recommendation rec3 = new Recommendation(
+                        Name = account.Name,
+                        Description = 'Connect with the ' + account.Name + ' account, Prefer Refferral Friend Campaign. As a customer '+account.Customer_Age__c+' year',
+                        //Pre-req: Create a screen flow with the name simpleFlow                        
+                        ActionReference = 'Ref_Flow',
                         AcceptanceLabel = 'Review'
                     );
                     recs.add(rec);
+            recs.add(rec2);
+            recs.add(rec3);
                
-            }
+            //}
         }
         /*for (Account account:accounts) {
             if (account.PersonBirthdate  != null){

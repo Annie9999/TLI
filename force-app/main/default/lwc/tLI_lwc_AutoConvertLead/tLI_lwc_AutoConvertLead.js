@@ -17,18 +17,18 @@ export default class TLI_lwc_AutoConvertLead extends NavigationMixin(LightningEl
     errorMsg;
     errorTitle;
     @track isShowSpinner;
-    // onOpenTab(){
-    //     // this[NavigationMixin.Navigate]({
-    //     //     type: 'standard__recordPage',
-    //     //     attributes: {
-    //     //         recordId: '006q000000KYStPAAX',
-    //     //         actionName: 'view'
-    //     //     }
-    //     // });
-    //     this.dispatchEvent(new CustomEvent('opentabandsubtab', {
-    //         detail: { accId: '001q000001GpROjAAN',oppId: '006q000000KYStPAAX'  }
-    //       }));
-    // }
+    onOpenTab(){
+        // this[NavigationMixin.Navigate]({
+        //     type: 'standard__recordPage',
+        //     attributes: {
+        //         recordId: '006q000000KYStPAAX',
+        //         actionName: 'view'
+        //     }
+        // });
+        this.dispatchEvent(new CustomEvent('opentabandsubtab', {
+            detail: { accId: '001q000001GpROjAAN',oppId: '006q000000KYStPAAX'  }
+          }));
+    }
     onClickConvertLead(){
         this.isShowSpinner = true;
         convertLeadApex({

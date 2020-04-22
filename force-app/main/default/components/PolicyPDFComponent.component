@@ -6,6 +6,11 @@
     <apex:repeat var="rec" value="{!Records}">
         Records : {!rec.Name} <br/>
     </apex:repeat>
-    srcId : {!srcId}
+    srcId : {!srcId} <br/>
     
+    PDFBEEM : {!PDFBEEM} <br/>
+
+    PDFbody : {!PDFbody}
+    
+
 </apex:component>

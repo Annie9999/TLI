@@ -147,15 +147,21 @@
             <aura:if isTrue="{!v.paymentType.havePayment}">
                 <div class="slds-box slds-m-bottom_medium">
                     <aura:if isTrue="{!v.paymentType.paymentGatway}">
-                        <div class="slds-m-bottom_x-small">
-                            <lightning:button variant="base" value="Online Credit Card" label="Online Credit Card" onclick="{!c.savePaymentInfo}" />
+                        <div class="slds-grid slds-gutters sectionGatway">
+                            <div class="slds-col slds-box" onclick="{!c.savePaymentInfo}">
+                                <img src="{!$Resource.PaymentIcon + '/svg-creditcard.svg'}"/><br/>
+                                <lightning:button variant="base" value="Online Credit Card" label="Online Credit Card"  />
+                            </div>
+                            <div class="slds-col slds-box" onclick="{!c.savePaymentInfo}">
+                                <img src="{!$Resource.PaymentIcon + '/svg-billing.svg'}"/><br/>
+                                <lightning:button variant="base" value="Online Bill Payment" label="Online Bill Payment"  />
+                            </div>
+                            <div class="slds-col slds-box" onclick="{!c.savePaymentInfo}">
+                                <img src="{!$Resource.PaymentIcon + '/svg-banking.svg'}"/><br/>
+                                <lightning:button variant="base" value="Internet Banking" label="Internet Banking" />
+                            </div>
                         </div>
-                        <div class="slds-m-bottom_x-small">
-                            <lightning:button variant="base" value="Online Bill Payment" label="Online Bill Payment" onclick="{!c.savePaymentInfo}" />
-                        </div>
-                        <div class="slds-m-bottom_x-small">
-                            <lightning:button variant="base" value="Internet Banking" label="Internet Banking" onclick="{!c.savePaymentInfo}" />
-                        </div>
+                        
                     </aura:if> 
                     <aura:if isTrue="{!v.paymentType.creditCard}">
                         <div class="slds-grid slds-gutters">
@@ -382,9 +388,12 @@
                 (ลูกต้าจะตอบว่า ได้/ไม่ได้)
                 
             </div>
-            <div class="slds-align_absolute-center slds-m-top_medium">
-                <lightning:button variant="brand" label="ดำเนินการต่อ" onclick="{!c.savePaymentInfo}" />
-            </div>
+            <aura:if isTrue="{! and(v.paymentType.havePayment, !v.paymentType.paymentGatway)}">
+            	<div class="slds-align_absolute-center slds-m-top_medium">
+                    <lightning:button variant="brand" label="ดำเนินการต่อ" onclick="{!c.savePaymentInfo}" />
+                </div>
+            </aura:if>
+            
         </div>
     </div>
 </aura:component>

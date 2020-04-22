@@ -24,6 +24,24 @@
     bottom: 0;
 }
 
+.THIS .sectionGatway{
+    text-align: center;
+    padding: 10px;
+}
+
+.THIS .sectionGatway .slds-box{
+    margin: 5px;
+}
+
+.THIS .sectionGatway .slds-box:hover img{
+    filter: opacity(1);
+}
+
+.THIS .sectionGatway img{
+    max-height: 70px;
+    filter: opacity(0.5);
+}
+
 
 /* Override CSS*/
 .THIS.slds-spinner_container.cPaymentInfomation{

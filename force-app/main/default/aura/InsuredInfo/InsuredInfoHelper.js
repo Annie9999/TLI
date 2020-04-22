@@ -14,24 +14,23 @@
 
 				component.set("v.newAcc", result);
 
-				// Console.log(JSON.parse(result));
-				console.log(JSON.stringify(result));
-
-				// var billing = result.BillingCity.split(",");
-				// var shipping = result.ShippingCity.split(",");
-
-				console.log(result.BillingCity + '-' + result.ShippingCity);
-
-				if(billing.size() > 0){
-					// component.set("v.billingDistrict", billing[0]);
-					// component.set("v.billingSubDistrict", billing[1]);
+				if(result.BillingCity != undefined){
+					var billing = result.BillingCity.split(",");
+					//var billing = JSON.stringify(result.BillingCity).split(",");
+					if(billing.length > 0){
+						component.set("v.billingSubDistrict", billing[0]);
+						component.set("v.billingDistrict", billing[1]);
+					}
 				}
 				
-				if(shipping.size() > 0){
-					// component.set("v.shippingDistrict", shipping[0]);
-					// component.set("v.shippingSubDistrict", shipping[1]);
+				if(result.ShippingCity != undefined){
+					var shipping = result.ShippingCity.split(",");
+					//var shipping = JSON.stringify(result.ShippingCity).split(",");
+					if(shipping.length > 0){
+						component.set("v.shippingSubDistrict", shipping[0]);
+						component.set("v.shippingDistrict", shipping[1]);
+					}
 				}
-				
 			}
 			else {
 				alert('Unable to fetch data from server');

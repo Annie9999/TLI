@@ -32,7 +32,7 @@ public without sharing class CustomNewChildRecordListCtrl {
             childSet = parent.clone(false,true);
             childSet.ParentId = parent.Id;
             childSet.AccountId = eachChild.AccountId;
-            childSet.SourceId = eachChild.SourceId;
+            childSet.Insurance_Policy__c = eachChild.InsurePolicy;
             childSet.TLI_Division__c = eachChild.TLI_Division;
             childSet.TLI_Subdivision__c = eachChild.TLI_Subdivision;
             childSet.Status = 'งานใหม่';
@@ -101,7 +101,7 @@ public without sharing class CustomNewChildRecordListCtrl {
         @AuraEnabled
         public String AccountId {get;set;}
         @AuraEnabled
-        public String SourceId {get;set;}
+        public String InsurePolicy {get;set;}
         @AuraEnabled
         public String TLI_Division {get;set;}
         @AuraEnabled

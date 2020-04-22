@@ -9,9 +9,9 @@
         <table class="slds-table slds-table_bordered slds-table_cell-buffer">
             <thead>
                 <tr class="slds-text-title_caps">
-                    <!-- <th scope="col">
-                        <div class="slds-truncate" title="S.No">S.NO</div>
-                    </th> -->
+                    <th scope="col">
+                        <div class="slds-truncate" title="ลำดับ">ลำดับ</div>
+                    </th>
                     <th scope="col">
                         <label class="slds-form-element__label" for="select-01">
                             <abbr class="slds-required" title="required" >* </abbr>
@@ -33,33 +33,20 @@
                             <span class="slds-truncate" title="ส่วนงาน">ส่วนงาน</span>
                         </label>
                     </th>
-                    <!-- <th scope="col">
-                        <div class="slds-truncate" title="Service_Type">ประเภท</div>
-                    </th>
                     <th scope="col">
-                        <div class="slds-truncate" title="Service_Topic">หัวข้อ</div>
-                    </th>
-                    <th scope="col">
-                        <div class="slds-truncate" title="Service_Subject">เรื่อง</div>
-                    </th>
-                    <th scope="col">
-                        <div class="slds-truncate" title="Service_Sub_Subject">เรื่องย่อย</div>
-                    </th> -->
-                    
-                    <th scope="col">
-                        <div class="slds-truncate" title="Action">Action
-                            <!-- <lightning-icon icon-name="utility:add" alternative-text="Click to Add" size="small" title="large size" onclick={addRow}>
-                            </lightning-icon> -->
-                        </div>
+                        <label class="slds-form-element__label" for="select-01">
+                            <span class="slds-truncate" title="การดำเนินการ">การดำเนินการ</span>
+                        </label>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                
                 <template for:each={caseRecList} for:item="ChildCase" for:index="index">
 
                     <tr key={keyIndex}>
-                        <!-- <td>{index}</td> -->
+                        <td class="slds-text-align_center">
+                            <c-custom-new-child-record-list-detail index={index} ></c-custom-new-child-record-list-detail>
+                        </td>
                         <td>
                             <lightning-input-field 
                                     variant="label-hidden" 
@@ -69,20 +56,16 @@
                                     value={ChildCase.AccountId} 
                                     field-name='AccountId' 
                                     onchange={handleChangeAccount} ></lightning-input-field>
-                            <!-- <lightning-input name='ChildContactId' access-key={index} id={index} type='text' onchange={changeHandler}  value={ChildCase.AccountId}>
-                            </lightning-input> -->
                         </td>
                         <td>
                             <lightning-input-field 
                                     variant="label-hidden" 
                                     id={index} 
                                     access-key={index}  
-                                    name='ChildSourceId' 
-                                    value={ChildCase.SourceId} 
-                                    field-name='SourceId' 
+                                    name='ChildInsurePolicy' 
+                                    value={ChildCase.InsurePolicy} 
+                                    field-name='Insurance_Policy__c' 
                                     onchange={changeHandler} ></lightning-input-field>
-                            <!-- <lightning-input name='accIndustry' access-key={index} id={index} type='text' onchange={changeHandler}   value={ChildCase.Industry}>
-                            </lightning-input> -->
                         </td>
                         <td>
                             <lightning-combobox 
@@ -94,8 +77,6 @@
                                         options={controllingValues} 
                                         placeholder="--ไม่มี--" 
                                         value={ChildCase.TLI_Division}></lightning-combobox>
-                            <!-- <lightning-input-field variant="label-hidden" id={index} access-key={index}  name='ChildTLI_Division' value={ChildCase.TLI_Division} field-name='TLI_Division__c' onchange={changeHandler} ></lightning-input-field> -->
-                            <!-- <lightning-input name='accPhone' access-key={index} type='Phone' id={index}  onchange={changeHandler} value={ChildCase.Phone}></lightning-input> -->
                         </td>
                         <td>
                             <lightning-combobox 
@@ -108,22 +89,17 @@
                                         placeholder="--ไม่มี--" 
                                         value={ChildCase.TLI_Subdivision}
                                         disabled={ChildCase.isEmpty}></lightning-combobox>
-                            <!-- <lightning-input-field variant="label-hidden" id={index} access-key={index}  name='ChildTLI_Subdivision' value={ChildCase.TLI_Subdivision} field-name='TLI_Subdivision__c' onchange={changeHandler} ></lightning-input-field> -->
                         </td>
-                        <!-- <td>
-                            <lightning-input-field id={index}  name='ChildService_Type' value={ChildCase.ChildService_Type} field-name='Service_Type__c' onchange={changeHandler} ></lightning-input-field>
-                        </td>
-                        <td>
-                            <lightning-input-field id={index}  name='ChildService_Topic' value={ChildCase.ChildService_Topic} field-name='Service_Topic__c' onchange={changeHandler} ></lightning-input-field>
-                        </td>
-                        <td>
-                            <lightning-input-field id={index}  name='ChildService_Subject' value={ChildCase.ChildService_Subject} field-name='Service_Subject__c' onchange={changeHandler} ></lightning-input-field>
-                        </td>
-                        <td>
-                            <lightning-input-field id={index}  name='ChildService_Sub_Subject' value={ChildCase.ChildService_Sub_Subject} field-name='Service_Sub_Subject__c' onchange={changeHandler} ></lightning-input-field>
-                        </td> -->
-                        <td if:true={hideIconRemove}>
-                            <lightning-icon icon-name="utility:delete"  access-key={index} id={index} alternative-text="Click to remove" size="small" title="large size" onclick={removeRow}>
+                        <td class="slds-text-align_center" >
+                            <lightning-icon 
+                                if:true={hideIconRemove}
+                                icon-name="utility:delete"  
+                                id={index} 
+                                access-key={index} 
+                                alternative-text="Click to remove" 
+                                size="small" 
+                                title="large size" 
+                                onclick={removeRow}>
                             </lightning-icon>
                         </td>
                     </tr>

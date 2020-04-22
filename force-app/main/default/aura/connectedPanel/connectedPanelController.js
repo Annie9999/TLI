@@ -24,11 +24,11 @@ WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE SOFTWARE IS PROVIDED "AS I
     endCall: function(cmp, event, helper) {
         console.log('End Call');
         helper.logCall(cmp, function(response) {
-            if (response.result) {
-                console.log('API method call executed successfully! returnValue:', response.returnValue);
-            } else { 
-                console.error('Something went wrong! Errors:', response.errors);
-            }
+            // if (response.result) {
+            //     console.log('API method call executed successfully! returnValue:', response.returnValue);
+            // } else { 
+            //     console.error('Something went wrong! Errors:', response.errors);
+            // }
             
             cmp.getEvent('renderPanel').setParams({
                 type : 'c:phonePanel',

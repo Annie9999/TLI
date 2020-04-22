@@ -28,7 +28,7 @@ public with sharing class ccEditCaseParentCtrl {
 
     @AuraEnabled
     public static Case getInfo(String recordId){
-        Case editCase = [SELECT Id, ContactId, SourceId, AccountId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
+        Case editCase = [SELECT Id, ContactId, SourceId,Insurance_Policy__c, AccountId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
         System.debug('editCase : ' + editCase);
         if(editCase != null){
             return editCase;
@@ -53,12 +53,12 @@ public with sharing class ccEditCaseParentCtrl {
         System.debug('description : ' + description);
         System.debug('SLA : ' + SLA);
 
-        List<Case> editCase = [SELECT Id, ContactId, SourceId, AccountId, OwnerId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
+        List<Case> editCase = [SELECT Id, ContactId, SourceId, Insurance_Policy__c, AccountId, OwnerId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
 
         System.debug('editCase : ' + editCase);
 
         editCase[0].ContactId = contact;
-        editCase[0].SourceId = source;
+        editCase[0].Insurance_Policy__c = source;
         editCase[0].AccountId = account;
         editCase[0].Status = status;
         editCase[0].Service_Type__c = type;
@@ -71,7 +71,9 @@ public with sharing class ccEditCaseParentCtrl {
         editCase[0].Description = description;
 
         System.debug('editCase.SLA__ : ' + SLA);
-        editCase[0].SLA__c = Decimal.valueOf(SLA);
+        if(SLA != null){
+            editCase[0].SLA__c = Decimal.valueOf(SLA);
+        }
 
         if(editCase.size() > 0){
             update editCase;
