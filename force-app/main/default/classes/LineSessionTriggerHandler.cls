@@ -1,19 +1,32 @@
 public with sharing class LineSessionTriggerHandler {
     public static void handleBeforeInsert(List<ChatSession__c> line) {
         try {
+            List<Case> newCaseList = new List<Case>();
+            RecordType recId = [SELECT Id FROM RecordType WHERE DeveloperName = 'CC_Service_Request' LIMIT 1]; // CC เรื่องที่ให้บริการ
             for(ChatSession__c l : line) {
-                Case newCase = new Case();
-                RecordType recId = [SELECT Id FROM RecordType WHERE DeveloperName = 'CC_Service_Request' LIMIT 1]; // CC เรื่องที่ให้บริการ
+                Case newCase = new Case();                
                 newCase.RecordTypeId = recId.Id; 
                 newCase.Status = 'งานใหม่';
                 newCase.Origin = 'LINE';
                 newCase.TLI_Division__c = 'CC สายงานไทยประกันชีวิตแคร์เซ็นเตอร์';
                 newCase.TLI_Subdivision__c = 'CC ศูนย์บริการลูกค้า';
                 newCase.Subject = '[LINE] ติดต่อสอบถาม';
-                insert newCase;
-                System.debug('Auto Case : caseId='+newCase.Id);
+                newCaseList.add(newCase);                
+            }
 
-                l.Service_Request__c = newCase.Id;
+            if(newCaseList.size() > 0){
+                insert newCaseList;
+            }
+
+            List<String> caseIds = new List<String>();
+            for (Case c : newCaseList) {
+                caseIds.add(c.Id);
+            }
+
+            Integer i = 0;
+            for(ChatSession__c l : line) {
+                l.Service_Request__c = caseIds[i];
+                i++;
             }
 
         } catch (Exception e) {

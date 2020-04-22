@@ -1,21 +1,34 @@
 public with sharing class MessagingSessionTriggerHandler {
     public static void handleBeforeInsert(List<MessagingSession> message) {
         try {
+            List<Case> newCaseList = new List<Case>();
+            RecordType recId = [SELECT Id FROM RecordType WHERE DeveloperName = 'CC_Service_Request' LIMIT 1]; // CC เรื่องที่ให้บริการ
             for(MessagingSession m : message) {
-                Case newCase = new Case();
-                RecordType recId = [SELECT Id FROM RecordType WHERE DeveloperName = 'CC_Service_Request' LIMIT 1]; // CC เรื่องที่ให้บริการ
+                Case newCase = new Case();              
                 newCase.RecordTypeId = recId.Id; 
                 newCase.Status = 'งานใหม่';
-                newCase.Origin = 'Facebook';
+                newCase.Origin = 'Facebook Messenger';
                 newCase.TLI_Division__c = 'CC สายงานไทยประกันชีวิตแคร์เซ็นเตอร์';
                 newCase.TLI_Subdivision__c = 'CC ศูนย์บริการลูกค้า';
                 newCase.Subject = '[Facebook Messenger] ติดต่อสอบถาม';
-                insert newCase;
-                System.debug('Auto Case : caseId='+newCase.Id);
+                newCaseList.add(newCase);
+            } 
 
-                m.caseId = newCase.Id;
-            }        
+            if(newCaseList.size() > 0) {
+                insert newCaseList;
+            }
 
+            List<String> caseIds = new List<String>();
+            for (Case c : newCaseList) {
+                caseIds.add(c.Id);
+            }
+
+            Integer i = 0;
+            for(MessagingSession m : message) {
+                m.caseId = caseIds[i];
+                i++;
+            }
+           
         } catch (Exception e) {
             System.debug('An exception occurred: ' + e.getMessage());
         }
