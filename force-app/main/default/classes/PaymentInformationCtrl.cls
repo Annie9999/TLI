@@ -167,6 +167,7 @@ public without sharing class PaymentInformationCtrl {
         oppty.Taxdeduction__c = paymentInfo.taxdeduction;
         oppty.Policy_Trans_Channel__c = paymentInfo.policyChannel;
         oppty.StageName = 'รอการชำระเงิน';
+        oppty.Payment_Status__c = 'ตัดเงินสำเร็จ';
         update oppty;
 
         /* Paymentinfo */
@@ -195,6 +196,9 @@ public without sharing class PaymentInformationCtrl {
         payment.Register_Status__c = paymentInfo.payment.Register_Status__c;
         payment.Payment_Detail__c = paymentInfo.payment.Payment_Detail__c;
         upsert payment;
+
+        System.debug('Payment Status: '+ payment.Payment_Status__c);
+
 
         /* Payor */
         System.debug('paymentInfo.payment.Payment_Type__c' + paymentInfo.payment.Payment_Type__c);

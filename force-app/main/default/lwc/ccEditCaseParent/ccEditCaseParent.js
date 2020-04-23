@@ -830,6 +830,31 @@ export default class CcEditCaseParent extends LightningElement {
             this.checkValidate = true;
         }
 
+        if(contact.value == ''){
+            contact.value = null;
+        }
+        if(account.value == ''){
+            account.value = null;
+        }
+        if(source.value == ''){
+            source.value = null;
+        }
+
+        console.log('this.recordId : ',this.recordId)
+        console.log('contact.value : ',contact.value)
+        console.log('source.value : ',source.value)
+        console.log('account.value : ',account.value)
+        console.log('this.chooseStatus : ',this.chooseStatus)
+        console.log('type.value : ',type.value)
+        console.log('topic.value : ',topic.value)
+        console.log('subject.value : ',subject.value)
+        console.log('sub_subject.value : ',sub_subject.value)
+        console.log('this.chooseDivision : ',this.chooseDivision)
+        console.log('this.chooseSubDivision : ',this.chooseSubDivision)
+        console.log('this.chooseOrigin : ',this.chooseOrigin)
+        console.log('description.value : ',description.value)
+        console.log('this.getSLA : ',this.getSLA)
+
 
         if(this.checkValidate){
             save({

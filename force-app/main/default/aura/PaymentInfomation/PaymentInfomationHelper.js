@@ -175,10 +175,12 @@
         if(paymentType == 'โอนเงินผ่านบัญชีธนาคาร' || paymentType == 'ชำระผ่านเคาน์เตอร์' || paymentType =='หักผ่านบัญชีเงินฝาก'){
             console.log('paymentType' + paymentType);
             helper.functionSendSMS(cmp);
-        }else if(paymentType == 'Payment Gateway'){
+        }
+       /* else if(paymentType == 'Payment Gateway'){
             console.log('paymentType' + paymentType);
             helper.functionSendePolicy(cmp, helper);
-        }else{
+        }*/
+        else{
             console.log('paymentType' + paymentType);
             helper.showToast();
             cmp.set('v.loaded', false);
@@ -186,7 +188,7 @@
         }
     },
 
-    functionSendePolicy : function(cmp, helper){
+    /*functionSendePolicy : function(cmp, helper){
         var action = cmp.get("c.SendEPolicy");
         action.setParams({ 
             opptyId : cmp.get("v.recordId")
@@ -205,7 +207,7 @@
             }
         });
         $A.enqueueAction(action);
-    },
+    },*/
 
     functionSendSMS : function(cmp){
         console.log('functionSendSMS');

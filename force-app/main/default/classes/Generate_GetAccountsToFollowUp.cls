@@ -1,6 +1,6 @@
 global class Generate_GetAccountsToFollowUp {  
 //NOTE: You can get the user id of the current user by also doing UserInfo.getUserId(). 
-    @InvocableMethod(label='Refferral Friend' 
+    @InvocableMethod(label='Refferral Friend test by JJ' 
                      description='Recommend accounts the current user should follow up on today for Refferral Friend')
     global static List<List<Recommendation>> getAccounts(List<String> inputData){
         List<List<Recommendation>> outputs = new List<List<Recommendation>>();
@@ -18,24 +18,8 @@ global class Generate_GetAccountsToFollowUp {
                         AcceptanceLabel = 'Review'
                     );
             
-            		Recommendation rec2 = new Recommendation(
-                        Name = account.Name,
-                        Description = 'Connect with the ' + account.Name + ' account, Prefer Refferral Friend Campaign. As a customer '+account.Customer_Age__c+' year',
-                        //Pre-req: Create a screen flow with the name simpleFlow                        
-                        ActionReference = 'Assets_and_Liabilities',
-                        AcceptanceLabel = 'Review'
-                    );
-            
-            		Recommendation rec3 = new Recommendation(
-                        Name = account.Name,
-                        Description = 'Connect with the ' + account.Name + ' account, Prefer Refferral Friend Campaign. As a customer '+account.Customer_Age__c+' year',
-                        //Pre-req: Create a screen flow with the name simpleFlow                        
-                        ActionReference = 'Ref_Flow',
-                        AcceptanceLabel = 'Review'
-                    );
+            		
                     recs.add(rec);
-            recs.add(rec2);
-            recs.add(rec3);
                
             //}
         }
