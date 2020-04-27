@@ -16,6 +16,15 @@ public without sharing class TLI_AutoConvertLeadCtrl {
         @AuraEnabled
         public string opportunityId;
     }
+
+    @AuraEnabled (cacheable=false)
+    public static string getStatus(Id leadId){
+        Lead leadObj = [SELECT id,Status
+                        FROM Lead
+                        WHERE id = : leadId];
+        return leadObj.Status;     
+    }
+
     @AuraEnabled (cacheable=false)
     public static ResponseWrapper convertLead(Id leadId, Id OwnerId) {
 

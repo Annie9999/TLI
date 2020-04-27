@@ -10,19 +10,32 @@
     
     PDFbody : {!PDFbody} <br/> -->
 
+    <apex:repeat value="{!PublicLink}" var="Link" >
+
+        <apex:outputLink value="{!Link.DistributionPublicUrl}" >{!Link.Name}</apex:outputLink><br/>
+
+    </apex:repeat>
+
+    <!-- <p>Download : </p> <apex:outputLink value="{!PublicLink}" id="PublicLink">Click here.</apex:outputLink> -->
+
     <!-- PDFbodyBlob : {!PDFbodyBlob} <br/> -->
 
-    <embed type="audio/mpeg" height="100" width="100%" src="data:audio/mpeg;base64,/+MYxAAEaAIEeUAQAgBgNgP/////KQQ/////Lvrg+lcWYHgtjadzsbTq+yREu495tq9c6v/7vt/of7mna9v6/btUnU17Jun9/+MYxCkT26KW+YGBAj9v6vUh+zab//v/96C3/pu6H+pv//r/ycIIP4pcWWTRBBBAMXgNdbRaABQAAABRWKwgjQVX0ECmrb///+MYxBQSM0sWWYI4A++Z/////////////0rOZ3MP//7H44QEgxgdvRVMXHZseL//540B4JAvMPEgaA4/0nHjxLhRgAoAYAgA/+MYxAYIAAJfGYEQAMAJAIAQMAwX936/q/tWtv/2f/+v//6v/+7qTEFNRTMuOTkuNVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" />
-
-    <!-- <embed src='application/data:pdf;base64,{!PDFbodyBlob}' type='application/pdf'/> -->
-    <embed src="data:application/pdf;base64,{!PDFbodyBlob}"/>
+    <!-- <apex:outputLink value="{!'/abtest/sfc/servlet.shepherd/version/download/'+...}" target="_document">testdoc</apex:outputLink> -->
 
     <!-- <apex:image value="data:image;base64,{!PDFbodyBlob}" /> -->
 
-    <!-- <iframe src="data:pdf;base64,{!PDFbodyBlob}" ></iframe> -->
+    <!-- <iframe src="data:application/pdf;base64,{!PDFbodyBlob}" width="100%" height="100%"></iframe> -->
+
+    <!-- <embed src="data:application/pdf;base64,{!PDFbodyBlob}" width="100%" height="100%"/> -->
+
+    <!-- <object data="data:application/pdf;base64,{!PDFbodyBlob}" type="application/pdf" width="100%" height="100%">
+        <embed src="data:application/pdf;base64,{!PDFbodyBlob}" type="application/pdf">
+            <p>This browser does not support PDFs. Please download the PDF to view it: <a href="data:application/pdf;base64,{!PDFbodyBlob}">Download PDF</a>.</p>
+        </embed>
+    </object> -->
 
     <!-- <apex:form>
-        <apex:outputLabel value="Body" for="Body"/>: <br/>    
+        <apex:outputLabel value="{!PDFbodyBlob}" for="Body"/>: <br/>    
         <apex:inputTextarea value="{!PDFbodyBlob}" id="Body"/>
     </apex:form> -->
     

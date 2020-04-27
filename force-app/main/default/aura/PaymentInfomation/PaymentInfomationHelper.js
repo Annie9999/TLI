@@ -174,7 +174,7 @@
         
         if(paymentType == 'โอนเงินผ่านบัญชีธนาคาร' || paymentType == 'ชำระผ่านเคาน์เตอร์' || paymentType =='หักผ่านบัญชีเงินฝาก'){
             console.log('paymentType' + paymentType);
-            helper.functionSendSMS(cmp);
+            helper.functionSendSMS(cmp, helper);
         }
        /* else if(paymentType == 'Payment Gateway'){
             console.log('paymentType' + paymentType);
@@ -209,20 +209,15 @@
         $A.enqueueAction(action);
     },*/
 
-    functionSendSMS : function(cmp){
+    functionSendSMS : function(cmp, helper){
         console.log('functionSendSMS');
         var action = cmp.get("c.sendSMS");
-        action.setParams({ 
-            phoneNumber : '+66873616215',
-            message : 'ทดสอบบบบบบบ 123456789 '
-        });
         action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
                 console.log('Success +++++ ');
                 helper.showToast();
                 cmp.set('v.loaded', false);
-                // helper.closemodal();
             }else if (state === "ERROR") {
                 cmp.set('v.loaded', false);
                 var errors = response.getError();

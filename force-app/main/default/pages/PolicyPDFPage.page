@@ -1,0 +1,6 @@
+<apex:page controller="PolicyPDFController" renderAs="PDF">
+    
+    
+    {!PDFbodyBlob}
+    
+</apex:page>

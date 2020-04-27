@@ -1,5 +1,5 @@
 <template>
-    <lightning-record-edit-form record-id={recordId} object-api-name="Case">
+    <lightning-record-edit-form record-id={recordId} object-api-name="Case" onsubmit={save}>
         <lightning-messages>
         </lightning-messages>
         <lightning-card>
@@ -268,7 +268,7 @@
                         <lightning-input-field value={getService_Topic} field-name='Subject' class="hide"></lightning-input-field>
                         <lightning-input-field value={getService_Topic} field-name='Subject' class="hide"></lightning-input-field> -->
 
-                        <lightning-button variant="brand" type="submit" name="save" label={label.labelSave_Service_Request} onclick={save}></lightning-button>
+                        <lightning-button variant="brand" type="submit" name="save" label={label.labelSave_Service_Request}></lightning-button>
                     </div>
                 </div>
             </div>

@@ -16,11 +16,19 @@ public without sharing class getGroupController {
     public static string updateGroup(Id recordId,Id userId) {
         
         try {
+            String recordIdStr = recordId;
            System.debug(recordId);
             System.debug(userId);
-            Opportunity opp = new Opportunity(id=recordId);
-            opp.OwnerId = userId;
-            update opp;    
+            if(recordIdStr.startsWith('00Q')){
+                Lead lead = new Lead(id=recordId);
+                System.debug('Lead');
+                lead.OwnerId = userId;
+                update lead;
+            }else if(recordIdStr.startsWith('006')){
+                Opportunity opp = new Opportunity(id=recordId);
+                opp.OwnerId = userId;
+                update opp;    
+            }
             return 'Success';
         } catch (Exception e) {
             return e.getMessage();

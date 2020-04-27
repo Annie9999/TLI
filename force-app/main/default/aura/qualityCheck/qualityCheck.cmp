@@ -125,17 +125,17 @@
             </div> -->
             <div class="slds-size_1-of-3">
                 <!-- <lightning:button type="submit" variant="brand" label="Accept - Send to NB" iconName="utility:chevronright" iconPosition="right" onclick="{! c.accept }"/> -->
-                <lightning:button type="submit" name="nb" variant="brand" label="Accept - Send to NB" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+                <lightning:button type="submit" name="nb" variant="brand" label="ผ่านการประเมิณ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
 
             </div>
             <div class="slds-size_1-of-3">
                 <!-- <lightning:button type="submit" name="uw" variant="brand" label="Need Medical Consult" iconName="utility:chevronright" iconPosition="right" onclick="{! c.toConsult }"/> -->
-                <lightning:button type="submit" name="uw" variant="brand" label="Need Medical Consult" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+                <lightning:button type="submit" name="uw" variant="brand" label="พิจารณาสุขภาพ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
 
             </div>
             <div class="slds-size_1-of-3">
                 <!-- <lightning:button type="submit" name="reject" variant="brand" label="Reject" iconName="utility:chevronright" iconPosition="right" onclick="{! c.reject }"/> -->
-                <lightning:button type="submit" name="reject" variant="brand" label="Reject" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+                <lightning:button type="submit" name="reject" variant="brand" label="ไม่ผ่านการประเมิณ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
 
             </div>
         </div>

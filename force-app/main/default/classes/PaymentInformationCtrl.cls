@@ -167,7 +167,12 @@ public without sharing class PaymentInformationCtrl {
         oppty.Taxdeduction__c = paymentInfo.taxdeduction;
         oppty.Policy_Trans_Channel__c = paymentInfo.policyChannel;
         oppty.StageName = 'รอการชำระเงิน';
-        oppty.Payment_Status__c = 'ตัดเงินสำเร็จ';
+
+        // Check Payment Gateway Type
+        if(paymentInfo.payment.Payment_Type__c == 'Payment Gateway'){
+            oppty.Payment_Status__c = 'ตัดเงินสำเร็จ';
+        }
+
         update oppty;
 
         /* Paymentinfo */
@@ -297,12 +302,8 @@ public without sharing class PaymentInformationCtrl {
     }
 
     @AuraEnabled
-    public static void sendSMS(String phoneNumber, String message){
-        System.debug('Send sms ' + phoneNumber);
-        System.debug('Send sms ' + message);
+    public static void sendSMS(){
         Sendsms sms = new Sendsms();
-        sms.phNumber = phoneNumber;
-        sms.smsBody = message;
         String result = sms.Sendsms();
         System.debug('Send sms ' + result);
     }

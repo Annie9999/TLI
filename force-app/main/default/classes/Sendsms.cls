@@ -6,6 +6,7 @@ public class Sendsms{
      String accountSid;
      string token;
      String fromPhNumber;
+     string toPhNumber;
      errorResponseWrapper erw;
 
      public sendsms(){
@@ -16,9 +17,13 @@ public class Sendsms{
          // fromPhNumber = '+12052933108';
 
          // James Account Test
-         accountSid = 'ACfe78b099650e5d3cb1502d3929d17ffd';
-         token = '544152e5d9d3c0451a05e4e71f55ccbd';
-         fromPhNumber = '+17178640951';
+         DM_Constatant__mdt constatant = [SELECT AccountSid__c, FromPhoneNumber__c, Sms_Messenge__c, Token__c, 	ToPhoneNumber__c FROM DM_Constatant__mdt LIMIT 1];
+
+         accountSid = constatant.AccountSid__c;
+         token = constatant.Token__c;
+         fromPhNumber = constatant.FromPhoneNumber__c;
+         toPhNumber = constatant.ToPhoneNumber__c;
+         smsBody = constatant.Sms_Messenge__c;
      }
 
     public void processSms(){
@@ -35,7 +40,7 @@ public class Sendsms{
          req.setHeader('Accept', 'application/json');
          req.setHeader('Accept-Charset', 'utf-8');
          req.setHeader('Authorization','Basic '+EncodingUtil.base64Encode(Blob.valueOf(accountSid+':' +token)));
-         req.setBody('To='+EncodingUtil.urlEncode(phNumber,'UTF-8')+'&From='+EncodingUtil.urlEncode(fromPhNumber,'UTF-8')+'&Body='+smsBody);
+         req.setBody('To='+EncodingUtil.urlEncode(toPhNumber,'UTF-8')+'&From='+EncodingUtil.urlEncode(fromPhNumber,'UTF-8')+'&Body='+smsBody);
          Http http = new Http();
          HTTPResponse res = http.send(req);
          System.debug(res.getBody());
@@ -48,11 +53,6 @@ public class Sendsms{
      }
 
     public String sendSms(){
-        String result = sendSms(phNumber, smsBody);
-        return result;
-    }
-
-    private String sendSms(String phNumber, String smsBody){
         HttpRequest req = new HttpRequest();
         req.setEndpoint('https://api.twilio.com/2010-04-01/Accounts/'+accountSid+'/SMS/Messages.json');
         req.setMethod('POST');
@@ -62,19 +62,16 @@ public class Sendsms{
         req.setHeader('Accept', 'application/json');
         req.setHeader('Accept-Charset', 'utf-8');
         req.setHeader('Authorization','Basic '+EncodingUtil.base64Encode(Blob.valueOf(accountSid+':' +token)));
-        req.setBody('To='+EncodingUtil.urlEncode(phNumber,'UTF-8')+'&From='+EncodingUtil.urlEncode(fromPhNumber,'UTF-8')+'&Body='+smsBody);
+        req.setBody('To='+EncodingUtil.urlEncode(toPhNumber,'UTF-8')+'&From='+EncodingUtil.urlEncode(fromPhNumber,'UTF-8')+'&Body='+smsBody);
         Http http = new Http();
         HTTPResponse res = http.send(req);
 
         System.debug(res.getBody());
 
         if(res.getStatusCode()==201)
-            // ApexPages.addmessage(new ApexPages.message(ApexPages.severity.INFO,'SMS Sent Successfully'));
             return 'SMS send successfully';
         else{
-            // erw =(errorResponseWrapper)json.deserialize(res.getBody(),errorResponseWrapper.class);
-            // ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,erw.message));
-            return erw.message;
+            return 'SMS send fail';
         }
     }
 

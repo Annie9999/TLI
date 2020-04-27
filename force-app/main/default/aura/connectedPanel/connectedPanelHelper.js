@@ -59,7 +59,14 @@ WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE SOFTWARE IS PROVIDED "AS I
                 // console.log('createLog');
                 var today = new Date();
                 var date = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
-                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+                var hour    = today.getHours();
+                var minute  = today.getMinutes();
+                var second  = today.getSeconds(); 
+                if(hour.toString().length == 1) {hour = '0'+hour;}
+                if(minute.toString().length == 1) {minute = '0'+minute;}
+                if(second.toString().length == 1) {second = '0'+second;}   
+                var time = hour + ':' + minute + ':' + second;
                 var dateTime = date+' '+time;
 
                 cmp.find("ticker").getDurationInSeconds(function(duration) {

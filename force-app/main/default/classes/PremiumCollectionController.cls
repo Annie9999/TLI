@@ -17,11 +17,11 @@ public class PremiumCollectionController {
         
         String opptyId = opportunity[0].Id;
 
-        Opportunity opp = [SELECT Id, Amount, productgroup__c, Sub_productgroup__c, Payment_Mode__c
+        Opportunity opp = [SELECT Id, AccountId, Amount, productgroup__c, Sub_productgroup__c, Payment_Mode__c
                             FROM Opportunity 
                             WHERE id=:opptyId];    
 
-        InsurancePolicy poli = [SELECT Id, PremiumAmount, PremiumFrequency, Status, PaymentDueDate, SourceOpportunityId 
+        InsurancePolicy poli = [SELECT Id, Name, PremiumAmount, PremiumFrequency, Status, PaymentDueDate, SourceOpportunityId 
                                     FROM InsurancePolicy
                                     WHERE SourceOpportunityId =:opptyId 
                                     ORDER BY LastModifiedDate DESC LIMIT 1];  
@@ -31,41 +31,41 @@ public class PremiumCollectionController {
 
         Date dueDate = Date.today();
         List<Premium__C> listPremium = new List<Premium__C>();
+        List<Task> listTask = new List<Task>();
 
         if (opp.Payment_Mode__c == 'รายเดือน') {
-            for (Integer i = 0; i < 11; i++) {
+            for (Integer i = 1; i <= 11; i++) {
+
+                // Create Premium Collection
                 Premium__C pc = new Premium__C();
+                pc.Name = 'Premium Collection #' + i;
                 pc.Insurance_Policy__c = poli.Id;
                 pc.Insurance_Type__c = 'ปีแรก';
                 pc.Followup_Result__c = 'Wait';
                 pc.Opportunity__c = opp.Id;
                 pc.Premium_Amount__c = Double.valueOf(opp.amount);
-                pc.Payment_Due_Date__c = dueDate.addMonths(1+i);
-                pc.Payment_Date__c = dueDate.addMonths(1+i).addDays(5);
+                pc.Payment_Due_Date__c = dueDate.addMonths(1*i);
+                pc.Payment_Date__c = dueDate.addMonths(1*i).addDays(5);
 
-                //pc.Productgroup__c = opp.productgroup__c;
-                //pc.Sub_Productgroup__c = opp.Sub_productgroup__c;
-                //pc.Collection_Pending__c = '';
-                //pc.Payment_Type__c = '';
-
-                System.debug('Result' + pc);
+                System.debug('Result Collection : ' + pc);
 
                 listPremium.add(pc);
 
                 System.debug('Success Create Premium Collection.');
             }
         } else if(opp.Payment_Mode__c == 'ราย 3 เดือน'){
-            for (Integer i = 0; i < 3; i++) {
+            for (Integer i = 1; i <= 3; i++) {
                 Premium__C pc = new Premium__C();
+                pc.Name = 'Premium Collection #' + i;
                 pc.Insurance_Policy__c = poli.Id;
                 pc.Insurance_Type__c = 'ปีแรก';
                 pc.Followup_Result__c = 'Wait';
                 pc.Opportunity__c = opp.Id;
                 pc.Premium_Amount__c = Double.valueOf(opp.amount);
-                pc.Payment_Due_Date__c = dueDate.addMonths(3+i);
-                pc.Payment_Date__c = dueDate.addMonths(3+i).addDays(5);
+                pc.Payment_Due_Date__c = dueDate.addMonths(3*i);
+                pc.Payment_Date__c = dueDate.addMonths(3*i).addDays(5);
 
-                System.debug('Result' + pc);
+                System.debug('Result Collection : ' + pc);
 
                 listPremium.add(pc);
 
@@ -74,15 +74,16 @@ public class PremiumCollectionController {
         } else if(opp.Payment_Mode__c == 'ราย 6 เดือน'){
                 Integer i = 1;
                 Premium__C pc = new Premium__C();
+                pc.Name = 'Premium Collection #' + i;
                 pc.Insurance_Policy__c = poli.Id;
                 pc.Insurance_Type__c = 'ปีแรก';
                 pc.Followup_Result__c = 'Wait';
                 pc.Opportunity__c = opp.Id;
                 pc.Premium_Amount__c = Double.valueOf(opp.amount);
-                pc.Payment_Due_Date__c = dueDate.addMonths(6+i);
-                pc.Payment_Date__c = dueDate.addMonths(6+i).addDays(5);
+                pc.Payment_Due_Date__c = dueDate.addMonths(6*i);
+                pc.Payment_Date__c = dueDate.addMonths(6*i).addDays(5);
                 
-                System.debug('Result' + pc);
+                System.debug('Result Collection : ' + pc);
 
                 listPremium.add(pc);
 
@@ -91,9 +92,29 @@ public class PremiumCollectionController {
             System.debug('Can not create Premium Collection.');
         }
 
-        System.debug('Result Collection List : ' + listPremium);
+        System.debug('Result Collections List : ' + listPremium);
 
         insert listPremium;
+
+        // Create Task to DM Collection
+        for (Premium__C premium : listPremium) {
+            Task tasks = new Task();
+            //tasks.WhoId = opp.AccountId;
+            tasks.subject = 'ติดตามเบี้ยประกัน ' + poli.Name;
+            tasks.OwnerId = '005q0000006NE2vAAG';
+            tasks.WhatId = premium.Id;
+            tasks.ActivityDate = premium.Payment_Due_Date__c;
+
+            System.debug('Result Task : ' + tasks);
+
+            listTask.add(tasks);
+
+            System.debug('Success Create Task Premium Collection.');
+        }
+
+        System.debug('Result Tasks List : ' + listTask);
+               
+        insert listTask;
     }
     
 }

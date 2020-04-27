@@ -130,7 +130,7 @@
 
         <div class="slds-grid slds-gutters">
             <div class="slds-col slds-size_6-of-12">
-                <lightning:input name="อีเมล" type="email" label="อีเมล" value="{! v.newAcc.Email__c}"  disabled="{!v.status}"/>
+                <lightning:input name="อีเมล" type="email" label="อีเมล" value="{! v.newAcc.PersonEmail}"  disabled="{!v.status}"/>
             </div>
         </div>
         <br />

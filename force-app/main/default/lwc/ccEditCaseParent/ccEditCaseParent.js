@@ -779,6 +779,7 @@ export default class CcEditCaseParent extends LightningElement {
     }
     stampSubDivision(event){
         this.getService_SubDivision = event.target.value;
+        // this.chooseSubDivision = event.target.value;
     }
     stampSLA(sla){
         this.getSLA = sla;
@@ -788,7 +789,11 @@ export default class CcEditCaseParent extends LightningElement {
         alert('TEST');
     }
 
-    save(){
+    save(event){
+        event.preventDefault();
+
+        const fields = event.detail.fields;
+
         let contact = this.template.querySelector(`[data-id="contact"]`);
         let source = this.template.querySelector(`[data-id="source"]`);
         let account = this.template.querySelector(`[data-id="account"]`);
@@ -806,17 +811,17 @@ export default class CcEditCaseParent extends LightningElement {
         if(this.getService_Topic == null || this.getService_Topic == undefined || this.getService_Topic == 'undefined'){
             listfieldError.push(this.labelService_Topic);
         }
-        if(this.getService_Subject == null || this.getService_Subject == undefined || this.getService_Subject == 'undefined' && this.listService_Subject.length > 0){
+        if( (this.getService_Subject == null || this.getService_Subject == undefined || this.getService_Subject == 'undefined' ) && this.listService_Subject.length > 0){
             listfieldError.push(this.labelService_Subject);
         }
         if(this.getService_Sub_Subject == null && this.listService_Sub_Subject.length > 0){
             listfieldError.push(this.labelService_Sub_Subject);
         }
         
-        if(this.chooseDivision == null || this.chooseDivision == undefined || this.chooseDivision == 'undefined'){
+        if(this.getService_Division == null || this.getService_Division == undefined || this.getService_Division == 'undefined' || this.getService_Division == ''){
             listfieldError.push(this.labelDivision);
         }
-        if(this.chooseSubDivision == null || this.chooseSubDivision == undefined || this.chooseSubDivision == 'undefined'){
+        if( (this.getService_SubDivision == null || this.getService_SubDivision == undefined || this.getService_SubDivision == 'undefined' || this.getService_SubDivision == '' ) && this.lstSubDivision.length > 0){
             listfieldError.push(this.labelSubDivision);
         }
         
@@ -844,14 +849,14 @@ export default class CcEditCaseParent extends LightningElement {
         console.log('contact.value : ',contact.value)
         console.log('source.value : ',source.value)
         console.log('account.value : ',account.value)
-        console.log('this.chooseStatus : ',this.chooseStatus)
+        console.log('this.getService_Status : ',this.getService_Status)
         console.log('type.value : ',type.value)
         console.log('topic.value : ',topic.value)
         console.log('subject.value : ',subject.value)
         console.log('sub_subject.value : ',sub_subject.value)
-        console.log('this.chooseDivision : ',this.chooseDivision)
-        console.log('this.chooseSubDivision : ',this.chooseSubDivision)
-        console.log('this.chooseOrigin : ',this.chooseOrigin)
+        console.log('this.getService_Division : ',this.getService_Division)
+        console.log('this.getService_SubDivision : ',this.getService_SubDivision)
+        console.log('this.getService_Origin : ',this.getService_Origin)
         console.log('description.value : ',description.value)
         console.log('this.getSLA : ',this.getSLA)
 
@@ -877,6 +882,7 @@ export default class CcEditCaseParent extends LightningElement {
                 // console.log('save : ', result);
 
                 // close Tab
+                this.template.querySelector('lightning-record-edit-form').submit(fields);
                 var close = {
                     close:true, 
                     recordCaseId: this.recordId
