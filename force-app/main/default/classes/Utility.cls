@@ -23,12 +23,13 @@ public class Utility {
         return 'Add Case Success';
     }
     
-    public static void sendEmail(Id oppId,String templateEmail,boolean chkAttach){
+    public static void sendEmail(Id leadId,String templateEmail,boolean chkAttach){
 
-        List<Opportunity> opptyList = [select Id, Name, Account.PersonEmail from Opportunity where id = :oppId];
-        string email = opptyList[0].Account.PersonEmail;
+        List<Lead> leadList = [select Id, Name, Email from Lead where id = :leadId];
+        system.debug('leadList '+leadList);
+        string email = leadList[0].Email;
         // string email = 'ntw@ii.co.th';
-        System.debug(oppId);
+        System.debug(leadId);
         System.debug(templateEmail);
         System.debug(chkAttach);
         Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
@@ -39,7 +40,7 @@ public class Utility {
             message.setSaveAsActivity(false); 
             EmailTemplate emailTemplate = [Select Id,Subject,Description,HtmlValue,DeveloperName,Body from EmailTemplate where name =:templateEmail];
             message.setTemplateID(emailTemplate.Id); 
-            message.setWhatId(oppId); //This is important for the merge fields in template to work
+            message.setWhatId(leadId); //This is important for the merge fields in template to work
             message.toAddresses = new String[] {email};
             Messaging.SingleEmailMessage[] messages = new List<Messaging.SingleEmailMessage> {message};
             if(chkAttach){

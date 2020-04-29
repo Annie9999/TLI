@@ -1,7 +1,7 @@
 <apex:component controller="SendPaymentTemplateController"  access="global"  > 
-    <apex:attribute name="opprtunityId" type="Id" description="Id of the opportunity" assignTo="{!oppId}"/>
 
-<!-- <apex:attribute name="lead" type="Id" description="Id of the lead" assignTo="{!leadId}"/> -->
+    <apex:attribute name="leadObjId" type="Id" description="Id of the lead" assignTo="{!leadId}"/>
+
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet"/> 
@@ -78,7 +78,7 @@
                                                                                  เบี้ยประกันพร้อมส่วนลดสำหรับคุณ
                                                                              </div>
                                                                              <div style="font-family: Arial, sans-serif; font-size: 25px; text-align: center; color: #000000; font-weight: bold; word-spacing: -5px;" >
-                                                                                 ฿ {!item.oppty.Amount}
+                                                                                 ฿ {!item.leadObj.Amount_Currency__c}
                                                                                  <!-- ฿<apex:outputText value="{0, number, ###,###,##0.00}">
                                                                                     <apex:param value="{!item.amount}" />
                                                                                 </apex:outputText>/{!item.promotionPaymentMode}-->
@@ -130,7 +130,8 @@
                                                                                     คุณ:
                                                                                 </td>
                                                                                 <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
-                                                                                    {!item.acc.FirstName} &nbsp; {!item.acc.LastName}
+                                                                                    {!item.leadObj.Name}
+                                                                                    <!-- {!item.acc.FirstName} &nbsp; {!item.acc.LastName}-->
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -146,7 +147,8 @@
                                                                                     เพศ:
                                                                                 </td>
                                                                                 <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
-                                                                                    {!item.acc.Sex__pc} 
+                                                                                    {!item.leadObj.gender__c}
+
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -154,7 +156,7 @@
                                                                                     อีเมล:
                                                                                 </td>
                                                                                 <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
-                                                                                    {!item.acc.PersonEmail}
+                                                                                    {!item.leadObj.Email}
                                                                                 </td>
                                                                             </tr>
                                                                             <tr>
@@ -162,7 +164,7 @@
                                                                                     เบอร์มือถือ:
                                                                                 </td>
                                                                                 <td width="50%" style="font-family: Arial, sans-serif; font-size: 14px; text-align: left; color: #000000;">
-                                                                                    {!item.acc.phone}
+                                                                                    {!item.leadObj.Phone}
                                                                                 </td>
                                                                             </tr>
                                                                         </table>

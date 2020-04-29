@@ -53,21 +53,27 @@ public with sharing class ccEditCaseParentCtrl {
         System.debug('description : ' + description);
         System.debug('SLA : ' + SLA);
 
-        List<Case> editCase = [SELECT Id, ContactId, SourceId, Insurance_Policy__c, AccountId, OwnerId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
+        List<Case> editCase = [SELECT Id, ContactId, SourceId, Insurance_Policy__c, AccountId, Subject, OwnerId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
 
         System.debug('editCase : ' + editCase);
 
-        editCase[0].ContactId = contact;
+        editCase[0].ContactId = contact; 
         editCase[0].Insurance_Policy__c = source;
         editCase[0].AccountId = account;
         editCase[0].Status = status;
         editCase[0].Service_Type__c = type;
-        editCase[0].Service_Topic__c = topic;
-        editCase[0].Service_Subject__c = subject;
-        editCase[0].Service_Sub_Subject__c = sub_subject;
+
+        editCase[0].Origin = origin;
+
+        if(origin == 'โทรเข้า' || origin == 'โทรออก'){
+            editCase[0].Service_Topic__c = topic;
+            editCase[0].Service_Subject__c = subject;
+            editCase[0].Subject = subject;
+            editCase[0].Service_Sub_Subject__c = sub_subject;
+        }
+
         editCase[0].TLI_Division__c = division;
         editCase[0].TLI_Subdivision__c = subDivision;
-        editCase[0].Origin = origin;
         editCase[0].Description = description;
 
         System.debug('editCase.SLA__ : ' + SLA);

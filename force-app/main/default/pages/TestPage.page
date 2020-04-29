@@ -1,0 +1,262 @@
+<apex:page sidebar="false" lightningStylesheets="true" applyHtmlTag="true" applyBodyTag="false" showHeader="false">
+  <apex:slds />
+  <article class="slds-card" style="padding-top:30px;">
+    <div class="slds-card__header slds-grid" >
+      <header class="slds-media slds-media_center slds-has-flexi-truncate" >
+        <div class="slds-media__figure">
+          <span class="slds-icon_container slds-icon-standard-account" title="lead">
+            <svg class="slds-icon slds-icon_small" aria-hidden="true">
+              <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                 xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/standard-sprite/svg/symbols.svg#account')}"></use>
+            </svg>
+            <span class="slds-assistive-text">lead</span>
+          </span>
+        </div>
+        <div class="slds-media__body">
+          <h2 class="slds-card__header-title" style="font-size: 30px;"> 
+            <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="Leads">
+              <span>Lead</span>
+            </a>
+          </h2>
+        </div>
+      </header>
+  </div>
+  <div class="slds-card__body slds-card__body_inner"></div>
+  </article>    
+  <body class="slds-scope">
+    <div class="slds-box">
+      <div class="slds-form" role="list">
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">
+                <abbr class="slds-required" title="required">* </abbr>Assigned To
+              </span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                  <span class="slds-avatar slds-avatar_x-small slds-avatar_circle slds-m-right_xx-small">
+                    <img alt="Jack Rogers" src="/assets/images/avatar1.jpg" title="Jack Rogers" />
+                  </span>
+                  <a href="javascript:void(0);" style="font-size: 20px;">Jack Rogers</a>
+                </div>
+                <button class="slds-button slds-button_icon" title="Edit: Assigned To">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use> 
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Assigned To</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">Team Name</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                  <a href="javascript:void(0);" style="font-size: 20px;">Salesforce Lightning Design System</a>
+                </div>
+                <button class="slds-button slds-button_icon" title="Edit: Team Name">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Team Name</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">Security Assessment Required?</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                  <span class="slds-icon_container slds-icon-utility-steps slds-current-color" title="False">
+                    <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#steps')}"></use>
+                    </svg>
+                    <span class="slds-assistive-text" style="font-size: 20px;">False</span>
+                  </span>
+                </div>
+                <button class="slds-button slds-button_icon" title="Edit: Security Assessment Required?">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Security Assessment Required?</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">Status</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static" style="font-size: 20px;"></div>
+                <button class="slds-button slds-button_icon" title="Edit: Status">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Status</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">Personalization Settings</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static" style="font-size: 20px;">Disable end user personalization</div>
+                <button class="slds-button slds-button_icon" title="Edit: Personalization Settings">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use> 
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Personalization Settings</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">SLA Serial Number</span>
+              <div class="slds-form-element__icon">
+                <button class="slds-button slds-button_icon">
+                  <svg class="slds-button__icon" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#info')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Help</span>
+                </button>
+              </div>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static" style="font-size: 20px;">5367</div>
+                <button class="slds-button slds-button_icon" title="Edit: SLA Serial Number">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Edit: SLA Serial Number</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">SLA Expiration Date</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static" style="font-size: 20px;">1/1/2018</div>
+                <button class="slds-button slds-button_icon" title="Edit: SLA Expiration Date">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use> 
+                  </svg>
+                  <span class="slds-assistive-text">Edit: SLA Expiration Date</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">Location</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static" style="font-size: 20px;">10.283, 54.293</div>
+                <button class="slds-button slds-button_icon" title="Edit: Location">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Location</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">
+                <abbr class="slds-required" title="required">* </abbr>Billing Address
+              </span>
+              <div class="slds-form-element__icon">
+                <button class="slds-button slds-button_icon">
+                  <svg class="slds-button__icon" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#info')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Help</span>
+                </button>
+              </div>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static" style="font-size: 20px;">
+                  <a href="javascript:void(0);">525 S. Lexington Ave Burlington, NC 27215 USA</a>
+                </div>
+                <button class="slds-button slds-button_icon" title="Edit: Billing Address">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Billing Address</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+              <span class="slds-form-element__label" style="font-size: 25px;">Shipping Address</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static" style="font-size: 20px;">
+                  <a href="javascript:void(0);">312 Constitution Place Austin, TX 78767 USA </a>
+                </div>
+                <button class="slds-button slds-button_icon" title="Edit: Shipping Address">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+                      <use xmlns:xlink="http://www.w3.org/1999/xlink"
+                           xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use> 
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Shipping Address</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="slds-form__row">
+          <div class="slds-form__item" role="listitem">
+            <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent slds-form-element_1-col">
+              <span class="slds-form-element__label" style="font-size: 25px;">Description</span>
+              <div class="slds-form-element__control">
+                <div class="slds-form-element__static slds-text-longform" style="font-size: 20px;">Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Etiam porta sem malesuada magna mollis euismod.
+                <br/>
+                </div>
+                <button class="slds-button slds-button_icon" title="Edit: Description">
+                  <svg class="slds-button__icon slds-button__icon_hint" aria-hidden="true">
+              	    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="{!URLFOR($Asset.SLDS, '/assets/icons/utility-sprite/svg/symbols.svg#edit')}"></use>
+                  </svg>
+                  <span class="slds-assistive-text">Edit: Description</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+   
+
+    
+</apex:page>

@@ -13,6 +13,7 @@
     <apex:repeat value="{!PublicLink}" var="Link" >
 
         <apex:outputLink value="{!Link.DistributionPublicUrl}" >{!Link.Name}</apex:outputLink><br/>
+        {!Link.ContentDownloadUrl}<br/>
 
     </apex:repeat>
 

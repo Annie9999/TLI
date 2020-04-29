@@ -1,0 +1,42 @@
+<aura:component implements = "force:lightningQuickAction,force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable" >
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="isOpen" type="Boolean" default="false" />
+    <aura:html tag="style">
+		.modal-container.slds-modal__container{
+			background: transparent;
+			box-shadow: none !important;
+		}
+        .modal-container.slds-modal__container .modal-header.slds-modal__header{
+			display:none;
+		}
+		.modal-container.slds-modal__container .modal-body{
+			background: transparent;
+		}
+		.modal-container.slds-modal__container .modal-footer.slds-modal__footer{
+			display:none;
+		}
+        .slds-button.slds-modal__close{
+            display:none;
+        }
+    </aura:html>
+    <aura:if isTrue="{!v.isOpen}">
+        <div class="cardSize">
+            <h3 slot="title">
+                <div class="slds-grid slds-grid_align-center textHead">
+                    <div>
+                        ปุ่มนี้สามารถใช้งานบนได้เฉพาะบนมือถือหรือแท็บเล็ตเท่านั้น
+                    </div>
+                </div>
+            </h3>
+            <br/>
+            <br/>
+            <div slot="footer">
+                <div class="slds-grid slds-grid_align-center">
+                    <button class="slds-button slds-button_outline-brand" onclick="{!c.closeQuickAction}">ตกลง</button>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

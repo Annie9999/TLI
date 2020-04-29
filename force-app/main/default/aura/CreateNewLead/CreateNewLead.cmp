@@ -1,0 +1,42 @@
+<aura:component controller="LeadController" implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForRecordHome,lightning:isUrlAddressable" access="global"  >
+    <aura:html tag="style">
+        .slds-modal__container {
+        width: 50%;
+        height: 100%;
+        max-height: 650px;
+        max-width: 70rem;
+        height: auto !important;
+        position: relative;
+        }
+        
+    </aura:html>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="leads" type="Object"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+
+      
+    <br/>
+    
+    <div class="slds-box"  style="padding:2%;">
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="text-input-id-1">
+                <abbr class="slds-required" title="required">* </abbr>Account</label>
+            <div class="slds-form-element__control">
+                <input type="text" id="text-input-id-1"  value="{!v.leads.Account__c}"   required="" class="slds-input"  disabled="true" />
+            </div>
+        </div>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="text-input-id-2">
+                <abbr class="slds-required" title="required">* </abbr>Opportunity</label>
+            <div class="slds-form-element__control">
+                <input type="text" id="text-input-id-2"  value="{!v.leads.Name}"   required="" class="slds-input"  disabled="true" />
+            </div>
+        </div>
+         <br/>
+        <center>
+            <lightning:button  label="Submit" type = "submit" variant="brand"   onclick="{!c.saveLead}" />  
+        </center>
+    </div>
+
+
+</aura:component>

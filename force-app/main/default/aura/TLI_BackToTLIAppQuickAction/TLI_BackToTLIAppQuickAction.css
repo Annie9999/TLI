@@ -1,23 +1,23 @@
-.slds-button{
+.THIS .slds-button{
     min-width: 125px;
 }
 
-.textHead{
+.THIS .textHead{
     font-size: 16px;
     text-align: center;
 }
 
-.cardSize{
+.THIS.cardSize{
     border-style: solid;
     border-color: #004485;
     border-radius: 3px;
-    /* height: 190px; */
+    height: 175px;
     background: #fff;
     width: 450px;
     padding: 30px;
     position: relative;
     margin: auto;
 }
-.whiteSpaceClass{
+.THIS .whiteSpaceClass{
     white-space: nowrap;
 }

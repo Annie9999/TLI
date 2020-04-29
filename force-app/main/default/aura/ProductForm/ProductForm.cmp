@@ -4,8 +4,9 @@
 
 
     <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
-    <aura:attribute name="opptyRecord" type="Object"/>
-    <aura:attribute name="accRecord" type="Object"/>
+    <!-- <aura:attribute name="opptyRecord" type="Object"/>
+    <aura:attribute name="accRecord" type="Object"/> -->
+    <aura:attribute name="leadRecord" type="Object"/>
 
     <aura:attribute name="listControllingValues" type="list" default="[]" description="to store controller field values"/>
     <aura:attribute name="listDependingValues" type="list" default="['--- None ---']" description="to store dependent field values"/>
@@ -79,21 +80,8 @@
                         </aura:set>
                       </aura:if>
                     </lightning:layoutItem>
-                    
 
-                    <!--<lightning:layoutItem>
-                        <lightning:select name="dependentFld"
-                                        value="{!v.objDetail.Sub_productgroup__c}"
-                                        label="แบบประกัน"
-                                        disabled="{!v.bDisabledDependentFld}"
-                                        class="mgt8"
-                                        >
-                            <aura:iteration items="{!v.listDependingValues}" var="val">
-                                <option value="{!val}" >{!val}</option>
-                            </aura:iteration>
-                        </lightning:select>
-                    </lightning:layoutItem>-->
-                    <lightning:input class="mgt8" name="in" type="date" value="{!v.accRecord.PersonBirthdate}" label="วัน เดือน ปีเกิด"  disabled="{! v.status}"/>
+                    <lightning:input class="mgt8" name="in" type="date" value="{!v.leadRecord.Date_Of_Birth__c}" label="วัน เดือน ปีเกิด"  disabled="{! v.status}"/>
                     <lightning:radioGroup name="gender"
                             disabled="{! v.status}"
                             label="เพศ"

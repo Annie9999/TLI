@@ -12,46 +12,49 @@
         console.log('recordId '+recordId);
 		// Add callback behavior for when response is received
 		action.setParams({
-            oppId : recordId
+            leadId : recordId
         });
         action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
                 var storeResponse = response.getReturnValue().mapDependent;
-                var opptyRecord = response.getReturnValue().opptyObj;
-                var accRecord = response.getReturnValue().accObj;
-                var subName = opptyRecord.Sub_productgroup__c;
-                component.set("v.opptyRecord", opptyRecord);
-                component.set("v.accRecord", accRecord);
+                var leadRecord = response.getReturnValue().leadObj;
+                // var opptyRecord = response.getReturnValue().opptyObj;
+                // var accRecord = response.getReturnValue().accObj;
+                var subName = leadRecord.Sub_productgroup__c;
+                component.set("v.leadRecord", leadRecord);
+
+                // component.set("v.opptyRecord", opptyRecord);
+                // component.set("v.accRecord", accRecord);
                 component.set("v.depnedentFieldMap", storeResponse);
                 
                 
-                if(opptyRecord.Amount!=null){
-                    component.set("v.price", opptyRecord.Amount);
+                if(leadRecord.Amount_Currency__c!=null){
+                    component.set("v.price", leadRecord.Amount_Currency__c);
                 }
                 else{
                     component.set("v.price", '0.00');
                 }
                 
                 // console.log(opptyRecord.Amount);
-                if(accRecord.Sex__pc=='ชาย'){
+                if(leadRecord.gender__c=='ชาย'){
                     component.set("v.genderValue", 'M');
                 }
-                else{
+                else if(leadRecord.gender__c=='หญิง'){
                     component.set("v.genderValue", 'F');
                 }
 
-                if(opptyRecord.Payment_Mode__c!=null){
-                    if(opptyRecord.Payment_Mode__c=='รายเดือน'){
+                if(leadRecord.howtopay__c!=null){
+                    if(leadRecord.howtopay__c=='รายเดือน'){
                         component.set("v.paymentmethidValue", '1_month');
                     }
-                    else if(opptyRecord.Payment_Mode__c=='ราย 3 เดือน'){
+                    else if(leadRecord.howtopay__c=='ราย 3 เดือน'){
                         component.set("v.paymentmethidValue", '3_months');
                     }
-                    else if(opptyRecord.Payment_Mode__c=='ราย 6 เดือน'){
+                    else if(leadRecord.howtopay__c=='ราย 6 เดือน'){
                         component.set("v.paymentmethidValue", '6_months');
                     }
-                    else if(opptyRecord.Payment_Mode__c=='รายปี'){
+                    else if(leadRecord.howtopay__c=='รายปี'){
                         component.set("v.paymentmethidValue", 'year');
                     }
                 }
@@ -80,9 +83,9 @@
                 component.set("v.listControllingValues", ControllerField);
                 // component.find("a_opt").set("v.value", "ประกันชีวิต");
 
-                if(opptyRecord.productgroup__c!=null){
+                if(leadRecord.productgroup__c!=null){
                     setTimeout(() => {
-                        component.set("v.objDetail.productgroup__c", opptyRecord.productgroup__c);
+                        component.set("v.objDetail.productgroup__c", leadRecord.productgroup__c);
                         // component.set("v.objDetail.Sub_productgroup__c", "ก้าวแรก");
                         helper.functionAddValuePicklist(component, helper,subName);
                         helper.functionTypePrice(component, event, helper);

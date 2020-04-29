@@ -37,13 +37,15 @@
                 {'label': 'ผู้หญิง', 'value': 'F'}
                 ]"/>
 
+
+    <aura:handler name="change" value="{!v.opptyRecord.Date_Of_Birth__c}" action="{!c.TypePrice}"/>   
     <lightning:workspaceAPI aura:id="workspace" />
 
 
     <div>
         <div>
            
-            <div class="form-information" style="margin-left:0px;margin-top:0px margin-right: 0px;background-color:white;">
+            <div class="form-information" style="margin-left:0px;margin-top:0px; margin-right: 0px;background-color:white;">
                 <div>
                     <div >
                         <aura:if isTrue="{! v.Spinner }">
@@ -76,9 +78,8 @@
                             <option value="{!val}">{!val}</option>
                         </aura:iteration>
                     </lightning:select>
-                </lightning:layoutItem>
-
-                <ui:inputDate aura:id="expdate" label="วัน เดือน ปีเกิด" class="field" value="{!v.opptyRecord.Date_Of_Birth__c}" displayDatePicker="true" change="{!c.TypePrice}"/>     
+                </lightning:layoutItem> 
+                <ui:inputDate aura:id="expdate" label="วัน เดือน ปีเกิด" class="field" value="{!v.opptyRecord.Date_Of_Birth__c}" displayDatePicker="true"/>     
             
                 <lightning:radioGroup name="gender"
                         label="เพศ"

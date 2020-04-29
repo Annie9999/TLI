@@ -1,31 +1,31 @@
 ({
 	doInit: function(component, event, helper) {
 		// Create the action
-		var action = component.get("c.getOpportunity");
+		var action = component.get("c.getLead");
 		var recordId = component.get("v.recordId");
 		// Add callback behavior for when response is received
 		action.setParams({
-            oppId : recordId
+            leadId : recordId
         });
         action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
                 // var storeResponse = response.getReturnValue().mapDependent;
-                var opptyRecord = response.getReturnValue();
-                component.set("v.opptyRecord", opptyRecord);
-                component.set("v.accountName", opptyRecord.Account.FirstName +' '+ opptyRecord.Account.LastName);
-                console.log('StageName: '+opptyRecord.StageName);
-                console.log('Approval_Status__c: '+opptyRecord.Approval_Status__c);
+                var leadRecord = response.getReturnValue();
+                component.set("v.leadRecord", leadRecord);
+                // component.set("v.accountName", opptyRecord.Account.FirstName +' '+ opptyRecord.Account.LastName);
+                // console.log('StageName: '+opptyRecord.StageName);
+                // console.log('Approval_Status__c: '+opptyRecord.Approval_Status__c);
 
 
 
-                if(opptyRecord.StageName == 'Closed Won' && opptyRecord.Approval_Status__c != 'QC ปฏิเสธ'){
-                    component.set("v.status", true);
+                // if(opptyRecord.StageName == 'Closed Won' && opptyRecord.Approval_Status__c != 'QC ปฏิเสธ'){
+                //     component.set("v.status", true);
 
-                }else{
-                    component.set("v.status", false);
+                // }else{
+                //     component.set("v.status", false);
 
-                }
+                // }
 
                // component.set("v.stageName", opptyRecord.StageName);
               //  component.set("v.approvalStatus", opptyRecord.Approval_Status__c);

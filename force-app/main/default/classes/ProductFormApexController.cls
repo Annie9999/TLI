@@ -1,41 +1,18 @@
 public class ProductFormApexController {
 
     @AuraEnabled
-    public static void saveProduct(String opptyId,String amount,String product,string subProduct,string birthdate,string gender,string payment) {
-        System.debug('----- '+opptyId+' '+amount+' '+product+' '+subProduct+' '+birthdate+' '+gender+' '+payment);
-        List<Opportunity> opptyList = [select Id,productgroup__c,Sub_productgroup__c,Payment_Mode__c,Amount,Name,AccountId, Account.PersonEmail from Opportunity where id = :opptyId];
-        List<Account> accList = [SELECT Id, Name, LastName, FirstName, Salutation, Type, Sex__pc,PersonBirthdate from Account where id = :opptyList[0].AccountId];
+    public static void saveProduct(String leadId,String amount,String product,string subProduct,string birthdate,string gender,string payment) {
+        System.debug('----- '+leadId+' '+amount+' '+product+' '+subProduct+' '+birthdate+' '+gender+' '+payment);
+        Lead leadObj = [SELECT id,name,howtopay__c,gender__c,age__c,Sub_productgroup__c,productgroup__c,Amount_Currency__c,totalamount__c, Date_Of_Birth__c FROM Lead where id = :leadId];
         try{
-            Account acc = new Account();
-            acc.Id = accList[0].Id;
-            acc.Sex__pc =gender;
-            acc.PersonBirthdate =date.valueOf(birthdate);
-            update acc;
-
-            Opportunity oppty = new Opportunity();
-            oppty.Id = opptyList[0].Id;
-            oppty.Amount =Decimal.valueOf(amount.replaceAll(',',''));
-            oppty.Payment_Mode__c =payment;
-            oppty.productgroup__c = product;
-            oppty.Sub_productgroup__c = subProduct;
-            oppty.gender__c = gender;
-            update oppty;
-            List<OpportunityLineItem> opptyItemList = [SELECT Id, OpportunityId, PricebookEntryId, Product2Id, ProductCode, Name, TotalPrice, Quantity FROM OpportunityLineItem where OpportunityId = :opptyId];
-            // List<Product2> prodLists= [SELECT Id, Name, ProductCode, Description, Family FROM Product2 where Name =:subProduct];
-            List<Pricebook2> priceBooks = [SELECT Id, Name, IsActive, IsArchived FROM Pricebook2 where IsActive = true];
-            List<PricebookEntry> priceBookEntrys = [SELECT Id, Name, Pricebook2Id, Product2Id FROM PricebookEntry where Pricebook2Id = :priceBooks[0].id and Name =: subProduct];
-            if(opptyItemList.size()>0){
-                delete opptyItemList;
-            }
-            if(priceBookEntrys.size()>0){
-                OpportunityLineItem OppLine = new OpportunityLineItem();
-                OppLine.PricebookEntryId = priceBookEntrys[0].Id;
-                OppLine.OpportunityId = opptyId;
-                OppLine.TotalPrice = Decimal.valueOf(amount.replaceAll(',',''));
-                OppLine.Quantity = 1;
-                insert OppLine;
-            }
-        
+            leadObj.howtopay__c = payment;
+            leadObj.gender__c = gender;
+            leadObj.Sub_productgroup__c = subProduct;
+            leadObj.productgroup__c = product;
+            // leadObj.TotalPrice = Decimal.valueOf(amount.replaceAll(',',''));
+            leadObj.Amount_Currency__c = Decimal.valueOf(amount.replaceAll(',',''));
+            leadObj.Date_Of_Birth__c = date.valueOf(birthdate);
+            update leadObj;
         }
         catch(exception e){
             system.debug('------------ '+e.getMessage());
@@ -105,12 +82,27 @@ public class ProductFormApexController {
     }
 
     @AuraEnabled
-    public static void sendQuotation(String opptyId) {
-        Utility.sendEmail(opptyId,'SendQuotation',false);
+    public static void sendQuotation(String leadId) {
+        Utility.sendEmail(leadId,'SendQuotation',false);
     }
 
     @AuraEnabled
-    public static responseValue getDetail(string oppId) {
+    public static responseValue getDetail(string leadId) {
+        ProductFormApexController.responseValue res= new ProductFormApexController.responseValue();
+        System.debug('leadId' +leadId);
+        Lead leadOb = new Lead();
+        leadOb = [SELECT id,name,howtopay__c,gender__c,age__c,Sub_productgroup__c,productgroup__c,Amount_Currency__c,totalamount__c, Date_Of_Birth__c FROM Lead where id =: leadId];
+        res.leadObj = leadOb;
+        
+        res.mapDependent = getDependentMap();
+
+        System.debug('res.opptyObj '+res.leadObj);
+        System.debug('res.mapDependent '+res.mapDependent);
+        return res;
+    }
+
+    @AuraEnabled
+    public static responseValue getDetailApp(string oppId) {
         ProductFormApexController.responseValue res= new ProductFormApexController.responseValue();
         System.debug('oppId' +oppId);
         Opportunity opp = new Opportunity();
@@ -129,6 +121,26 @@ public class ProductFormApexController {
         System.debug('res.mapDependent '+res.mapDependent);
         return res;
     }
+
+    // @AuraEnabled
+    // public static responseValue getDetailApp(string leadId) {
+    //     ProductFormApexController.responseValue res= new ProductFormApexController.responseValue();
+    //     System.debug('leadId' +leadId);
+    //     Lead leadOb = new Lead();
+    //     leadOb = [SELECT id,name,howtopay__c,gender__c,age__c,Sub_productgroup__c,productgroup__c,Amount_Currency__c,totalamount__c, Date_Of_Birth__c FROM Lead where id =: leadId];
+    //     // Account acc = new Account();
+    //     // acc = [SELECT id, name,Sex__pc,PersonBirthdate,FirstName,LastName FROM Account where id =: opp.AccountId];
+    //     // OpportunityLineItem opptyLine = new OpportunityLineItem();
+    //     // List<OpportunityLineItem> opptyLines = [SELECT Id, OpportunityId, PricebookEntryId, Product2Id,Product2.Name, ProductCode, Name, TotalPrice, Quantity FROM OpportunityLineItem where OpportunityId =:oppId];
+    //     res.leadObj = leadOb;
+        
+    //     // res.accObj = acc;
+    //     res.mapDependent = getDependentMap();
+
+    //     System.debug('res.opptyObj '+res.leadObj);
+    //     System.debug('res.mapDependent '+res.mapDependent);
+    //     return res;
+    // }
 
     // @AuraEnabled 
     public static Map<String, List<String>> getDependentMap(){
@@ -231,6 +243,7 @@ public class ProductFormApexController {
 
     public class responseValue{
         @AuraEnabled public Opportunity opptyObj {get;set;}
+        @AuraEnabled public Lead leadObj {get;set;}
         @AuraEnabled public Account accObj {get;set;}
         @AuraEnabled public Map<String, List<String>> mapDependent {get;set;}       
     }

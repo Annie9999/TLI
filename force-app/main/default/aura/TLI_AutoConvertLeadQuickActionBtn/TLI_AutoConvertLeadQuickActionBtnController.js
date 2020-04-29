@@ -14,22 +14,41 @@
 		var accId = event.getParam('accId');
 		var oppId = event.getParam('oppId');
 		var workspaceAPI = component.find("workspace");
+		console.log('workspaceAPI 1 : ',JSON.parse(JSON.stringify(workspaceAPI)));
+		
+		console.log('isOpenTab',"openTab" in workspaceAPI);
+		console.log('openSubTab',"openSubtab" in workspaceAPI);
         workspaceAPI.openTab({
             url: '/lightning/r/Account/'+accId+'/view',
             focus: true
-        }).then((response) => {
+        }).then(function(response) {
 			console.log('tabId ',response);
 			// setTimeout(() => {
+			
+			console.log('workspaceAPI 2 : ',JSON.parse(JSON.stringify(workspaceAPI)));
+			console.log('isOpenTab',"openTab" in workspaceAPI);
+			console.log('openSubTab',"openSubtab" in workspaceAPI);
+
 				workspaceAPI.openSubtab({
 					parentTabId: response,
 					url: '/lightning/r/Opportunity/'+oppId +'/view',
 					focus: true
+				}).then(function(res){
+					console.log('res :',JSON.parse(JSON.stringify(res)));
+				}).catch(function(error4){
+					console.log('ssss :',JSON.parse(JSON.stringify(error4)));
+					
 				});
-			// }, 1500);
+			// }, 5000);
 			
 		}).catch(function(error) {
 			console.log(JSON.parse(JSON.stringify(error)));
 		});
+		workspaceAPI.getFocusedTabInfo().then(function(response) {
+			var focusedTabId = response.tabId;
+			workspaceAPI.closeTab({tabId: focusedTabId});
+		});
+			
 		
 	}
 	

@@ -72,14 +72,14 @@
                 }
 
                 var benefList = component.get("v.benefList");
-                var oppId = component.get("v.recordId");
+                var leadId = component.get("v.recordId");
 
                 console.log(JSON.stringify(benefList));
 
                 var action = component.get("c.createBeneficiary");
                 action.setParams({
                     benefList: JSON.stringify(benefList),
-                    oppId: oppId
+                    leadId: leadId
                 });
                 action.setCallback(this, function(response){
                     var state = response.getState();

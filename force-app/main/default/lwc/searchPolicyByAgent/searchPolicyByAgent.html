@@ -1,0 +1,83 @@
+<template>
+    <lightning-card>
+        <div class="slds-box">
+            <div class="slds-section slds-is-open">
+                <h3 class="slds-section__title slds-theme_shade">
+                    <span class="slds-truncate slds-p-horizontal_small" title="Section Title">Search Policy By Agent</span>
+                </h3>
+
+                <div class="slds-section__content">
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="labelField">
+                                <label class="slds-form-element__label">ช่วงวันที่ชำระเบี้ยครั้งต่อไป</label>
+                                <lightning-input variant="label-hidden" type="date" name="nextPayDate_from" disabled></lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="labelField">
+                                <label class="slds-form-element__label">ถึงวันที่</label>
+                                <lightning-input variant="label-hidden" type="date" name="nextPayDate_to" disabled></lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="labelField">
+                                <label class="slds-form-element__label">เดือนเกิด</label>
+                                <lightning-combobox 
+                                disabled
+                                variant="label-hidden" 
+                                name="birthdate" 
+                                options={month} 
+                                placeholder="--เลือก--" 
+                                required></lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters">
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="labelField">
+                                <label class="slds-form-element__label">เลขที่กรมธรรม์</label>
+                                <lightning-input variant="label-hidden" type="text" name="Name" data-id="Name" placeholder="เลขที่กรมธรรม์"></lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="labelField">
+                                <label class="slds-form-element__label">ชื่อผู้เอาประกัน</label>
+                                <lightning-input variant="label-hidden" type="text" name="insuranceFirstName" data-id="insuranceFirstName"></lightning-input>
+                            </div>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <div class="labelField">
+                                <label class="slds-form-element__label">นามสกุลผู้เอาประกัน</label>
+                                <lightning-input variant="label-hidden" type="text" name="insuranceLastName" data-id="insuranceLastName"></lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-grid_align-center mt">
+                        <div class="labelField">
+                            <lightning-button-group>
+                                <lightning-button variant="brand" class="slds-m-left_x-small" label="ค้นหา" icon-name="utility:zoomin" onclick={search}>
+                                </lightning-button>
+                            </lightning-button-group>
+                            <lightning-button variant="Neutral" class="slds-m-left_x-small" label="ล้างข้อมูล">
+                            </lightning-button>
+                        </div>
+                    </div>
+
+                    <div class="mt">
+                        <lightning-datatable
+                            key-field="id"
+                            columns={columns}
+                            data={data}
+                            hide-checkbox-column
+                            default-sort-direction={defaultSortDirection}
+                            sorted-direction={sortDirection}
+                            sorted-by={sortedBy}
+                            onsort={onHandleSort}>
+                        </lightning-datatable>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning-card>
+</template>

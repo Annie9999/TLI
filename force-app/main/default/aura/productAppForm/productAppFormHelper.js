@@ -52,8 +52,8 @@
         console.log('genderValue: ' + genderValue);
         console.log('paymentmethidValue: ' + paymentmethidValue);
 
-        if(subProductValue !== '' && genderValue !== '' && paymentmethidValue  !== '' && birthdate!==null) {           
-            price += age*0.725
+        if(subProductValue !== '' && genderValue !== '' && paymentmethidValue  !== '' && birthdate!==undefined) {           
+            price += age*5.725;
             if(genderValue === 'F'){
                 price += 500.00;
             }

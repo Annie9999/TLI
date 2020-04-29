@@ -7,7 +7,7 @@ public class DescribeDataCategoryGroupStructures {
         @AuraEnabled
         public Boolean expanded{get;set;}
         @AuraEnabled
-        public List<Items> items{get;set;}
+        public List<DataCategories> items{get;set;}
     }
     public class Items{
         @AuraEnabled
@@ -64,9 +64,8 @@ public class DescribeDataCategoryGroupStructures {
                 
                 List<DataCategory> allCategories =  getAllCategories(toplevelCategories);
     
-                List<Items> lstKmItem = new List<Items>();
                 for(DataCategory category : allCategories) {
-                    Items kmItem = new Items();
+                    DataCategories kmItem = new DataCategories();
                     System.debug('allCategories : '+category);
                     System.debug('allCategories Name : '+category.getName());
                     System.debug('allCategories Label : '+category.getLabel());
@@ -76,11 +75,11 @@ public class DescribeDataCategoryGroupStructures {
                     kmItem.name = category.getName();
                     kmItem.label = category.getLabel();
                     kmItem.expanded  = true;
-                    lstKmItem.add(kmItem);
+                    (km.items).add(kmItem);
 
                     DataCategory [] childCategories = category.getChildCategories();
                 }
-                km.items = lstKmItem;
+                // km.items = lstKmItem;
                 lstKm.add(km);
             }
        } catch (Exception e){
@@ -92,15 +91,31 @@ public class DescribeDataCategoryGroupStructures {
 
     public static DataCategory[] getAllCategories(DataCategory [] categories){
        if(categories.isEmpty()){
-          return new DataCategory[]{};
-       } else {
-          DataCategory [] categoriesClone = categories.clone();
-          DataCategory category = categoriesClone[0];
-          DataCategory[] allCategories = new DataCategory[]{category};
-          categoriesClone.remove(0);
-          categoriesClone.addAll(category.getChildCategories());
-          allCategories.addAll(getAllCategories(categoriesClone));
-          return allCategories;
+            return new DataCategory[]{};
+       } 
+       else {
+            DataCategory [] categoriesClone = categories.clone();
+            DataCategory category = categoriesClone[0];
+            DataCategory[] allCategories = new DataCategory[]{category};
+            categoriesClone.remove(0);
+            categoriesClone.addAll(category.getChildCategories());
+            allCategories.addAll(getAllCategories(categoriesClone));
+            return allCategories;
        }
+    }
+
+    public static DataCategories[] getAllCategoriesTemp(DataCategories [] items){
+        if(items.isEmpty()){
+            return new DataCategories[]{};
+        }
+        else{
+            List<DataCategories> items_temp = items.clone();
+            DataCategories item = items_temp.get(0);
+            List<DataCategories> items_temp_2 = new List<DataCategories>();
+            items_temp_2.add(item);
+            items_temp.remove(0);
+            // items_temp.addAll(item.getAllCategories(items_temp));
+            return items_temp;
+        }
     }
  }

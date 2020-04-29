@@ -2,7 +2,7 @@
 ({
 	doInit: function(component, event, helper) {
         // Create the action
-		var action = component.get("c.getDetail");
+		var action = component.get("c.getDetailApp");
         var recordId = component.get("v.recordId");
         console.log('action ');
         console.log('recordId '+recordId);

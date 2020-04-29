@@ -110,40 +110,6 @@
                 </aura:if>
             </div>
             
-            
-            <!--<div class="slds-grid slds-gutters slds-m-bottom_medium">
-                <div class="slds-col">
-                    <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType5" 
-                    data-value="5" data-type="Payment Gateway" onclick="{!c.changePayment}">
-                        Payment Gateway
-                    </div>
-                </div>
-                <div class="slds-col">
-                    <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType1" 
-                    data-value="1" data-type="ชำระผ่านบัตรเครดิต" onclick="{!c.changePayment}">
-                        ชำระผ่านบัตรเครดิต
-                    </div>
-                </div>
-                <div class="slds-col">
-                    <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType2" 
-                    data-value="2" data-type="โอนเงินผ่านบัญชีธนาคาร" onclick="{!c.changePayment}">
-                        โอนเงินผ่านบัญชีธนาคาร
-                    </div>
-                </div>
-                <div class="slds-col">
-                    <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType3" 
-                    data-value="3" data-type="ชำระผ่านเคาน์เตอร์"  onclick="{!c.changePayment}">
-                        เคาน์เตอร์เซอร์วิส
-                    </div>
-                </div>
-                <div class="slds-col">
-                    <div class="slds-box slds-align_absolute-center slds-button_neutral paymentType paymentType4" 
-                    data-value="4" data-type="หักผ่านบัญชีเงินฝาก" onclick="{!c.changePayment}">
-                        หักผ่านบัญชีเงินฝาก
-                    </div>
-                </div>
-            </div>-->
-            
             <aura:if isTrue="{!v.paymentType.havePayment}">
                 <div class="slds-box slds-m-bottom_medium">
                     <aura:if isTrue="{!v.paymentType.paymentGatway}">
@@ -312,10 +278,6 @@
                                                      checked="{!v.addressType == 'Shipping' ? true : false}" disabled="{!v.status}"/>
                                 </div>
                                 <div class="slds-col slds-size_4-of-12">
-                                    <lightning:input type="radio" label="สถานที่ทำงาน" name="addressType" value="Mailing" data-value="Mailing" onchange="{!c.changeAddressType}"
-                                                     checked="{!v.addressType == 'Mailing' ? true : false}" disabled="{!v.status}"/>
-                                </div>
-                                <div class="slds-col slds-size_4-of-12">
                                     <lightning:input type="radio" label="ที่อยู่ตามทะเบียนบ้าน" name="addressType" value="Billing" data-value="Billing" onchange="{!c.changeAddressType}"
                                                      checked="{!v.addressType == 'Billing' ? true : false}" disabled="{!v.status}"/>
                                 </div>
@@ -328,12 +290,6 @@
                                         <div class="slds-col slds-size_12-of-12">
                                             <lightning:input name="input2" label="ที่อยู่" value="{!item.address}" disabled="{!v.status}"/>
                                         </div>
-                                        <!-- <div class="slds-col slds-size_6-of-12">
-                                            <lightning:input name="input2" label="หมู่ที่" value="{!v.paymentInfo.payor.Account__r.Email__c}"/>
-                                        </div>
-                                        <div class="slds-col slds-size_6-of-12">
-                                            <lightning:input name="input2" label="ถนน" value="{!v.paymentInfo.payor.Account__r.Email__c}"/>
-                                        </div> -->
                                         <div class="slds-col slds-size_6-of-12">
                                             <lightning:input name="input2" label="จังหวัด" value="{!item.province}" disabled="{!v.status}"/>
                                         </div>

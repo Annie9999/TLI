@@ -54,54 +54,66 @@ public without sharing class PaymentInformationCtrl {
         @AuraEnabled
         public Payment_Type__c          payment         {get;set;}
         @AuraEnabled
-        public OpportunityContactRole   payor           {get;set;}
+        public Contact_Role__c          payor           {get;set;}
         @AuraEnabled
         public List<Address>            address         {get;set;}
 
         public PaymentInfo(){
             payment = new Payment_Type__c();
-            payor = new OpportunityContactRole();
-            address = new List<Address> {new Address('Shipping'), new Address('Mailing'), new Address('Billing')};
+            payor = new Contact_Role__c();
+            address = new List<Address> {new Address('Shipping'), new Address('Billing')};
         }
     }
 
     @AuraEnabled
-    public static PaymentInfo getPaymentInformation(String opptyId){
+    public static PaymentInfo getPaymentInformation(String leadId){
 
-        System.debug('getPaymentInformation : ' + opptyId);
+        System.debug('getPaymentInformation : ' + leadId);
         PaymentInfo payInfo = new PaymentInfo();
 
-        List<Opportunity> oppList = [SELECT Id , Amount, Taxdeduction__c, Policy_Trans_Channel__c, AccountId,
-                                        (SELECT Id, Name, Payment_Bank_Code__c, Payment_Card_Type__c, Payment_Expired_Date__c, 
-                                        Payment_Card_Number__c, Contact__c, Application_Form__c,Payment_Type__c, Transfer_Bank_Code__c, 
-                                        Bank_Account_Type__c, IsPayment__c,REF_Number__c, Payment_Date__c, Payment_Status__c, 
-                                        Register_Status__c, Payment_Detail__c FROM Payment_Types__r),
+        List<Lead> leadList = [SELECT Id, Amount_Currency__c, Taxdeduction__c, Policy_Trans_Channel__c, 
+                                (SELECT Id, Name, Payment_Bank_Code__c, Payment_Card_Type__c, Payment_Expired_Date__c, 
+                                Payment_Card_Number__c, Contact__c, Application_Form__c,Payment_Type__c, Transfer_Bank_Code__c, 
+                                Bank_Account_Type__c, IsPayment__c,REF_Number__c, Payment_Date__c, Payment_Status__c, 
+                                Register_Status__c, Payment_Detail__c FROM Payment_Types__r),
+                                (SELECT Id, Payment_Type__c, Relationship__c, Lead__c,
+                                Lead__r.Salutation, Lead__r.FirstName,Lead__r.LastName, Lead__r.Phone, Lead__r.Email, 
+                                Lead__r.Street__c, Lead__r.City__c, Lead__r.PostalCode__c, Lead__r.State__c, Lead__r.Country__c,
+                                Lead__r.Street, Lead__r.City, Lead__r.PostalCode, Lead__r.State, Lead__r.Country
+                                FROM Contact_Roles__r WHERE Role__c ='ผู้ชำระค่าเบี้ยประกัน')
+                                FROM Lead WHERE Id =: leadId];
 
-                                        (SELECT Id, Payment_Type__c, Relationship__c, Account__r.id, Account__r.FirstName, 
-                                        Account__r.LastName, Account__r.Salutation, Account__r.Phone, Account__r.Email__c, 
-                                        Account__r.BillingStreet, Account__r.BillingCity, Account__r.BillingPostalCode, 
-                                        Account__r.BillingState, Account__r.BillingCountry, Account__r.PersonMailingStreet,
-                                        Account__r.PersonMailingCity, Account__r.PersonMailingState, Account__r.PersonMailingPostalCode, 
-                                        Account__r.PersonMailingCountry, Account__r.ShippingStreet , Account__r.ShippingCity,
-                                        Account__r.ShippingPostalCode, Account__r.ShippingState, Account__r.ShippingCountry 
-                                        FROM OpportunityContactRoles WHERE role='ผู้ชำระค่าเบี้ยประกัน')  
+        // List<Opportunity> oppList = [SELECT Id , Amount, Taxdeduction__c, Policy_Trans_Channel__c, AccountId,
+        //                                 (SELECT Id, Name, Payment_Bank_Code__c, Payment_Card_Type__c, Payment_Expired_Date__c, 
+        //                                 Payment_Card_Number__c, Contact__c, Application_Form__c,Payment_Type__c, Transfer_Bank_Code__c, 
+        //                                 Bank_Account_Type__c, IsPayment__c,REF_Number__c, Payment_Date__c, Payment_Status__c, 
+        //                                 Register_Status__c, Payment_Detail__c FROM Payment_Types__r),
+
+        //                                 (SELECT Id, Payment_Type__c, Relationship__c, Account__r.id, Account__r.FirstName, 
+        //                                 Account__r.LastName, Account__r.Salutation, Account__r.Phone, Account__r.Email__c, 
+        //                                 Account__r.BillingStreet, Account__r.BillingCity, Account__r.BillingPostalCode, 
+        //                                 Account__r.BillingState, Account__r.BillingCountry, Account__r.PersonMailingStreet,
+        //                                 Account__r.PersonMailingCity, Account__r.PersonMailingState, Account__r.PersonMailingPostalCode, 
+        //                                 Account__r.PersonMailingCountry, Account__r.ShippingStreet , Account__r.ShippingCity,
+        //                                 Account__r.ShippingPostalCode, Account__r.ShippingState, Account__r.ShippingCountry 
+        //                                 FROM OpportunityContactRoles WHERE role='ผู้ชำระค่าเบี้ยประกัน')  
                                     
-                                        FROM Opportunity WHERE Id =: opptyId];
+        //                                 FROM Opportunity WHERE Id =: opptyId];
 
                                     
-        if(oppList.size() > 0){
-            payInfo.Amount = oppList[0].Amount;
-            payInfo.taxdeduction =  oppList[0].Taxdeduction__c;
-            payInfo.policyChannel = oppList[0].Policy_Trans_Channel__c;
-            payInfo.accId = oppList[0].AccountId;
-            if(oppList[0].Payment_Types__r.size() > 0 ){
-                payInfo.payment = oppList[0].Payment_Types__r[0];
+        if(leadList.size() > 0){
+            payInfo.Amount = leadList[0].Amount_Currency__c;
+            payInfo.taxdeduction =  leadList[0].Taxdeduction__c;
+            payInfo.policyChannel = leadList[0].Policy_Trans_Channel__c;
+            //payInfo.accId = leadList[0].AccountId;
+            if(leadList[0].Payment_Types__r.size() > 0 ){
+                payInfo.payment = leadList[0].Payment_Types__r[0];
                
             }
 
-            if(oppList[0].OpportunityContactRoles.size() > 0){
-                payInfo.payor = oppList[0].OpportunityContactRoles[0];
-                payInfo.address = groupAddress(oppList[0].OpportunityContactRoles[0]);
+            if(leadList[0].Contact_Roles__r.size() > 0){
+                payInfo.payor = leadList[0].Contact_Roles__r[0];
+                payInfo.address = groupAddress(leadList[0].Contact_Roles__r[0]);
             }
 
         }
@@ -109,31 +121,31 @@ public without sharing class PaymentInformationCtrl {
         return payInfo;
     }
 
-    public static List<Address> groupAddress(OpportunityContactRole payor){
+    public static List<Address> groupAddress(Contact_Role__c payor){
         List<Address> addressList = new List<Address>();
-        if(payor.Account__c != null){
+        if(payor.Lead__c != null){
             Address billingAddress = new Address('Billing');
-            billingAddress.address          =  payor.Account__r.BillingStreet;
-            billingAddress.province         =  payor.Account__r.BillingState;
-            billingAddress.district         =  payor.Account__r.BillingCity;
-            billingAddress.subDistrict      =  payor.Account__r.BillingCountry;
-            billingAddress.postalCode       =  payor.Account__r.BillingPostalCode; 
+            billingAddress.address          =  payor.Lead__r.Street__c;
+            billingAddress.province         =  payor.Lead__r.State__c;
+            billingAddress.district         =  payor.Lead__r.City__c;
+            billingAddress.subDistrict      =  payor.Lead__r.Country__c;
+            billingAddress.postalCode       =  payor.Lead__r.PostalCode__c; 
             addressList.add(billingAddress);
 
-            Address mailingAddress = new Address('Mailing');
+            /*Address mailingAddress = new Address('Mailing');
             mailingAddress.address          =  payor.Account__r.PersonMailingStreet;
             mailingAddress.province         =  payor.Account__r.PersonMailingState;
             mailingAddress.district         =  payor.Account__r.PersonMailingCity;
             mailingAddress.subDistrict      =  payor.Account__r.PersonMailingCountry;
             mailingAddress.postalCode       =  payor.Account__r.PersonMailingPostalCode; 
-            addressList.add(mailingAddress);
+            addressList.add(mailingAddress);*/
 
             Address shippingAddress = new Address('Shipping');
-            shippingAddress.address          =  payor.Account__r.ShippingStreet;
-            shippingAddress.province         =  payor.Account__r.ShippingState;
-            shippingAddress.district         =  payor.Account__r.ShippingCity;
-            shippingAddress.subDistrict      =  payor.Account__r.ShippingCountry;
-            shippingAddress.postalCode       =  payor.Account__r.ShippingPostalCode; 
+            shippingAddress.address          =  payor.Lead__r.Street;
+            shippingAddress.province         =  payor.Lead__r.State;
+            shippingAddress.district         =  payor.Lead__r.City;
+            shippingAddress.subDistrict      =  payor.Lead__r.Country;
+            shippingAddress.postalCode       =  payor.Lead__r.PostalCode; 
             addressList.add(shippingAddress);
         }
         
@@ -149,14 +161,15 @@ public without sharing class PaymentInformationCtrl {
         res.db_paymentStatus = getPickListValuesIntoList(Payment_Type__c.Payment_Status__c.getDescribe());
         res.db_registerStatus = getPickListValuesIntoList(Payment_Type__c.Register_Status__c.getDescribe());
         res.db_paymentDetail = getPickListValuesIntoList(Payment_Type__c.Payment_Detail__c.getDescribe());
-        res.pa_relationShip = getPickListValuesIntoList(OpportunityContactRole.Relationship__c.getDescribe());
-        res.pa_salutation = getPickListValuesIntoList(Account.Salutation.getDescribe());
+        res.pa_relationShip = getPickListValuesIntoList(Contact_Role__c.Relationship__c.getDescribe());
+        res.pa_salutation = getPickListValuesIntoList(Lead.Salutation.getDescribe());
 
         return res;
     }
 
     @AuraEnabled
-    public static void savePaymentInformation(String paymentInfoString, String opptyId, String addressType){
+    public static void savePaymentInformation(String paymentInfoString, String leadId, String addressType){
+        String opptyId = '';
         System.debug(paymentInfoString);
         System.debug(addressType);
         PaymentInfo paymentInfo = (PaymentInfo)JSON.deserialize(paymentInfoString, PaymentInfo.Class);
@@ -208,7 +221,7 @@ public without sharing class PaymentInformationCtrl {
         /* Payor */
         System.debug('paymentInfo.payment.Payment_Type__c' + paymentInfo.payment.Payment_Type__c);
         String accountId = '';
-        if(paymentInfo.payor.Relationship__c != 'ตนเอง' && paymentInfo.payment.Payment_Type__c != 'Payment Gateway'){
+        /*if(paymentInfo.payor.Relationship__c != 'ตนเอง' && paymentInfo.payment.Payment_Type__c != 'Payment Gateway'){
             Account acc = new Account();
             System.debug(paymentInfo.payor.Account__c);
             if(paymentInfo.payor.Account__c != null){
@@ -273,7 +286,7 @@ public without sharing class PaymentInformationCtrl {
             insert optyContactRole;
         }
 
-        createCase(paymentInfo.payment.Payment_Type__c, opptyId);
+        createCase(paymentInfo.payment.Payment_Type__c, opptyId);*/
         
     }
 

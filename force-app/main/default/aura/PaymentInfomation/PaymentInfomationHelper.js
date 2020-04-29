@@ -44,10 +44,10 @@
     },
 
     functionGetPaymentinformation : function(cmp, helper) {
-        console.log('Opty Id : ' + cmp.get("v.recordId"));
+        console.log('Lead Id : ' + cmp.get("v.recordId"));
         var action = cmp.get("c.getPaymentInformation");
         action.setParams({ 
-            opptyId : cmp.get("v.recordId")
+            leadId : cmp.get("v.recordId")
         });
 
         action.setCallback(this, function(response) {
@@ -147,7 +147,7 @@
         var action = cmp.get("c.savePaymentInformation");
         action.setParams({ 
             paymentInfoString : JSON.stringify(cmp.get("v.paymentInfo")),
-            opptyId : cmp.get("v.recordId"),
+            leadId : cmp.get("v.recordId"),
             addressType : cmp.get("v.addressType")
         });
         action.setCallback(this, function(response) {

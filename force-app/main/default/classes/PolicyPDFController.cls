@@ -180,7 +180,7 @@ public class PolicyPDFController{
                                     cd.PreferencesNotifyOnVisit = false;
                                     cd.PreferencesPasswordRequired = false;
                                     cd.PreferencesAllowOriginalDownload = true;
-                                    cd.PreferencesAllowPDFDownload = true;
+                                    // cd.PreferencesAllowPDFDownload = true;
                                     InsertListConDis_NotExist.add(cd);
                                     System.debug('InsertListConDis_NotExist : ' + InsertListConDis_NotExist);
                             // }

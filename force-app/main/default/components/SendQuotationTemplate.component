@@ -1,5 +1,5 @@
 <apex:component controller="SendQuotationTemplateController" access="global" > 
-<apex:attribute name="opprtunityId" type="Id" description="Id of the opportunity" assignTo="{!oppId}"/>
+<apex:attribute name="leadObjId" type="Id" description="Id of the lead" assignTo="{!leadId}"/>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link href="https://fonts.googleapis.com/css?family=Prompt" rel="stylesheet"/> 
@@ -73,7 +73,7 @@
                                         </div>
                                         <div style="padding-top: 10px; font-size: 1.5rem; color: #000000; font-weight: bold;">
                                             ฿<apex:outputText value="{0, number, ###,###,##0.00}">
-                                                <apex:param value="{!info.oppty.Amount}" />
+                                                <apex:param value="{!info.leadObj.Amount_Currency__c}" />
                                             </apex:outputText>
                     
                                         </div>
@@ -186,7 +186,7 @@
                                                 </td>
                                                 <td>
                                                     <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
-                                                        {!info.acc.Sex__pc}
+                                                        {!info.leadObj.gender__c}
                                                     </div>
                                                 </td>
                                             </tr>
@@ -198,7 +198,7 @@
                                                 </td>
                                                 <td>
                                                     <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
-                                                        {!info.acc.PersonEmail}
+                                                        {!info.leadObj.Email}
                                                     </div>
                                                 </td>
                                             </tr>
@@ -210,7 +210,7 @@
                                                 </td>
                                                 <td>
                                                     <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
-                                                        (065) 513-7953
+                                                        {!info.leadObj.Phone}
                                                     </div>
                                                 </td>
                                             </tr>

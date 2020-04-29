@@ -7,7 +7,7 @@
 
         var product = component.get('v.objDetail.productgroup__c');
         var subProduct = component.get('v.objDetail.Sub_productgroup__c');
-        var birthdate = component.get('v.accRecord.PersonBirthdate');
+        var birthdate = component.get('v.leadRecord.Date_Of_Birth__c');
         var gender = component.get('v.genderValue');
         var amount = component.get('v.price');
         var payment = component.get('v.paymentmethidValue');
@@ -32,7 +32,7 @@
         }
 
         action.setParams({
-            'opptyId' : recordId,
+            'leadId' : recordId,
             'product' : product,
             'subProduct' : subProduct,
             'birthdate' : birthdate,
@@ -58,7 +58,7 @@
         var recordId = component.get('v.recordId');
         
         action.setParams({
-            opptyId : recordId,
+            leadId : recordId,
         });
         action.setCallback(this, function(response) {
             if(response.getState() === "SUCCESS"){
@@ -142,7 +142,7 @@
 
         var product = component.get('v.objDetail.productgroup__c');
         var subProduct = component.get('v.objDetail.Sub_productgroup__c');
-        var birthdate = component.get('v.accRecord.PersonBirthdate');
+        var birthdate = component.get('v.leadRecord.Date_Of_Birth__c');
         var gender = component.get('v.genderValue');
         var amount = component.get('v.price');
         var payment = component.get('v.paymentmethidValue');
@@ -167,7 +167,7 @@
         }
 
         action.setParams({
-            'opptyId' : recordId,
+            'leadId' : recordId,
             'product' : product,
             'subProduct' : subProduct,
             'birthdate' : birthdate,
