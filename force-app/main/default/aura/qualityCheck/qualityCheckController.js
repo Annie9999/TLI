@@ -1,100 +1,71 @@
 ({
     doInit : function(component, event, helper) {
 
-        
-
-      /*  var status = component.get('v.status');
-        console.log(status);
-        if(status === 'Closed Won'){
-
-            component.set('v.status', false);
-            
-        }else{
-            component.set('v.status', true);
-
-        }*/
-
-
-
-        var id = component.get('v.recordId');
-        console.log(id);
+        var caseId = component.get('v.recordId');
+        console.log('caseId: '+caseId);
 
         var action = component.get('c.getCase');
-        // var action = component.get('c.getOpp');
         action.setParams({
-            caseId: id
-            // oppId: id
+            caseId: caseId
+
         });
 
         action.setCallback(this, function(response){
             var state = response.getState();
             if(state === "SUCCESS"){
                 var returnVal = response.getReturnValue();
-                console.log('OpptyId'+returnVal.Opportunity__c);
-                component.set('v.opptyId', returnVal.Opportunity__c);
+                console.log('Return case: ',JSON.parse(JSON.stringify(returnVal)));
+                component.set('v.leadId', returnVal.Lead__c);
                 component.set('v.info', returnVal);
 
-                console.log('Return status: ',JSON.parse(JSON.stringify(returnVal.Status)));
-                if(returnVal.Status === 'ดำเนินการเรียบร้อย'){
-
-                    component.set("v.status", true);
-
+                if(returnVal.Status == 'Closed'){
+                    component.set('v.status', true);
                 }else{
-                    component.set("v.status", false);
+                    component.set('v.status', false);
                 }
 
 
 
-                var q_type = component.get('v.questType');
-                var opptyId = component.get('v.opptyId');
-                console.log('Opty2: '+opptyId);
+                console.log('#######-getQuestions-#######');
+                var quesType = component.get('v.questType');
+                var leadId = component.get('v.leadId');
+                console.log('leadId: '+leadId);
+                console.log('quesType: '+quesType);
 
                 action = component.get('c.getQuestions');
                 action.setParams({
-                    type: q_type,
-                    oppId: opptyId
+                    quesType: quesType,
+                    leadId: leadId
                 });
-
                 action.setCallback(this, function(response){
                     var state = response.getState();
                     if(state === 'SUCCESS'){
                         var returnVal = response.getReturnValue();
-                        console.log(returnVal);
+
+
 
                         if(returnVal.isAnswered == true){
-                            console.log("isAnswered"+returnVal.isAnswered);
-                            console.log('ListAns'+returnVal.listAnsForm);
+                            
+                            console.log('Return Q&A: ',JSON.parse(JSON.stringify(returnVal.listAnsForm)));
                             var information = returnVal.listAnsForm.shift();
                             component.set('v.isAnswered', returnVal.isAnswered);
                             component.set('v.information_question', information);
                             component.set('v.questionAnswer', returnVal.listAnsForm);
 
-                           
-
-                           /* var status = component.get('v.status');
-    
-                             console.log('status:'+status);   */       
-                          /*  if(returnVal.Status == 'open'){
-
-                                omponent.set("v.status", true);
-
-                            }else{
-                                omponent.set("v.status", false);
-                            }*/
-                            
-                        }
-                        else{
-
+                        }else{
+                            console.log('Return Question: ',JSON.parse(JSON.stringify(returnVal.listQuestion)));
                             component.set('v.isAnswered', returnVal.isAnswered);
                             component.set('v.questions', returnVal.listQuestion);
                         }
+
                     }
                     else{
-
+        
                         console.log("Get questions failed");
                     }
                 });
                 $A.enqueueAction(action);
+
             }
             else{
                 console.log("Failed");

@@ -1,7 +1,29 @@
 public class Utility {
-    //@AuraEnabled
+
+    public static String createCase(String subject, String description, String priority, String leadId, String ownerId, String recordTypeName){
+        Case cs = new Case();
+        cs.Subject = subject;
+        cs.Status = 'open';
+        cs.Description = description;
+        cs.Priority = priority;
+        cs.Lead__c = leadId;
+        cs.OwnerId = ownerId;
+        cs.Type = 'Internal Process';
+        if(recordTypeName != ''){
+            cs.RecordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName().get(recordTypeName).getRecordTypeId();
+        }
+        System.debug(cs);
+        
+        insert cs;
+        
+        return 'Add Case Success';
+    }
+
     public static String createCase(String subject, String description, String priority, String accountId, 
                                     String opptyId, String ownerId, String recordTypeName){
+    
+
+                                   
         Case cs = new Case();
 
         cs.Subject = subject;
@@ -22,6 +44,8 @@ public class Utility {
         
         return 'Add Case Success';
     }
+
+    
     
     public static void sendEmail(Id leadId,String templateEmail,boolean chkAttach){
 

@@ -1,20 +1,28 @@
 ({
+
+ 
+
     verify : function(component, event, helper) {
+        console.log('#####-saveQuestion-#####');
+
+        var caseId = component.get('v.recordId');
         var questList = component.get('v.questions');
-        console.log(questList);
         var valid_info = component.get("v.valid_information");
-        console.log(valid_info.Answer__c);
-        var id = component.get('v.recordId');
-        // var recordId =  component.get("v.recordId");
+    
         var ansList = [];
         questList.forEach((element, index, array) => {
             // console.log('element',element);
             ansList.push(element.tmpAnswer);
         } );
         
+        console.log('questList: ',JSON.parse(JSON.stringify(questList)));
+        console.log('valid_information: '+valid_info.Answer__c);
+        console.log('ansList: '+ansList);
+
+
         var action = component.get('c.saveQuestion');
         action.setParams({
-            recordId: id,
+            caseId: caseId,
             valid_info: valid_info.Answer__c,
             quesList: questList,
             ansList: ansList
@@ -43,6 +51,8 @@
         $A.enqueueAction(action);
     },
     update : function(component, event, helper){
+        console.log('#####-updateQuestionAnswer-#####');
+
 
         var questionAnswer = component.get('v.questionAnswer');
         var informationQuestion = component.get('v.information_question');
@@ -73,8 +83,6 @@
 
     },
     accept : function(component, event, helper){
-        
-        
         var toastEvent = $A.get("e.force:showToast");
         var isAnswered = component.get('v.isAnswered');
         console.log('isAnswered'+isAnswered);
@@ -90,14 +98,14 @@
             //Update QC Answer Form
         }
 
-        //Update Opty Status
-        var recordId = component.get('v.recordId');
 
-        console.log(recordId);
+        console.log('#####-sendToNB-#####');
+        var caseId = component.get('v.recordId');
+        console.log('caseId: '+caseId);
 
         var action = component.get('c.sendToNB');
         action.setParams({
-            recordId: recordId
+            caseId: caseId
         });
         action.setCallback(this, function(response){
             var state = response.getState();
@@ -128,7 +136,7 @@
 
     },
     toConsult : function(component, event, helper){
-        
+
         var toastEvent = $A.get("e.force:showToast");
         var isAnswered = component.get('v.isAnswered');
         console.log("isAnswered"+isAnswered);
@@ -142,15 +150,15 @@
             helper.update(component, event, helper);
             //Update QC Answer Form
         }
-        
-        //Update Opty Status
-        var recordId = component.get('v.recordId');
-        
-        console.log(recordId);
+
+
+        console.log('#####-sendToConsult-#####');
+        var caseId = component.get('v.recordId');
+        console.log('caseId: '+caseId);
 
         var action = component.get('c.sendToConsult');
         action.setParams({
-            recordId: recordId
+            caseId: caseId
         });
 
         action.setCallback(this, function(response){
@@ -185,6 +193,7 @@
         var toastEvent = $A.get("e.force:showToast");
         var isAnswered = component.get('v.isAnswered');
         console.log('reject isanswered'+isAnswered);
+
         if(!isAnswered){
             //Inset QC Answer Form
             helper.verify(component, event, helper);
@@ -196,15 +205,16 @@
             //Update QC Answer Form
         }
 
-        //Update Opty Status
-        var recordId = component.get('v.recordId');
+        console.log('#####-reject-#####');
+        //Update lead Status
+        var caseId = component.get('v.recordId');
         var description = component.get('v.rejectDescription');
-        console.log(recordId);
-        console.log(description);
+        console.log('caseId: ' +caseId);
+        console.log('description: ' +description);
 
         var action = component.get('c.rejectQC');
         action.setParams({
-            recordId: recordId,
+            caseId: caseId,
             description: description
         });
 

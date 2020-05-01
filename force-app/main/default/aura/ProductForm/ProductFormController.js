@@ -1,14 +1,14 @@
 ({
 
 	doInit: function(component, event, helper) {
-		var status = component.get("v.status");
-        console.log('status: '+status);
+		/*var status = component.get("v.status");
+        console.log('status: '+status);*/
 
 
 		// Create the action
 		var action = component.get("c.getDetail");
         var recordId = component.get("v.recordId");
-        console.log('action ');
+       // console.log('action ');
         console.log('recordId '+recordId);
 		// Add callback behavior for when response is received
 		action.setParams({

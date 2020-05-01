@@ -1,12 +1,12 @@
 <aura:component implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForRecordHome,lightning:isUrlAddressable"  access="global" controller="qualityCheckController">
-    <!-- Opportunity -->
-    <aura:attribute name="recordId" type="Id" default="006q000000KLbsTAAT" />
-    <!--<aura:attribute name="status" type="String" default="Closed Won" />-->
+    <!-- case -->
+    <!--<aura:attribute name="recordId" type="String" default="500q000000NIJfzAAH" />-->
+    <aura:attribute name="recordId" type="String"/>
 
     <lightning:workspaceAPI aura:id="workspace"/>
     
     <aura:attribute name="info" type="Case" />
-    <aura:attribute name="opptyId" type="String" /> 
+    <aura:attribute name="leadId" type="String" /> 
     <aura:attribute name="status" type="boolean" />
 
 
@@ -37,16 +37,17 @@
                         <h2>ตวรจสอบข้อมูล</h2>
                     </div>
                     <div class="body">
-                        <lightning:input name="firstname" label="ชื่อ" disabled="true" value="{!v.info.Account.Name}" />
-                        <lightning:input name="age" label="อายุ" disabled="true" value="{!v.info.Account.Age__c}" />
-                        <lightning:input name="income" label="รายได้" disabled="true" value="{!v.info.Account.Annual_Income__c}" />
-                        <lightning:input name="email" label="อีเมล์" disabled="true" value="{!v.info.Account.PersonEmail}" />
-                        <lightning:input name="phone" label="เบอร์โทร" disabled="true" value="{!v.info.Account.Phone}" />
-                        <lightning:input name="street" label="ถนน" disabled="true" value="{!v.info.Account.ShippingStreet}" />
-                        <lightning:input name="city" label="เมือง" disabled="true" value="{!v.info.Account.ShippingCity}" />
-                        <lightning:input name="state" label="จังหวัด" disabled="true" value="{!v.info.Account.ShippingState}" />
-                        <lightning:input name="postalcode" label="รหัสไปรษณีย์" disabled="true" value="{!v.info.Account.ShippingPostalCode}" />
-                        <lightning:input name="country" label="ประเทศ" disabled="true" value="{!v.info.Account.ShippingCountry}" />
+                        <lightning:input name="firstname" label="ชื่อ" disabled="true" value="{!v.info.Lead__r.Name}" />
+                        <lightning:input name="age" label="อายุ" disabled="true" value="{!v.info.Lead__r.age__c}" />
+                        <lightning:input name="income" label="รายได้" disabled="true" value="{!v.info.Lead__r.AnnualRevenue}" />
+                        <lightning:input name="email" label="อีเมล์" disabled="true" value="{!v.info.Lead__r.Email}" />
+                        <lightning:input name="phone" label="เบอร์โทร" disabled="true" value="{!v.info.Lead__r.Phone}" />
+                        <lightning:input name="street" label="ถนน" disabled="true" value="{!v.info.Lead__r.Street}" />
+                        <lightning:input name="city" label="เมือง" disabled="true" value="{!v.info.Lead__r.City}" />
+                        <lightning:input name="state" label="จังหวัด" disabled="true" value="{!v.info.Lead__r.State}" />
+                        <lightning:input name="postalcode" label="รหัสไปรษณีย์" disabled="true" value="{!v.info.Lead__r.PostalCode}" />
+                        <lightning:input name="country" label="ประเทศ" disabled="true" value="{!v.info.Lead__r.Country}" />
+
                         <!-- <lightning:input name="StageName" label="ประเทศ" disabled="true" value="{!v.info.Account.Name }" /> -->
                         
                         <aura:if isTrue="{!v.isAnswered == true }">
