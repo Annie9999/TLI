@@ -8,11 +8,42 @@ WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE SOFTWARE IS PROVIDED "AS I
 
 global class SoftphoneContactSearchController {
     webService static String getContacts(String name) {
-        List<Contact> contactList = new List<Contact>();
+		List<Contact> contactList = new List<Contact>();
+        List<Account> accList = new List<Account>();
+        List<Lead> leadList = new List<Lead>();
+        
         for (Contact contact: [SELECT Id, Phone, Name, Title, Account.Name FROM Contact WHERE (id = :name OR Name LIKE :('%' + name + '%') OR firstname LIKE :('%' + name + '%') OR lastname LIKE :('%' + name + '%') OR phone LIKE :('%' + name + '%')) LIMIT 10]){
             contactList.add(contact);
         }
-        return JSON.serialize(contactList);
+
+        if(contactList.isEmpty()){
+            
+            for (Account acc: [SELECT Id, Phone, Name FROM Account WHERE (id = :name OR Name LIKE :('%' + name + '%') OR phone LIKE :('%' + name + '%')) LIMIT 10]){
+                accList.add(acc);
+            }
+        }else{
+            //get account business
+            Set<Id> accSetId = new Set<Id>();
+            for(Contact c : contactList){
+                accSetId.add(c.AccountId);
+            }
+
+            for (Account acc: [SELECT Id, Phone, Name FROM Account WHERE (id in: accSetId OR Name LIKE :('%' + name + '%') OR phone LIKE :('%' + name + '%')) and RecordType.name = 'Business Account']){
+                accList.add(acc);
+            }
+        }
+
+        if(!accList.isEmpty()){
+            return JSON.serialize(accList);
+        }else if(!contactList.isEmpty()){
+            return JSON.serialize(contactList);
+        }else{
+            for (Lead contact: [SELECT Id, Phone FROM Lead WHERE (id = :name OR Name LIKE :('%' + name + '%') OR firstname LIKE :('%' + name + '%') OR lastname LIKE :('%' + name + '%') OR phone LIKE :('%' + name + '%')) LIMIT 10]){
+                leadList.add(contact);
+            }
+            return JSON.serialize(leadList);
+        }
+        
     }
 
     @AuraEnabled
@@ -26,7 +57,13 @@ global class SoftphoneContactSearchController {
             List<Contact> contactList = [SELECT Id, AccountId FROM Contact WHERE (Id = :recordId OR AccountId = :recordId)];
             return JSON.serialize(contactList);
 
-        } else if (prefixes == '00Q') { // from Lead
+        } else if (prefixes == '001') { // from Account
+            List<Account> accList = [SELECT Id FROM Account WHERE (Id = :recordId)];
+            return JSON.serialize(accList);
+           /* List<Contact> contactList = [SELECT Id, AccountId FROM Contact WHERE (AccountId = :recordId)];
+            return JSON.serialize(contactList);*/
+
+        }else if (prefixes == '00Q') { // from Lead
             List<Lead> leadList = [SELECT Id, Service_Request__c FROM Lead WHERE Id = :recordId];
             return JSON.serialize(leadList); 
 

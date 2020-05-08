@@ -1,0 +1,22 @@
+<template>
+        <div class="cardSize">
+            <h3 slot="title">
+                <div class="slds-grid slds-grid_align-center textHead">
+                    <div class="slds-grid slds-grid_align-center textHead">
+                        <div>
+                            คุณต้องการที่จะเพิ่มเวลา <span class="whiteSpaceClass">ใช่หรือไม่</span>
+                        </div>
+                    </div>
+                   
+                </div>
+            </h3>
+            <div slot="footer">
+            </div>
+            <br/>
+            <br/>
+            <div class="slds-grid slds-grid_align-center">
+                <button class="slds-button slds-button_brand" style="margin-right: 2rem;"  onclick={AddTimeClick}>ใช่</button>
+                <button class="slds-button slds-button_outline-brand" onclick={closeQuickAction}>ไม่</button>
+            </div> 
+        </div>
+    </template>

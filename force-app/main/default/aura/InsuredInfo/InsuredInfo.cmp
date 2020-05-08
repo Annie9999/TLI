@@ -146,7 +146,7 @@
                 </span>
             </div>
 
-            <div class="slds-grid slds-gutters">
+            <div class="slds-grid slds-gutters" style="padding-top: 10px;">
                 <div class="slds-col slds-size_12-of-12">
                     <lightning:input name="ที่อยู่" label="ที่อยู่" value="{! v.ld.Street__c}"  disabled="{!v.status}"/>
                 </div>

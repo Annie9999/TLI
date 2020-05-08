@@ -29,9 +29,9 @@
         </lightning:progressIndicator>
     </div>
     <div style="padding-top: 1.5rem;">
-        <div class="headerInfo">ชื่อผู้เอาประกัน : {!v.leadRecord.Name}</div>
+        <!-- <div class="headerInfo">ชื่อผู้เอาประกัน : {!v.leadRecord.Name}</div> -->
         <aura:if isTrue="{!v.currentStep == '1'}">
-            <c:ProductForm recordId="{!v.recordId}" currentStep="{!v.currentStep}"/>
+            <c:ProductForm recordId="{!v.recordId}" currentStep="{!v.currentStep}" status="{!v.status}"/>
         </aura:if>
        	<aura:if isTrue="{!v.currentStep == '2'}">
             <c:InsuredInfo recordId="{!v.recordId}" currentStep="{!v.currentStep}" status="{!v.status}"  />

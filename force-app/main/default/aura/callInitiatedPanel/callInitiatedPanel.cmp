@@ -16,6 +16,7 @@ WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE SOFTWARE IS PROVIDED "AS I
     <aura:attribute name="phone" type="String" />
     <aura:attribute name="presence" type="String" description="Could be Available, Busy or Unavailable"/>
     <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
     <div class="slds-panel">
         <!--  Top section: Information about the contact, including an avatar -->
         <div class="slds-panel__section">

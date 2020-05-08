@@ -1,0 +1,27 @@
+<aura:component implements = "force:lightningQuickAction,force:hasRecordId">
+        <aura:html tag="style">
+                .modal-container.slds-modal__container{
+                        background: transparent;
+                        box-shadow: none !important;
+                }
+                .modal-container.slds-modal__container .modal-header.slds-modal__header{
+                        display:none;
+                }
+                .modal-container.slds-modal__container .modal-body{
+                        background: transparent;
+                }
+                .modal-container.slds-modal__container .modal-footer.slds-modal__footer{
+                        display:none;
+                }
+                .slds-button.slds-modal__close{
+                        display:none;
+                }
+
+                .slds-modal__container{
+                        max-height: 40rem;
+                }
+                    
+                
+        </aura:html>        
+        <c:tLI_lwc_AddSLATime recordId="{!v.recordId}" onclose="{!c.closeQA}" oncloseandrefresh="{!c.closeandrefresh}"/>	
+</aura:component>

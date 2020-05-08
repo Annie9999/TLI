@@ -1,0 +1,33 @@
+.THIS.hidden-input{
+    display: none;
+}
+.THIS .slds-modal__header,.THIS .slds-modal__content,.THIS .slds-modal__footer{
+    background: transparent;
+}
+.THIS .slds-button{
+    min-width: 125px;
+}
+
+.THIS .slds-modal__content{
+    max-height: 40rem;
+}
+
+.THIS .textHead{
+    font-size: 16px;
+    text-align: center;
+}
+
+.THIS .cardSize{
+    border-style: solid;
+    border-color: #004485;
+    border-radius: 3px;
+    height: 175px;
+    background: #fff;
+    width: 450px;
+    padding: 30px;
+    position: relative;
+    margin: auto;
+}
+.THIS .whiteSpaceClass{
+    white-space: nowrap;
+}

@@ -48,10 +48,10 @@
                     if(leadRecord.howtopay__c=='รายเดือน'){
                         component.set("v.paymentmethidValue", '1_month');
                     }
-                    else if(leadRecord.howtopay__c=='ราย 3 เดือน'){
+                    else if(leadRecord.howtopay__c=='3 เดือน'){
                         component.set("v.paymentmethidValue", '3_months');
                     }
-                    else if(leadRecord.howtopay__c=='ราย 6 เดือน'){
+                    else if(leadRecord.howtopay__c=='6 เดือน'){
                         component.set("v.paymentmethidValue", '6_months');
                     }
                     else if(leadRecord.howtopay__c=='รายปี'){

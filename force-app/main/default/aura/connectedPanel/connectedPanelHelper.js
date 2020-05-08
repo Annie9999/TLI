@@ -11,25 +11,32 @@ WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE SOFTWARE IS PROVIDED "AS I
   logCall : function(cmp, callback) {
     console.log('logCall');
     var recordId = cmp.get('v.recordId'); 
-    var accountId = cmp.get('v.account').Id;
+    var accountId; //= cmp.get('v.account').Id;
 
-    var whoId = cmp.get('v.recordId'); // WhoId related to contact or lead
-    var whatId;
+    var whoId ;//= cmp.get('v.recordId'); // WhoId related to contact or lead
+    var whatId ;
+    var prefix = recordId.substring(0,3)
     // if(accountId === undefined || accountId === null) {        
         // console.log('accountId = undifined');
         var args = {
             apexClass : 'SoftphoneContactSearchController',
             methodName : 'getWhoId',
             methodParams : 'recordId=' + recordId,
+            //methodParams : 'name=' +  cmp.get('v.recordName'),
             callback : function(result) {
                 if (result.success) {
                     var results = JSON.parse(result.returnValue.runApex);
                     console.log(results); 
                     console.log('recordId='+results[0].Id+', accountId='+results[0].AccountId+', contactId='+results[0].ContactId); 
                     whatId = results[0].Id; // caseId or contactId or leadId
-                    whoId = (results[0].ContactId === undefined) ? results[0].Id : results[0].ContactId;
-                    //whoId = results[0].ContactId;
-                    accountId = results[0].AccountId;
+					console.log('WhatId=', whatId);
+                 
+                    if(results[0].ContactId != null & results[0].ContactId != undefined){
+                        whoId = results[0].ContactId;
+                        accountId = results[0].AccountId;
+                    }else if(prefix == '00Q'){
+                        whoId = recordId;
+                    }
                     
                     // if (whoId.substring(0,3) == '00Q') { // if whoId is leadId
                     //     recordId = (results[0].Service_Request__c === undefined) ? '' : results[0].Service_Request__c;
@@ -48,6 +55,7 @@ WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE SOFTWARE IS PROVIDED "AS I
         if(whoId == whatId) {
             whatId = accountId;
         }
+
         console.log('WhatId=', whatId);
         console.log('WhoId=', whoId);
 

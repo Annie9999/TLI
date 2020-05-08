@@ -3,7 +3,7 @@ public class ProductFormApexController {
     @AuraEnabled
     public static void saveProduct(String leadId,String amount,String product,string subProduct,string birthdate,string gender,string payment) {
         System.debug('----- '+leadId+' '+amount+' '+product+' '+subProduct+' '+birthdate+' '+gender+' '+payment);
-        Lead leadObj = [SELECT id,name,howtopay__c,gender__c,age__c,Sub_productgroup__c,productgroup__c,Amount_Currency__c,totalamount__c, Date_Of_Birth__c FROM Lead where id = :leadId];
+        Lead leadObj = [SELECT id,name,howtopay__c,gender__c,Agee__c,Sub_productgroup__c,productgroup__c,Amount_Currency__c,totalamount__c, Date_Of_Birth__c FROM Lead where id = :leadId];
         try{
             leadObj.howtopay__c = payment;
             leadObj.gender__c = gender;
@@ -91,7 +91,7 @@ public class ProductFormApexController {
         ProductFormApexController.responseValue res= new ProductFormApexController.responseValue();
         System.debug('leadId' +leadId);
         Lead leadOb = new Lead();
-        leadOb = [SELECT id,name,howtopay__c,gender__c,age__c,Sub_productgroup__c,productgroup__c,Amount_Currency__c,totalamount__c, Date_Of_Birth__c FROM Lead where id =: leadId];
+        leadOb = [SELECT id,name,howtopay__c,gender__c,Agee__c,Sub_productgroup__c,productgroup__c,Amount_Currency__c,totalamount__c, Date_Of_Birth__c FROM Lead where id =: leadId];
         res.leadObj = leadOb;
         
         res.mapDependent = getDependentMap();

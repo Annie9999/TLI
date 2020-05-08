@@ -37,7 +37,7 @@ public with sharing class ccEditCaseParentCtrl {
     }
 
     @AuraEnabled
-    public static String save(String recordId,String contact,String source,String account, String status, String type, String topic,String subject, String sub_subject, String division, String subDivision, String origin, String description, String SLA){
+    public static String save(String recordId,String contact,String source,String account, String status, String type, String topic,String subject, String sub_subject, String division, String subDivision, String origin, String subject_want, String detail, String SLA){
         System.debug('recordId : ' + recordId);
         System.debug('contact : ' + contact);
         System.debug('source : ' + source);
@@ -50,10 +50,10 @@ public with sharing class ccEditCaseParentCtrl {
         System.debug('division : ' + division);
         System.debug('subDivision : ' + subDivision);
         System.debug('origin : ' + origin);
-        System.debug('description : ' + description);
+        System.debug('detail : ' + detail);
         System.debug('SLA : ' + SLA);
 
-        List<Case> editCase = [SELECT Id, ContactId, SourceId, Insurance_Policy__c, AccountId, Subject, OwnerId, Status, Description, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
+        List<Case> editCase = [SELECT Id, ContactId, SourceId, Insurance_Policy__c, AccountId, Subject, OwnerId, Status, Service_Details__c, RecordTypeId, Service_Type__c, Service_Topic__c, Service_Subject__c, Service_Sub_Subject__c, SLA__c, TLI_Division__c, TLI_Subdivision__c, Origin FROM Case WHERE Id =: recordId];
 
         System.debug('editCase : ' + editCase);
 
@@ -65,16 +65,17 @@ public with sharing class ccEditCaseParentCtrl {
 
         editCase[0].Origin = origin;
 
+        editCase[0].Service_Sub_Subject__c = sub_subject;
+        editCase[0].Service_Topic__c = topic;
+        editCase[0].Service_Subject__c = subject;
+        
         if(origin == 'โทรเข้า' || origin == 'โทรออก'){
-            editCase[0].Service_Topic__c = topic;
-            editCase[0].Service_Subject__c = subject;
-            editCase[0].Subject = subject;
-            editCase[0].Service_Sub_Subject__c = sub_subject;
+            editCase[0].Subject = subject_want;
         }
 
         editCase[0].TLI_Division__c = division;
         editCase[0].TLI_Subdivision__c = subDivision;
-        editCase[0].Description = description;
+        editCase[0].Service_Details__c = detail;
 
         System.debug('editCase.SLA__ : ' + SLA);
         if(SLA != null){

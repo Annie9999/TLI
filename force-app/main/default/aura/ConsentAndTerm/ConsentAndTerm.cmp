@@ -1,16 +1,15 @@
 <aura:component>
-
-    <aura:attribute name="taxConsent" type="String" />
-    <aura:attribute name="policyChannel" type="String" />
-
     <aura:attribute name="consentOptions" type="List" default="[
     {'label': 'มีความประสงค์ และยินยอมให้บริษัทประกันชีวิตส่งและเปิดเผยข้อมูลเกี่ยวกับเบี้ยประกันภัยต่อกรมสรรพากร ตามหลักเกณฑ์ วิธีการที่กรมสรรพากรกำหนด', 'value': 'ลดหย่อนภาษี'},
     {'label': 'ไม่มีความประสงค์', 'value': 'ไม่ลดหย่อนภาษี'}
     ]" />
 
-    <aura:attribute name="concent" type="String" />
-    <aura:attribute name="termEmail" type="String" />
-    <aura:attribute name="status" type="boolean" />
+    <aura:attribute name="taxConsent" type="String"/>
+    <aura:attribute name="policyChannel" type="String" />
+
+    <aura:attribute name="concent" type="String"/>
+    <aura:attribute name="termEmail" type="String"/>
+    <aura:attribute name="status" type="boolean"/>
 
 
     <div class="slds-grid slds-gutters">

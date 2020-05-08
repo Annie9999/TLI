@@ -22,10 +22,10 @@
             payment = 'รายเดือน';
         }
         else if(payment=='3_months'){
-            payment = 'ราย 3 เดือน';
+            payment = '3 เดือน';
         }
         else if(payment=='6_months'){
-            payment = 'ราย 6 เดือน';
+            payment = '6 เดือน';
         }
         else if(payment=='year'){
             payment = 'รายปี';
@@ -157,10 +157,10 @@
             payment = 'รายเดือน';
         }
         else if(payment=='3_months'){
-            payment = 'ราย 3 เดือน';
+            payment = '3 เดือน';
         }
         else if(payment=='6_months'){
-            payment = 'ราย 6 เดือน';
+            payment = '6 เดือน';
         }
         else if(payment=='year'){
             payment = 'รายปี';

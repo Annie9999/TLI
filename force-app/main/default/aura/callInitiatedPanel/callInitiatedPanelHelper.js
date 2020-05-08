@@ -115,5 +115,6 @@ WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE SOFTWARE IS PROVIDED "AS I
                 presence : cmp.get('v.presence')
             }
         }).fire();
+        
     }
 })

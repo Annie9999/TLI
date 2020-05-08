@@ -59,23 +59,43 @@
                                 <lightning-button variant="brand" class="slds-m-left_x-small" label="ค้นหา" icon-name="utility:zoomin" onclick={search}>
                                 </lightning-button>
                             </lightning-button-group>
-                            <lightning-button variant="Neutral" class="slds-m-left_x-small" label="ล้างข้อมูล">
+                            <lightning-button variant="Neutral" class="slds-m-left_x-small" label="ล้างข้อมูล" onclick={clear}>
                             </lightning-button>
                         </div>
                     </div>
 
-                    <div class="mt">
-                        <lightning-datatable
-                            key-field="id"
-                            columns={columns}
-                            data={data}
-                            hide-checkbox-column
-                            default-sort-direction={defaultSortDirection}
-                            sorted-direction={sortDirection}
-                            sorted-by={sortedBy}
-                            onsort={onHandleSort}>
-                        </lightning-datatable>
-                    </div>
+                    <template if:true={isData}>
+                        <div class="mt">
+                            <lightning-datatable
+                                key-field="id"
+                                columns={columns}
+                                data={data}
+                                hide-checkbox-column
+                                default-sort-direction={defaultSortDirection}
+                                sorted-direction={sortDirection}
+                                sorted-by={sortedBy}
+                                onsort={onHandleSort}>
+                            </lightning-datatable>
+                            <!-- <lightning-datatable
+                                key-field="id"
+                                columns={columns}
+                                data={data}
+                                hide-checkbox-column
+                                default-sort-direction={defaultSortDirection}
+                                sorted-direction={sortDirection}
+                                sorted-by={sortedBy}
+                                onsort={onHandleSort}
+                                enable-infinite-loading
+                                onloadmore={loadMoreData}>
+                            </lightning-datatable> -->
+                        </div>
+                        <!-- {loadMoreStatus} -->
+                    </template>
+                    <template if:false={isData}>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            ไม่พบข้อมูล
+                        </div>
+                    </template>
                 </div>
             </div>
         </div>

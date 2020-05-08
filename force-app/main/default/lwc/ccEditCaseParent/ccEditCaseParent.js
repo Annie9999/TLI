@@ -17,6 +17,7 @@ import filterMatrix_sla from '@salesforce/apex/ccEditCaseParentCtrl.filterMatrix
 // import getPickListStatus from '@salesforce/apex/ccEditCaseParentCtrl.getPickListStatus';
 
 import listTypeMatrix from '@salesforce/apex/customNewCaseParentCtrl.listTypeMatrix';
+import getfindRecordType from '@salesforce/apex/customNewCaseParentCtrl.findRecordType';
 
 import getfindPolicy from '@salesforce/apex/customNewCaseParentCtrl.findPolicy';
 
@@ -88,6 +89,10 @@ export default class CcEditCaseParent extends LightningElement {
     @track keySLA;
     // Service Type Matrix
 
+    // @track mapServiceDetails = [];
+    // @track keyServiceDetails;
+    // @track getServiceDetails;
+
     @track lstRecordTypes;  // to store account record type list
     @track lstStatus;       // to store Rating field values (picklist)
     @track lstDivision = [];     //(picklist)
@@ -127,6 +132,10 @@ export default class CcEditCaseParent extends LightningElement {
 
     checkValidate = true;
 
+    keyMatrix;
+    
+    isSLA = false;
+
     constructor(){
         super();
     }
@@ -139,20 +148,19 @@ export default class CcEditCaseParent extends LightningElement {
         console.log('connectedCallback recTypeId : '+this.recTypeId);
         console.log('connectedCallback sObjectName : '+this.sObjectName);
 
-        this.get_matrix();
-        // this.get_type();
+        this.getInfo(this.recordId);
     }
 
     //Get select object
     //Set selected
-    setSelectedValue(selectObj, valueToSet) {
-        for (var i = 0; i < selectObj.options.length; i++) {
-            if (selectObj.options[i].value== valueToSet) {
-                selectObj.options[i].selected = true;
-                return;
-            }
-        }
-    }
+    // setSelectedValue(selectObj, valueToSet) {
+    //     for (var i = 0; i < selectObj.options.length; i++) {
+    //         if (selectObj.options[i].value== valueToSet) {
+    //             selectObj.options[i].selected = true;
+    //             return;
+    //         }
+    //     }
+    // }
 
     // get 3 field standard
     // @wire(getRecord, { recordId: '$recordId', fields: FIELDS })
@@ -210,10 +218,10 @@ export default class CcEditCaseParent extends LightningElement {
             new Promise((resolve, reject) => {
                 //========== Status ==========//
                 this.lstStatus = data.picklistFieldValues.Status.values;
-                this.getService_Status = 'งานใหม่';
+                // this.getService_Status = 'งานใหม่';
                 //========== Origin ==========//
                 this.lstOrigin = data.picklistFieldValues.Origin.values;
-                this.getService_Origin = 'โทรเข้า';
+                // this.getService_Origin = 'โทรเข้า';
                 //========== division ==========//
                 let divisionOptions = [{label:'--ไม่มี--', value:null}];
                 data.picklistFieldValues.TLI_Division__c.values.forEach(key => {
@@ -276,20 +284,32 @@ export default class CcEditCaseParent extends LightningElement {
         }
     }
 
-    set_data(){
-        this.getService_Type = this.chooseType;
-        this.getService_Topic = this.chooseTopic;
-        this.getService_Subject = this.chooseSubject;
-        this.getService_Sub_Subject = this.chooseSubSubject;
+    find_record_type(){
+        getfindRecordType({Id: this.recTypeId})
+        .then(result => {
+            console.log('key for findRecordType : ',result.split('_')[0])
+            this.keyMatrix = result.split('_')[0];
+            this.get_matrix();
+        })
+        .catch(error => {
+            alert(error.message);
+        });
+    }
 
-        var topic = this.getService_Topic;
-        var subject = this.getService_Subject;
-        var sub_subject = this.getService_Sub_Subject;
+    set_data(){
+        // this.getService_Type = this.chooseType;
+        // this.getService_Topic = this.chooseTopic;
+        // this.getService_Subject = this.chooseSubject;
+        // this.getService_Sub_Subject = this.chooseSubSubject;
+        var type = this.chooseType;
+        var topic = this.chooseTopic;
+        var subject = this.chooseSubject;
+        var sub_subject = this.chooseSubSubject;
         var sla = this.getSLA;
 
         // Promise for wait all data finish
         new Promise((resolve, reject) => {
-            this.Startup_Service_TypeChange(this.getService_Type);
+            this.Startup_Service_TypeChange(type);
             resolve();
         })
         .then(() => {
@@ -304,7 +324,7 @@ export default class CcEditCaseParent extends LightningElement {
                 })
                 .then(() => {
                     new Promise((resolve, reject) => {
-                        if(this.getService_Sub_Subject != null || this.getService_Sub_Subject != undefined || this.getService_Sub_Subject != 'undefined'){
+                        if(this.chooseSubSubject != null || this.chooseSubSubject != undefined || this.chooseSubSubject != 'undefined'){
                             this.Startup_Service_Sub_SubjectChange(sub_subject);
                         }
                         resolve();
@@ -313,26 +333,36 @@ export default class CcEditCaseParent extends LightningElement {
                         this.stampSLA(sla);
                     })
                 })
+                .catch(error => {
+                    // console.log('Startup_Service_SubjectChange error : ',error)
+                    this.stampSLA(sla);
+                });
             })
         })
     }
 
     get_matrix(){
-        listTypeMatrix({})
+        listTypeMatrix({prefix: this.keyMatrix})
         .then(result => {
             // Promise for wait all data finish
             new Promise((resolve, reject) => {
                 this.lstService_All = result;
                 for(let key in result) {
                     let Sub_SubjectNull = result[key].Service_Sub_Subject__c;
-                    this.keyService_Type = result[key].Service_Type__c;
-                    this.keyService_Topic = result[key].Service_Type__c;
-                    this.keyService_Subject = result[key].Service_Type__c+'|'+result[key].Service_Topic__c;
-                    this.keyService_Sub_Subject = result[key].Service_Type__c+'|'+result[key].Service_Topic__c+'|'+result[key].Service_Subject__c;
+                    let SubjectNull = result[key].Service_Subject__c;
                     if(result[key].Service_Sub_Subject__c == undefined){
                         Sub_SubjectNull = null;
                     }
-                    this.keySLA = result[key].Service_Type__c+'|'+result[key].Service_Topic__c+'|'+result[key].Service_Subject__c+'|'+Sub_SubjectNull;
+                    if(result[key].Service_Subject__c == undefined){
+                        SubjectNull = null;
+                    }
+                    this.keyService_Type = result[key].Service_Type__c;
+                    this.keyService_Topic = result[key].Service_Type__c;
+                    this.keyService_Subject = result[key].Service_Type__c+'|'+result[key].Service_Topic__c;
+                    this.keyService_Sub_Subject = result[key].Service_Type__c+'|'+result[key].Service_Topic__c+'|'+SubjectNull;
+                    
+                    this.keySLA = result[key].Service_Type__c+'|'+result[key].Service_Topic__c+'|'+SubjectNull+'|'+Sub_SubjectNull;
+                    // this.keyServiceDetails = result[key].Service_Type__c+'|'+result[key].Service_Topic__c+'|'+SubjectNull+'|'+Sub_SubjectNull;
     
                     if( this.mapService_Type[this.keyService_Type] == null || this.mapService_Type[this.keyService_Type] == ''){
                         this.mapService_Type[this.keyService_Type] = new Array();
@@ -373,6 +403,14 @@ export default class CcEditCaseParent extends LightningElement {
                     && result[key].SLA_min__c != '' && this.keySLA != '' ){
                         this.mapSLA[this.keySLA].push(result[key].SLA_min__c);                
                     }
+
+                    // if( this.mapServiceDetails[this.keyServiceDetails] == null || this.mapServiceDetails[this.keyServiceDetails] == ''){
+                    //     this.mapServiceDetails[this.keyServiceDetails] = new Array();
+                    // }
+                    // if( this.mapServiceDetails[this.keyServiceDetails].indexOf(result[key].Service_Details__c) == -1
+                    // && result[key].Service_Details__c != '' && this.keyServiceDetails != '' ){
+                    //     this.mapServiceDetails[this.keyServiceDetails].push(result[key].Service_Details__c);                
+                    // }
                     
                     
                 }
@@ -392,163 +430,167 @@ export default class CcEditCaseParent extends LightningElement {
                 resolve();
             })
             .then(() => {
-                this.getInfo(this.recordId);
-            })
-        })
-        .catch(error => {
-            this.error = error;
-        });
-    }
-
-    get_type(){
-        filterMatrix_type({})
-        .then(result => {
-            // console.log('get type : ', result);
-
-            // Promise for wait all data finish
-            new Promise((resolve, reject) => {
-                let listService_TopicOptions = [{label:'--ไม่มี--', value:null}];
-                for(let key in result.set_topic) {
-                    listService_TopicOptions.push({
-                        label : result.set_topic[key],
-                        value: result.set_topic[key]
-                    })
-                }
-                this.listService_Topic = listService_TopicOptions;
-                
-                let listService_SubjectOptions = [{label:'--ไม่มี--', value:null}];
-                for(let key in result.set_subject) {
-                    listService_SubjectOptions.push({
-                        label : result.set_subject[key],
-                        value: result.set_subject[key]
-                    })
-                }
-                this.listService_Subject = listService_SubjectOptions;
-
-                let listService_SubSubjectOptions = [{label:'--ไม่มี--', value:null}];
-                for(let key in result.set_subSubject) {
-                    listService_SubSubjectOptions.push({
-                        label : result.set_subSubject[key],
-                        value: result.set_subSubject[key]
-                    })
-                }
-                this.listService_Sub_Subject = listService_SubSubjectOptions;
-                resolve();
-            })
-            .then(() => {
+                // this.getInfo(this.recordId);
+                // this.get_type();
                 this.set_data();
             })
         })
         .catch(error => {
-            alert(error.message);
+            console.log('ERROR : ',error);
         });
     }
 
-    get_topic(_type){
-        filterMatrix_topic({type: _type})
-        .then(result => {
-            // console.log('get topic : ', result);
-            this.topic = [];
-            this.subject = [];
-            this.sub_subject = [];
+    // get_type(){
+    //     filterMatrix_type({})
+    //     .then(result => {
+    //         // console.log('get type : ', result);
 
-            if(result != null){
-                for(let key in result.set_topic) {
-                    this.topic.push(result.set_topic[key]);
-                }
-            }
-            let topic = this.template.querySelector(`[data-id="service_topic"]`);
-            let subject = this.template.querySelector(`[data-id="service_subject"]`);
-            let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
-            if(this.topic.length > 0){
-                topic.disabled = false;
-            }else{
-                topic.disabled = true;
-            }
-            subject.disabled = true;
-            sub_subject.disabled = true;
-        })
-        .catch(error => {
-            alert(error.message);
-        });
-    }
+    //         // Promise for wait all data finish
+    //         new Promise((resolve, reject) => {
+    //             let listService_TopicOptions = [{label:'--ไม่มี--', value:null}];
+    //             for(let key in result.set_topic) {
+    //                 listService_TopicOptions.push({
+    //                     label : result.set_topic[key],
+    //                     value: result.set_topic[key]
+    //                 })
+    //             }
+    //             this.listService_Topic = listService_TopicOptions;
+                
+    //             let listService_SubjectOptions = [{label:'--ไม่มี--', value:null}];
+    //             for(let key in result.set_subject) {
+    //                 listService_SubjectOptions.push({
+    //                     label : result.set_subject[key],
+    //                     value: result.set_subject[key]
+    //                 })
+    //             }
+    //             this.listService_Subject = listService_SubjectOptions;
 
-    get_subject(_type,_topic){
-        filterMatrix_subject({type: _type, topic: _topic})
-        .then(result => {
-            // console.log('get subject : ', result);
-            this.subject = [];
-            this.sub_subject = [];
-            if(result != null){
-                for(let key in result.set_subject) {
-                    this.subject.push(result.set_subject[key]);
-                }
-            }
+    //             let listService_SubSubjectOptions = [{label:'--ไม่มี--', value:null}];
+    //             for(let key in result.set_subSubject) {
+    //                 listService_SubSubjectOptions.push({
+    //                     label : result.set_subSubject[key],
+    //                     value: result.set_subSubject[key]
+    //                 })
+    //             }
+    //             this.listService_Sub_Subject = listService_SubSubjectOptions;
+    //             resolve();
+    //         })
+    //         .then(() => {
+    //             this.set_data();
+    //         })
+    //     })
+    //     .catch(error => {
+    //         alert(error.message);
+    //     });
+    // }
 
-            let subject = this.template.querySelector(`[data-id="service_subject"]`);
-            let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
-            if(this.subject.length > 0){
-                subject.disabled = false;
-            }else{
-                subject.disabled = true;
-            }
-            sub_subject.disabled = true;
-        })
-        .catch(error => {
-            alert(error.message);
-        });
-    }
+    // get_topic(_type){
+    //     filterMatrix_topic({type: _type})
+    //     .then(result => {
+    //         // console.log('get topic : ', result);
+    //         this.topic = [];
+    //         this.subject = [];
+    //         this.sub_subject = [];
 
-    get_sub_subject(_type,_topic,_subject){
-        filterMatrix_subSubject({type: _type, topic: _topic,subject: _subject})
-        .then(result => {
-            // console.log('get sub-subject : ', result);
-            this.sub_subject = [];
-            for(let key in result.set_subSubject) {
-                this.sub_subject.push(result.set_subSubject[key]);
-            }
-            this.getSLA = result.sla[0];
+    //         if(result != null){
+    //             for(let key in result.set_topic) {
+    //                 this.topic.push(result.set_topic[key]);
+    //             }
+    //         }
+    //         let topic = this.template.querySelector(`[data-id="service_topic"]`);
+    //         let subject = this.template.querySelector(`[data-id="service_subject"]`);
+    //         let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
+    //         if(this.topic.length > 0){
+    //             topic.disabled = false;
+    //         }else{
+    //             topic.disabled = true;
+    //         }
+    //         subject.disabled = true;
+    //         sub_subject.disabled = true;
+    //     })
+    //     .catch(error => {
+    //         alert(error.message);
+    //     });
+    // }
 
-            let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
-            if(this.sub_subject.length > 0){
-                sub_subject.disabled = false;
-            }else{
-                this.getSLA = result.sla[0];
-                sub_subject.disabled = true;
-            }
-        })
-        .catch(error => {
-            alert(error.message);
-        });
-    }
+    // get_subject(_type,_topic){
+    //     filterMatrix_subject({type: _type, topic: _topic})
+    //     .then(result => {
+    //         // console.log('get subject : ', result);
+    //         this.subject = [];
+    //         this.sub_subject = [];
+    //         if(result != null){
+    //             for(let key in result.set_subject) {
+    //                 this.subject.push(result.set_subject[key]);
+    //             }
+    //         }
 
-    get_sla(_type,_topic,_subject,_sub_subject){
-        filterMatrix_sla({type: _type, topic: _topic,subject: _subject,sub_subject: _sub_subject})
-        .then(result => {
-            // console.log('get sla : ', result);
-            this.getSLA = result.sla[0];
-            if(this.getSLA === '' || this.getSLA === null){
-                this.getSLA = 0;
-            }
-        })
-        .catch(error => {
-            alert(error.message);
-        });
-    }
+    //         let subject = this.template.querySelector(`[data-id="service_subject"]`);
+    //         let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
+    //         if(this.subject.length > 0){
+    //             subject.disabled = false;
+    //         }else{
+    //             subject.disabled = true;
+    //         }
+    //         sub_subject.disabled = true;
+    //     })
+    //     .catch(error => {
+    //         alert(error.message);
+    //     });
+    // }
+
+    // get_sub_subject(_type,_topic,_subject){
+    //     filterMatrix_subSubject({type: _type, topic: _topic,subject: _subject})
+    //     .then(result => {
+    //         // console.log('get sub-subject : ', result);
+    //         this.sub_subject = [];
+    //         for(let key in result.set_subSubject) {
+    //             this.sub_subject.push(result.set_subSubject[key]);
+    //         }
+    //         this.getSLA = result.sla[0];
+
+    //         let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
+    //         if(this.sub_subject.length > 0){
+    //             sub_subject.disabled = false;
+    //         }else{
+    //             this.getSLA = result.sla[0];
+    //             sub_subject.disabled = true;
+    //         }
+    //     })
+    //     .catch(error => {
+    //         alert(error.message);
+    //     });
+    // }
+
+    // get_sla(_type,_topic,_subject,_sub_subject){
+    //     filterMatrix_sla({type: _type, topic: _topic,subject: _subject,sub_subject: _sub_subject})
+    //     .then(result => {
+    //         // console.log('get sla : ', result);
+    //         this.getSLA = result.sla[0];
+    //         if(this.getSLA === '' || this.getSLA === null){
+    //             this.getSLA = 0;
+    //         }
+    //     })
+    //     .catch(error => {
+    //         alert(error.message);
+    //     });
+    // }
 
     getInfo(recordId){
         // console.log('recordId : ',recordId)
         getInfo({recordId: recordId})
         .then(result => {
-            // console.log('getInfo : ', result);
+            console.log('getInfo : ', result);
             this.recordTypeId = result.RecordTypeId;
 
-            this.chooseStatus = result.Status;
-            this.chooseOrigin = result.Origin;
+            this.getService_Status = result.Status;
+            this.getService_Origin = result.Origin;
             this.chooseDivision = result.TLI_Division__c;
             this.chooseSubDivision = result.TLI_Subdivision__c;
             
+            // GET RECORD TYPE ID
             this.recTypeId = result.RecordTypeId;
+            // console.log('record type id : ',this.recTypeId)
 
             this.chooseType = result.Service_Type__c;
             this.chooseTopic = result.Service_Topic__c;
@@ -562,7 +604,7 @@ export default class CcEditCaseParent extends LightningElement {
                 this.getSLA = result.SLA__c;
             }
 
-            this.get_type();
+            this.find_record_type();
         })
         .catch(error => {
             console.log('ERROR : ',error);
@@ -593,26 +635,26 @@ export default class CcEditCaseParent extends LightningElement {
         }
     }
 
-    filterType(){
-        let service_type = this.template.querySelector(`[data-id="service_type"]`);
-        this.chooseType = service_type.value;
-        this.get_topic(this.chooseType);
-    }
-    filterTopic(){
-        let service_topic = this.template.querySelector(`[data-id="service_topic"]`);
-        this.chooseTopic = service_topic.value;
-        this.get_subject(this.chooseType,this.chooseTopic);
-    }
-    filterSubject(){
-        let service_subject = this.template.querySelector(`[data-id="service_subject"]`);
-        this.chooseSubject = service_subject.value;
-        this.get_sub_subject(this.chooseType,this.chooseTopic,this.chooseSubject);
-    }
-    filterSubSubject(){
-        let service_sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
-        this.chooseSubSubject = service_sub_subject.value;
-        this.get_sla(this.chooseType,this.chooseTopic,this.chooseSubject,this.chooseSubSubject);
-    }
+    // filterType(){
+    //     let service_type = this.template.querySelector(`[data-id="service_type"]`);
+    //     this.chooseType = service_type.value;
+    //     this.get_topic(this.chooseType);
+    // }
+    // filterTopic(){
+    //     let service_topic = this.template.querySelector(`[data-id="service_topic"]`);
+    //     this.chooseTopic = service_topic.value;
+    //     this.get_subject(this.chooseType,this.chooseTopic);
+    // }
+    // filterSubject(){
+    //     let service_subject = this.template.querySelector(`[data-id="service_subject"]`);
+    //     this.chooseSubject = service_subject.value;
+    //     this.get_sub_subject(this.chooseType,this.chooseTopic,this.chooseSubject);
+    // }
+    // filterSubSubject(){
+    //     let service_sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
+    //     this.chooseSubSubject = service_sub_subject.value;
+    //     this.get_sla(this.chooseType,this.chooseTopic,this.chooseSubject,this.chooseSubSubject);
+    // }
 
     //================== Start Service_Type_Matrix ==================//
     Service_TypeChange(event) {
@@ -623,6 +665,7 @@ export default class CcEditCaseParent extends LightningElement {
         this.getService_Subject = null;
         this.getService_Sub_Subject = null;
         this.getSLA = null;
+        // this.getServiceDetails = null;
         this.isEmptyService_Topic = true;
         this.isEmptyService_Subject = true;
         this.isEmptyService_Sub_Subject = true;
@@ -640,7 +683,7 @@ export default class CcEditCaseParent extends LightningElement {
                 }
                 this.listService_Topic = listService_TopicOptions;
 
-                if(this.listService_Topic.length > 0){
+                if(this.listService_Topic.length > 1){
                     this.isEmptyService_Topic = false;
                 }
             }
@@ -650,11 +693,19 @@ export default class CcEditCaseParent extends LightningElement {
         this.isNonEmptyService_Sub_Subject = !this.isEmptyService_Sub_Subject;
     }
     Service_TopicChange(event) {
+        let origin = this.template.querySelector(`[data-id="service_origin"]`);
+        let subject_want = this.template.querySelector(`[data-id="service_subject_want"]`);
+
+        if(origin.value === 'โทรเข้า' || origin.value === 'โทรออก'){
+            subject_want.value = event.target.value;
+        }
+
         this.listService_Subject = new Array();
         this.listService_Sub_Subject  = new Array();
         this.getService_Subject = null;
         this.getService_Sub_Subject =  null;
         this.getSLA = null;
+        // this.getServiceDetails = null;
         this.isEmptyService_Subject = true;
         this.isEmptyService_Sub_Subject = true;
         const field = event.target.name;
@@ -669,9 +720,26 @@ export default class CcEditCaseParent extends LightningElement {
                         value: this.mapService_Subject[keyMap][key]
                     })
                 }
+                // console.log('listService_SubjectOptions : ',listService_SubjectOptions);
                 this.listService_Subject = listService_SubjectOptions;
-                if(this.listService_Topic.length > 0){
+                if(this.listService_Subject.length > 1){
                     this.isEmptyService_Subject = false;
+                }
+                else{
+                    let subSubject = this.getService_Sub_Subject;
+                    let subject = this.getService_Subject;
+                    if(this.getService_Sub_Subject == ''){
+                        subSubject = null;
+                    }
+                    if(this.getService_Subject == ''){
+                        subject = null;
+                    }
+                    const keyMapSLAServiceDetail = this.getService_Type+'|'+this.getService_Topic+'|'+subject+'|'+subSubject;
+                    
+                    // console.log(keyMapSLAServiceDetail);
+                    if(this.mapSLA[keyMapSLAServiceDetail].length > 0){
+                        this.getSLA = this.mapSLA[keyMapSLAServiceDetail][0];
+                    }
                 }
             }
         }
@@ -683,13 +751,16 @@ export default class CcEditCaseParent extends LightningElement {
         this.listService_Sub_Subject  = new Array();
         this.getService_Sub_Subject = null;
         this.getSLA = null;
+        // this.getServiceDetails = null;
         this.isEmptyService_Sub_Subject = true;
         const field = event.target.name;
         if (field === 'Service_SubjectOption') {
             this.getService_Subject = event.target.value;
             const keyMap = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject;
+            // console.log('keyMap : ', keyMap);
             if(event.target.value != null){
-                if(this.mapService_Sub_Subject[keyMap].length > 1){
+                // console.log('this.mapService_Sub_Subject[keyMap] : ',this.mapService_Sub_Subject[keyMap])
+                if(this.mapService_Sub_Subject[keyMap].length > 0){
                     let listService_Sub_SubjectOptions = [{label:'--ไม่มี--', value:null}];
                     for(let key in this.mapService_Sub_Subject[keyMap]) {
                         listService_Sub_SubjectOptions.push({
@@ -697,8 +768,9 @@ export default class CcEditCaseParent extends LightningElement {
                             value: this.mapService_Sub_Subject[keyMap][key]
                         })
                     }
+                    // console.log('listService_Sub_SubjectOptions : ', listService_Sub_SubjectOptions);
                     this.listService_Sub_Subject = listService_Sub_SubjectOptions;
-                    if(this.listService_Sub_Subject.length > 0){
+                    if(this.listService_Sub_Subject.length > 1){
                         this.isEmptyService_Sub_Subject = false;
                     }
                 }
@@ -708,9 +780,13 @@ export default class CcEditCaseParent extends LightningElement {
                         subSubject = null;
                     }
                     const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+subSubject;
+                    // console.log('this.mapSLA[keyMapSLA] : ',this.mapSLA[keyMapSLA])
                     if(this.mapSLA[keyMapSLA].length > 0){
                         this.getSLA = this.mapSLA[keyMapSLA][0];
                     }
+                    // if(this.mapServiceDetails[keyMapSLAServiceDetail].length > 0){
+                    //     this.getServiceDetails = this.mapServiceDetails[keyMapSLAServiceDetail][0];
+                    // }
                 }
             }
         }
@@ -721,6 +797,7 @@ export default class CcEditCaseParent extends LightningElement {
     Service_Sub_SubjectChange(event) {
         const field = event.target.name;
         this.getSLA = null;
+        // this.getServiceDetails = null;
         if (field === 'Service_Sub_SubjectOption') {
             this.getService_Sub_Subject = event.target.value;
             if(event.target.value != null){
@@ -728,6 +805,9 @@ export default class CcEditCaseParent extends LightningElement {
                 if(this.mapSLA[keyMapSLA].length > 0){
                     this.getSLA = this.mapSLA[keyMapSLA][0];
                 }
+                // if(this.mapServiceDetails[keyMapSLAServiceDetail].length > 0){
+                //     this.getServiceDetails = this.mapServiceDetails[keyMapSLAServiceDetail][0];
+                // }
             }
         }   
     }
@@ -776,18 +856,28 @@ export default class CcEditCaseParent extends LightningElement {
             this.isEmptySubDivision = true;
         }
         this.isNonEmptySubDivision = !this.isEmptySubDivision;
+        console.log('lstSubDivision : ',this.lstSubDivision)
+        console.log('lstSubDivision.length : ',this.lstSubDivision.length)
     }
     stampSubDivision(event){
         this.getService_SubDivision = event.target.value;
         // this.chooseSubDivision = event.target.value;
     }
+
     stampSLA(sla){
-        this.getSLA = sla;
+        console.log('SLA : ',sla)
+        console.log('this.isSLA : ',this.isSLA)
+        if( this.isSLA === false){
+            this.getSLA = sla;
+        }
+        else{
+            this.getSLA = 0;
+        }
     }
 
-    test(){
-        alert('TEST');
-    }
+    // test(){
+    //     alert('TEST');
+    // }
 
     save(event){
         event.preventDefault();
@@ -801,23 +891,34 @@ export default class CcEditCaseParent extends LightningElement {
         let topic = this.template.querySelector(`[data-id="service_topic"]`);
         let subject = this.template.querySelector(`[data-id="service_subject"]`);
         let sub_subject = this.template.querySelector(`[data-id="service_sub_subject"]`);
-        let description = this.template.querySelector(`[data-id="description"]`);
+
+        let subject_want = this.template.querySelector(`[data-id="service_subject_want"]`);
+        let detail = this.template.querySelector(`[data-id="service_detail"]`)
 
         let listfieldError = [];
 
-        if(this.getService_Type == null || this.getService_Type == undefined || this.getService_Type == 'undefined'){
+        console.log('type : ', type.value);
+        console.log('topic : ', topic.value);
+        console.log('subject : ', subject.value);
+
+
+        console.log('this.getService_Type : ', this.getService_Type);
+        console.log('this.getService_Topic : ', this.getService_Topic);
+        console.log('this.getService_Subject : ', this.getService_Subject);
+
+        if( this.getService_Type == null || this.getService_Type == undefined || this.getService_Type == 'undefined' ){
             listfieldError.push(this.labelService_Type);
         }
-        if(this.getService_Topic == null || this.getService_Topic == undefined || this.getService_Topic == 'undefined'){
+        if( this.getService_Topic == null || this.getService_Topic == undefined || this.getService_Topic == 'undefined' ){
             listfieldError.push(this.labelService_Topic);
         }
-        if( (this.getService_Subject == null || this.getService_Subject == undefined || this.getService_Subject == 'undefined' ) && this.listService_Subject.length > 0){
+        if( (this.getService_Subject == null || this.getService_Subject == undefined || this.getService_Subject == 'undefined') && this.isEmptyService_Subject != true){
             listfieldError.push(this.labelService_Subject);
         }
-        if(this.getService_Sub_Subject == null && this.listService_Sub_Subject.length > 0){
+        if( (this.getService_Sub_Subject == null || this.getService_Sub_Subject == '' || this.getService_Sub_Subject == undefined) && this.isEmptyService_Sub_Subject != true ){
             listfieldError.push(this.labelService_Sub_Subject);
         }
-        
+
         if(this.getService_Division == null || this.getService_Division == undefined || this.getService_Division == 'undefined' || this.getService_Division == ''){
             listfieldError.push(this.labelDivision);
         }
@@ -857,7 +958,8 @@ export default class CcEditCaseParent extends LightningElement {
         console.log('this.getService_Division : ',this.getService_Division)
         console.log('this.getService_SubDivision : ',this.getService_SubDivision)
         console.log('this.getService_Origin : ',this.getService_Origin)
-        console.log('description.value : ',description.value)
+        console.log('subject_want.value : ',subject_want.value)
+        console.log('detail.value : ',detail.value)
         console.log('this.getSLA : ',this.getSLA)
 
 
@@ -867,15 +969,16 @@ export default class CcEditCaseParent extends LightningElement {
                 contact: contact.value,
                 source: source.value,
                 account: account.value,
-                status: this.chooseStatus,
+                status: this.getService_Status,
                 type: type.value,
                 topic: topic.value,
                 subject: subject.value,
                 sub_subject: sub_subject.value, 
-                division: this.chooseDivision, 
-                subDivision: this.chooseSubDivision, 
-                origin: this.chooseOrigin,
-                description: description.value,
+                division: this.getService_Division, 
+                subDivision: this.getService_SubDivision, 
+                origin: this.getService_Origin,
+                subject_want: subject_want.value,
+                detail: detail.value,
                 SLA: this.getSLA
             })
             .then(result => {
@@ -900,7 +1003,7 @@ export default class CcEditCaseParent extends LightningElement {
                 );
             })
             .catch(error => {
-                this.error = error;
+                console.log('ERROR : ',error);
             });
         }
         else{
@@ -916,6 +1019,7 @@ export default class CcEditCaseParent extends LightningElement {
 
     //---------------Matrix For retrieve data---------------//
     Startup_Service_TypeChange(event) {
+
         this.listService_Topic = new Array();
         this.listService_Subject = new Array();
         this.listService_Sub_Subject  = new Array();
@@ -929,6 +1033,19 @@ export default class CcEditCaseParent extends LightningElement {
 
         if(event != null){
             const keyMap = event;
+            this.getService_Type = event;
+
+            // condition for old data
+            console.log('this.mapService_Topic[keyMap] : ', this.mapService_Topic[keyMap])
+            if(this.mapService_Topic[keyMap] === undefined){
+                this.getService_Type = null;
+                this.isEmptyService_Topic = true;
+                this.isEmptyService_Subject = true;
+                this.isEmptyService_Sub_Subject = true;
+                this.isSLA = true;
+                return;
+            }
+
             let listService_TopicOptions = [{label:'--ไม่มี--', value:null}];
             for(let key in this.mapService_Topic[keyMap]) {
                 listService_TopicOptions.push({
@@ -957,8 +1074,17 @@ export default class CcEditCaseParent extends LightningElement {
         this.getService_Topic = event;
 
         if(event != null){
-
             const keyMap = this.getService_Type+'|'+this.getService_Topic;
+
+            // condition for old data
+            console.log('this.mapService_Subject[keyMap] : ', this.mapService_Subject[keyMap])
+            if(this.mapService_Subject[keyMap] === undefined){
+                this.getService_Topic = null;
+                this.isEmptyService_Subject = true;
+                this.isEmptyService_Sub_Subject = true;
+                this.isSLA = true;
+                return;
+            }
 
             let listService_SubjectOptions = [{label:'--ไม่มี--', value:null}];
             for(let key in this.mapService_Subject[keyMap]) {
@@ -968,9 +1094,23 @@ export default class CcEditCaseParent extends LightningElement {
                 })
             }
             this.listService_Subject = listService_SubjectOptions;
-
-            if(this.listService_Topic.length > 0){
+            if(this.listService_Subject.length > 1){
                 this.isEmptyService_Subject = false;
+            }
+            else{
+                let subSubject = this.getService_Sub_Subject;
+                let subject = this.getService_Subject;
+                if(this.getService_Sub_Subject == ''){
+                    subSubject = null;
+                }
+                if(this.getService_Subject == ''){
+                    subject = null;
+                }
+                const keyMapSLAServiceDetail = this.getService_Type+'|'+this.getService_Topic+'|'+subject+'|'+subSubject;
+                
+                if(this.mapSLA[keyMapSLAServiceDetail].length > 0){
+                    this.getSLA = this.mapSLA[keyMapSLAServiceDetail][0];
+                }
             }
         }
         this.isNonEmptyService_Topic = !this.isEmptyService_Topic;
@@ -985,6 +1125,17 @@ export default class CcEditCaseParent extends LightningElement {
         this.getService_Subject = event;
         const keyMap = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject;
         if(event != null){
+
+            // condition for old data
+            console.log('this.mapService_Topic[keyMap] : ', this.mapService_Topic[keyMap])
+            if(this.mapService_Sub_Subject[keyMap] === undefined){
+                this.getService_Subject = null;
+                this.isEmptyService_Subject = true;
+                this.isEmptyService_Sub_Subject = true;
+                this.isSLA = true;
+                return;
+            }
+
             if((this.mapService_Sub_Subject[keyMap]).length > 1){
                 let listService_Sub_SubjectOptions = [{label:'--ไม่มี--', value:null}];
                 for(let key in this.mapService_Sub_Subject[keyMap]) {
@@ -994,7 +1145,7 @@ export default class CcEditCaseParent extends LightningElement {
                     })
                 }
                 this.listService_Sub_Subject = listService_Sub_SubjectOptions;
-                if(this.listService_Sub_Subject.length > 0){
+                if(this.listService_Sub_Subject.length > 1){
                     this.isEmptyService_Sub_Subject = false;
                 }
             }
@@ -1018,6 +1169,15 @@ export default class CcEditCaseParent extends LightningElement {
         this.getService_Sub_Subject = event;
         if(event != null){
             const keyMapSLA = this.getService_Type+'|'+this.getService_Topic+'|'+this.getService_Subject+'|'+this.getService_Sub_Subject;
+
+            // condition for old data
+            // console.log('this.mapService_Topic[keyMap] : ', this.mapService_Topic[keyMap])
+            if(this.getService_Subject === null){
+                this.isEmptyService_Sub_Subject = true;
+                this.isSLA = true;
+                return;
+            }
+
             if(this.mapSLA[keyMapSLA].length > 0){
                 this.getSLA = this.mapSLA[keyMapSLA][0];
             }

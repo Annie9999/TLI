@@ -3,7 +3,7 @@
     <aura:attribute name="backgroundImageUrl" type="String" access="global"/>
     <aura:attribute name="backgroundHexColor" type="String" access="global"/>
     <aura:attribute name="pullMargin"	type="Boolean" access="global"/>
-    <aura:attribute name="contactFields" type="String[]" access="global" default="Name,ShippingCity,ShippingState"/>
+    <aura:attribute name="contactFields" type="String[]" access="global" default="Name,ShippingCity,ShippingState,Account_Image_URL__c"/>
     <aura:attribute name="metric1Icon" type="String" access="global"/>
     <aura:attribute name="metric1IconSize" type="String" access="global"/>
     <aura:attribute name="metric1Label" type="String" access="global"/>

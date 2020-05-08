@@ -1,0 +1,103 @@
+<aura:component controller="TLI_ModalLogACallCtrl" implements = "force:lightningQuickAction,force:hasRecordId,flexipage:availableForAllPageTypes,force:appHostable" >
+    <!-- <aura:handler name="init" action="{!c.onInit}" value="{!this}"/> -->
+<!-- Platform Event Parameters-->
+<!-- <lightning:empApi aura:id="empApi" />
+<lightning:input  aura:id="channelEvent" name="channelEvent" type="String" default="/event/LogACallEvent__e" />
+<aura:attribute name="subscription" type="Map" /> -->
+
+<lightning:empApi aura:id="empApi" />
+<lightning:workspaceAPI aura:id="workspace"/>
+
+<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+<!-- <lightning:button label="Subscribe" onclick="{! c.subscribe }" />
+<lightning:button label="Unsubscribe" onclick="{! c.unsubscribe }" /> -->
+<aura:attribute name="subscription" type="Map" />
+<aura:attribute name="showModalEmail" type="boolean" default="false" />
+<aura:attribute name="showModalTransfer" type="boolean" default="false" />
+<aura:attribute name="loading" type="boolean" default="false" />
+
+<div class="hidden-input">
+<lightning:button label="Refresh Focused Tab" onclick="{!c.refreshFocusedTab}"/>
+
+<lightning:input aura:id="channel"  label="channel" name="channel" type="text" value="/event/LogACallEvent__e"/>
+</div>
+
+
+<aura:if isTrue="{!v.showModalEmail == true}">
+    <div class="demo-only" style="height:24rem">
+        <section role="alertdialog" tabindex="0" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt" aria-modal="true">
+        <div class="slds-modal__container" style="max-height: 40rem;">
+            <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium" id="prompt-heading-id"></h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+                <div class="cardSize">
+                    <aura:if isTrue="{! v.loading }">
+                        <lightning:spinner alternativeText="Loading" />
+                    </aura:if>
+                    <h3 slot="title">
+                        <div class="slds-grid slds-grid_align-center textHead">
+                            <div>
+                                คุณต้องการส่ง E-mail หาลูกค้าใช่ หรือ ไม่
+                            </div>
+                        </div>
+                    </h3>
+                    <br/>
+                    <br/>
+                    <div slot="footer">
+                        <div class="slds-grid slds-grid_align-center">
+                            <button class="slds-button slds-button_brand" style="margin-right: 2rem;" onclick="{!c.onClickAutoSendEmail}">ใช่</button>
+                            <button class="slds-button slds-button_outline-brand" onclick="{!c.onCancelSentEmail}">ไม่</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer slds-theme_default">
+            <!-- <button class="slds-button slds-button_neutral" onclick="">Okay</button> -->
+            </footer>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:if>
+
+
+<aura:if isTrue="{!v.showModalTransfer == true}">
+    <div class="demo-only" style="height:24rem">
+        <section role="alertdialog" tabindex="0" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt" aria-modal="true">
+        <div class="slds-modal__container" style="max-height: 40rem;">
+            <header class="slds-modal__header">
+            <h2 class="slds-text-heading_medium" id="prompt-heading-id"></h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="prompt-message-wrapper">
+                <div class="cardSize">
+                    <aura:if isTrue="{! v.loading }">
+                        <lightning:spinner alternativeText="Loading" />
+                    </aura:if>
+                    <h3 slot="title">
+                        <div class="slds-grid slds-grid_align-center textHead">
+                            <div>
+                                คุณต้องการ โอนงานนี้ ไปให้ DM ใช่ หรือ ไม่
+                            </div>
+                        </div>
+                    </h3>
+                    <br/>
+                    <br/>
+                    <div slot="footer">
+                        <div class="slds-grid slds-grid_align-center">
+                            <button class="slds-button slds-button_brand" style="margin-right: 2rem;" onclick="{!c.onClickTransferDM}">ใช่</button>
+                            <button class="slds-button slds-button_outline-brand" onclick="{!c.onCancelTransferDM}">ไม่</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer slds-theme_default">
+            <!-- <button class="slds-button slds-button_neutral" onclick="">Okay</button> -->
+            </footer>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:if>
+
+</aura:component>

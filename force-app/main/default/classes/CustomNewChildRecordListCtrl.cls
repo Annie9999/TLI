@@ -36,8 +36,10 @@ public without sharing class CustomNewChildRecordListCtrl {
             childSet.TLI_Division__c = eachChild.TLI_Division;
             childSet.TLI_Subdivision__c = eachChild.TLI_Subdivision;
             childSet.Status = 'งานใหม่';
-            if(checkIdGroupQueue(eachChild.TLI_Subdivision) != ''){
+            if(checkIdGroupQueue(eachChild.TLI_Subdivision) != '' && childSet.TLI_Subdivision__c != parent.TLI_Subdivision__c){
                 childSet.OwnerId = checkIdGroupQueue(eachChild.TLI_Subdivision);
+            }else{
+                childSet.OwnerId = UserInfo.getUserId();
             }
             
             System.debug('childSet : '+childSet);

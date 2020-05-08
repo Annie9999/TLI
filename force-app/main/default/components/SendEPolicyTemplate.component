@@ -1,5 +1,5 @@
 <apex:component access="global" controller="SendEPolicyTemplateController">
-    <apex:attribute name="opprtunityId" type="Id" description="Id of the Opprtunity" assignTo="{!oppId}" />
+    <apex:attribute name="leadObjId" type="Id" description="Id of the lead" assignTo="{!leadId}"/>
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />

@@ -9,7 +9,7 @@
     <aura:attribute name="optionSelect" type="Object"/>
     <aura:attribute name="selectedRows" type="List"     default="['ธนาคารทหารไทย รัชดาภิเษก 054-1-05604-0' ,'bankName']" />
     <aura:attribute name="addressType"  type="String"   default="Shipping" />
-    <aura:attribute name="recordId"     type="String" />
+    <aura:attribute name="recordId"     type="String"  />
     <aura:attribute name="customerName" type="String" />
     <aura:attribute name="loaded" type="Boolean" default="true" />
     <aura:attribute name="status" type="Boolean"/>
@@ -247,7 +247,7 @@
                             </div>
                             <aura:if isTrue="{!v.paymentInfo.payor.Relationship__c != 'ตนเอง'}">
                                 <div class="slds-col slds-size_2-of-12">
-                                    <lightning:select name="select1" label="คำนำหน้า" value="{!v.paymentInfo.payor.Account__r.Salutation}" disabled="{!v.status}">
+                                    <lightning:select name="select1" label="คำนำหน้า" value="{!v.paymentInfo.payor.Lead__r.Salutation}" disabled="{!v.status}">
                                         <option value="">-- เลือกคำนำหน้า -- </option>
                                         <aura:iteration items="{!v.optionSelect.pa_salutation}" var="item">
                                             <option value="{!item}">{!item}</option>
@@ -255,16 +255,16 @@
                                     </lightning:select>
                                 </div>
                                 <div class="slds-col slds-size_4-of-12">
-                                    <lightning:input name="input2" label="ชื่อ" value="{!v.paymentInfo.payor.Account__r.FirstName}" disabled="{!v.status}"/>
+                                    <lightning:input name="input2" label="ชื่อ" value="{!v.paymentInfo.payor.Lead__r.FirstName}" disabled="{!v.status}"/>
                                 </div>
                                 <div class="slds-col slds-size_6-of-12">
-                                    <lightning:input name="input2" label="นามสกุล" value="{!v.paymentInfo.payor.Account__r.LastName}" disabled="{!v.status}"/>
+                                    <lightning:input name="input2" label="นามสกุล" value="{!v.paymentInfo.payor.Lead__r.LastName}" disabled="{!v.status}"/>
                                 </div>
                                 <div class="slds-col slds-size_6-of-12">
-                                    <lightning:input name="input2" label="เบอร์มือถือ" value="{!v.paymentInfo.payor.Account__r.Phone}" disabled="{!v.status}"/>
+                                    <lightning:input name="input2" label="เบอร์มือถือ" value="{!v.paymentInfo.payor.Lead__r.Phone}" disabled="{!v.status}"/>
                                 </div>
                                 <div class="slds-col slds-size_6-of-12">
-                                    <lightning:input name="input2" label="อีเมล" value="{!v.paymentInfo.payor.Account__r.Email__c}" disabled="{!v.status}"/>
+                                    <lightning:input name="input2" label="อีเมล" value="{!v.paymentInfo.payor.Lead__r.Email}" disabled="{!v.status}"/>
                                 </div>
                             </aura:if>
                         </div>

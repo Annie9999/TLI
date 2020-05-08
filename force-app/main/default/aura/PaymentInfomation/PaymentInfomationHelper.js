@@ -173,15 +173,15 @@
     checkSendSMS : function(cmp,helper, paymentType){
         
         if(paymentType == 'โอนเงินผ่านบัญชีธนาคาร' || paymentType == 'ชำระผ่านเคาน์เตอร์' || paymentType =='หักผ่านบัญชีเงินฝาก'){
-            console.log('paymentType' + paymentType);
-            helper.functionSendSMS(cmp, helper);
+            console.log('paymentType: ' + paymentType);
+            helper.functionSendSMS(cmp, helper, paymentType);
         }
        /* else if(paymentType == 'Payment Gateway'){
             console.log('paymentType' + paymentType);
             helper.functionSendePolicy(cmp, helper);
         }*/
         else{
-            console.log('paymentType' + paymentType);
+            console.log('paymentType: ' + paymentType);
             helper.showToast();
             cmp.set('v.loaded', false);
             // helper.closemodal();
@@ -209,9 +209,15 @@
         $A.enqueueAction(action);
     },*/
 
-    functionSendSMS : function(cmp, helper){
+    functionSendSMS : function(cmp, helper, paymentType){
         console.log('functionSendSMS');
         var action = cmp.get("c.sendSMS");
+
+        action.setParams({ 
+            'recordId' : cmp.get("v.recordId"),
+            'paymentType' : paymentType
+        });
+
         action.setCallback(this, function(response) {
             var state = response.getState();
             if (state === "SUCCESS") {
@@ -228,9 +234,9 @@
         $A.enqueueAction(action);
     },
 
-    closemodal : function(){
+    /*closemodal : function(){
         $A.get("e.force:closeQuickAction").fire() ;
-    },
+    },*/
 
     showToast : function() {
         var toastEvent = $A.get("e.force:showToast");
@@ -243,9 +249,10 @@
     },
     refreshFocusedTab : function(component) {
         var workspaceAPI = component.find("workspace");
-        console.log('TestTAE');
+        console.log('TestTAE '+workspaceAPI);
         workspaceAPI.getFocusedTabInfo().then(function(response) {
             var focusedTabId = response.tabId;
+            console.log(focusedTabId);
             workspaceAPI.refreshTab({
                       tabId: focusedTabId,
                       includeAllSubtabs: true

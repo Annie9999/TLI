@@ -16,7 +16,7 @@ public class PremiumCollectionController {
         List<Premium__C> listPremium = new List<Premium__C>();
         List<Task> listTask = new List<Task>();
 
-        if (poli.PremiumFrequency == 'Monthly') {
+        if (poli.PremiumFrequency == 'รายเดือน') {
             for (Integer i = 1; i <= 11; i++) {
 
                 // Create Premium Collection
@@ -35,7 +35,7 @@ public class PremiumCollectionController {
 
                 System.debug('Success Create Premium Collection.');
             }
-        } else if(poli.PremiumFrequency == 'Quarterly'){
+        } else if(poli.PremiumFrequency == '3 เดือน'){
             for (Integer i = 1; i <= 3; i++) {
                 Premium__C pc = new Premium__C();
                 pc.Name = 'Premium Collection #' + i;
@@ -52,7 +52,7 @@ public class PremiumCollectionController {
 
                 System.debug('Success Create Premium Collection.');
             }
-        } else if(poli.PremiumFrequency == 'Semi Annual(twice a year)'){
+        } else if(poli.PremiumFrequency == '6 เดือน'){
                 Integer i = 1;
                 Premium__C pc = new Premium__C();
                 pc.Name = 'Premium Collection #' + i;
@@ -68,11 +68,13 @@ public class PremiumCollectionController {
                 listPremium.add(pc);
 
                 System.debug('Success Create Premium Collection.');
+        } else if(poli.PremiumFrequency == 'รายปี'){
+            System.debug('Success รายปี Nothing Collection.');
         } else {
             System.debug('Can not create Premium Collection.');
         }
 
-        System.debug('Result Collections List : ' + listPremium);
+        //System.debug('Result Collections List : ' + listPremium);
 
         insert listPremium;
 
@@ -92,21 +94,9 @@ public class PremiumCollectionController {
             System.debug('Success Create Task Premium Collection.');
         }
 
-        System.debug('Result Tasks List : ' + listTask);
+        //System.debug('Result Tasks List : ' + listTask);
                
         insert listTask;
     }
-
-    // public static List<Premium__C> getPremiumCollection(String opptyId, String policyId){
-
-    //     List<Premium__C> result = [SELECT Id, Insurance_Type__c, Opportunity__c, Premium_Amount__c, 
-    //                                 Payment_Due_Date__c, Payment_Date__c, Followup_Result__c, Insurance_Policy__c 
-    //                                 FROM Premium__c 
-    //                                 WHERE Opportunity__c=:opptyId AND Insurance_Policy__c=:policyId];    
-
-    //     System.debug('Premium Collection : '+ result);                       
-        
-    //     return result;
-    // }
     
 }

@@ -46,11 +46,11 @@ public without sharing class PaymentInformationCtrl {
         @AuraEnabled
         public Decimal                  Amount          {get;set;}
         @AuraEnabled
+        public String                   InsureName      {get;set;}
+        @AuraEnabled
         public String                   taxdeduction    {get;set;}
         @AuraEnabled
         public String                   policyChannel   {get;set;}
-        @AuraEnabled
-        public String                   accId           {get;set;}
         @AuraEnabled
         public Payment_Type__c          payment         {get;set;}
         @AuraEnabled
@@ -71,7 +71,7 @@ public without sharing class PaymentInformationCtrl {
         System.debug('getPaymentInformation : ' + leadId);
         PaymentInfo payInfo = new PaymentInfo();
 
-        List<Lead> leadList = [SELECT Id, Amount_Currency__c, Taxdeduction__c, Policy_Trans_Channel__c, 
+        List<Lead> leadList = [SELECT Id, FirstName, LastName, Amount_Currency__c, Taxdeduction__c, Policy_Trans_Channel__c, 
                                 (SELECT Id, Name, Payment_Bank_Code__c, Payment_Card_Type__c, Payment_Expired_Date__c, 
                                 Payment_Card_Number__c, Contact__c, Application_Form__c,Payment_Type__c, Transfer_Bank_Code__c, 
                                 Bank_Account_Type__c, IsPayment__c,REF_Number__c, Payment_Date__c, Payment_Status__c, 
@@ -102,6 +102,7 @@ public without sharing class PaymentInformationCtrl {
 
                                     
         if(leadList.size() > 0){
+            payInfo.InsureName = leadList[0].FirstName + ' ' + leadList[0].LastName;
             payInfo.Amount = leadList[0].Amount_Currency__c;
             payInfo.taxdeduction =  leadList[0].Taxdeduction__c;
             payInfo.policyChannel = leadList[0].Policy_Trans_Channel__c;
@@ -173,20 +174,28 @@ public without sharing class PaymentInformationCtrl {
         System.debug(paymentInfoString);
         System.debug(addressType);
         PaymentInfo paymentInfo = (PaymentInfo)JSON.deserialize(paymentInfoString, PaymentInfo.Class);
-        System.debug(paymentInfo.address);
-        /* Update Opportunity */
-        Opportunity oppty = new Opportunity();
-        oppty.id = opptyId;
-        oppty.Taxdeduction__c = paymentInfo.taxdeduction;
-        oppty.Policy_Trans_Channel__c = paymentInfo.policyChannel;
-        oppty.StageName = 'รอการชำระเงิน';
-
-        // Check Payment Gateway Type
-        if(paymentInfo.payment.Payment_Type__c == 'Payment Gateway'){
-            oppty.Payment_Status__c = 'ตัดเงินสำเร็จ';
+        System.debug(paymentInfo);
+        /* Update Lead */
+        Lead leadInsure = new Lead();
+        leadInsure.id = leadId;
+       
+        if (paymentInfo.taxdeduction != '') {
+            leadInsure.Taxdeduction__c = paymentInfo.taxdeduction;
         }
 
-        update oppty;
+        if (paymentInfo.policyChannel != '') {
+            leadInsure.Policy_Trans_Channel__c = paymentInfo.policyChannel;
+        }
+
+        leadInsure.Taxdeduction__c = 'ลดหย่อนภาษี';
+        leadInsure.Policy_Trans_Channel__c = 'อีเมล';
+        leadInsure.Status = 'รอการชำระเงิน';
+
+        if(paymentInfo.Payment.Payment_Type__c == 'Payment Gateway'){
+            leadInsure.Payment_Status__c = 'ตัดเงินสำเร็จ';
+        }
+
+        update leadInsure;
 
         /* Paymentinfo */
         Payment_Type__c payment = new Payment_Type__c();
@@ -198,7 +207,7 @@ public without sharing class PaymentInformationCtrl {
         payment.Application_Form__c = paymentInfo.payment.Application_Form__c;
         payment.Payment_Type__c = paymentInfo.payment.Payment_Type__c;
         payment.Payment_Date__c = paymentInfo.payment.Payment_Date__c;
-        payment.Opportunity__c = opptyId;
+        payment.Lead__c = leadId;
         /* Credit Card */
         payment.Payment_Bank_Code__c = paymentInfo.payment.Payment_Bank_Code__c;
         payment.Payment_Card_Type__c = paymentInfo.payment.Payment_Card_Type__c;
@@ -220,104 +229,130 @@ public without sharing class PaymentInformationCtrl {
 
         /* Payor */
         System.debug('paymentInfo.payment.Payment_Type__c' + paymentInfo.payment.Payment_Type__c);
-        String accountId = '';
-        /*if(paymentInfo.payor.Relationship__c != 'ตนเอง' && paymentInfo.payment.Payment_Type__c != 'Payment Gateway'){
-            Account acc = new Account();
-            System.debug(paymentInfo.payor.Account__c);
-            if(paymentInfo.payor.Account__c != null){
-                acc.id = paymentInfo.payor.Account__c;
+        String leadPayorId = '';
+        if(paymentInfo.payor.Relationship__c != 'ตนเอง' && paymentInfo.payment.Payment_Type__c != 'Payment Gateway'){
+            System.debug('leadobj : ' + paymentInfo.payor);
+            Lead leadobj = new Lead();
+            if(paymentInfo.payor.Lead__c != null){
+                leadobj.id = paymentInfo.payor.Lead__c;
             }
-            acc.FirstName           = paymentInfo.payor.Account__r.FirstName; 
-            acc.LastName            = paymentInfo.payor.Account__r.LastName; 
-            acc.Salutation          = paymentInfo.payor.Account__r.Salutation; 
-            acc.Phone               = paymentInfo.payor.Account__r.Phone; 
-            acc.Email__c            = paymentInfo.payor.Account__r.Email__c; 
+            leadobj.FirstName           = paymentInfo.payor.Lead__r.FirstName; 
+            leadobj.LastName            = paymentInfo.payor.Lead__r.LastName; 
+            leadobj.Salutation          = paymentInfo.payor.Lead__r.Salutation; 
+            leadobj.Phone               = paymentInfo.payor.Lead__r.Phone; 
+            leadobj.Email            = paymentInfo.payor.Lead__r.Email; 
             for(PaymentInformationCtrl.Address each : paymentInfo.address){
-                system.debug(addressType);
+                System.debug(addressType);
                 System.debug(each);
                 if(each.type == 'Billing' && addressType == 'Billing'){
-                    acc.BillingStreet       = each.address;  
-                    acc.BillingState        =  each.province; 
-                    acc.BillingCity         = each.district; 
-                    acc.BillingCountry      = each.subDistrict; 
-                    acc.BillingPostalCode   = each.postalCode; 
+                    leadobj.Street__c       = each.address;  
+                    leadobj.State__c        = each.province; 
+                    leadobj.City__c         = each.district; 
+                    leadobj.Country__c      = each.subDistrict; 
+                    leadobj.PostalCode__c   = each.postalCode; 
                     
-                }else if (each.type == 'Mailing' && addressType == 'Mailing') {
-                    acc.PersonMailingStreet = each.address; 
-                    acc.PersonMailingState  = each.province; 
-                    acc.PersonMailingCity   = each.district; 
-                    acc.PersonMailingCountry    = each.subDistrict;
-                    acc.PersonMailingPostalCode = each.postalCode; 
                 }else if (each.type == 'Shipping' && addressType == 'Shipping') {
-                    acc.ShippingStreet      = each.address; 
-                    acc.ShippingState        = each.province; 
-                    acc.ShippingCity  = each.district; 
-                    acc.ShippingCountry       = each.subDistrict; 
-                    acc.ShippingPostalCode     = each.postalCode; 
+                    leadobj.Street      = each.address; 
+                    leadobj.State       = each.province; 
+                    leadobj.City        = each.district; 
+                    leadobj.Country     = each.subDistrict; 
+                    leadobj.PostalCode  = each.postalCode; 
                 }
             }
-            
-            Upsert acc;
-            accountId = acc.id;
+            Upsert leadobj;
+            leadPayorId = leadobj.id;
         }else{
-            accountId = paymentInfo.accId;
+            leadPayorId = leadId;
             paymentInfo.payor.Relationship__c = 'ตนเอง';
         }
         
-        Account accountCon= [Select Id,PersonContactId 
-                                from Account where id = :accountId]; 
+        /*Account accountCon= [Select Id,PersonContactId 
+                                from Account where id = :accountId]; */
 
-        OpportunityContactRole optyContactRole = new OpportunityContactRole();
+        Contact_Role__c contactRole = new Contact_Role__c();
         if(paymentInfo.payor.Id != null){
-            optyContactRole.Id = paymentInfo.payor.Id;
-            optyContactRole.Role = 'ผู้ชำระค่าเบี้ยประกัน';
-            optyContactRole.Account__c = accountId;
-            optyContactRole.Relationship__c = paymentInfo.payor.Relationship__c;
-            optyContactRole.Payment_Type__c = payment.Id;
-            optyContactRole.ContactId = accountCon.PersonContactId;
-            update optyContactRole;
+            contactRole.Id = paymentInfo.payor.Id;
+        }
+        contactRole.Role__c = 'ผู้ชำระค่าเบี้ยประกัน';
+        contactRole.Lead__c = leadPayorId;
+        contactRole.Relationship__c = paymentInfo.payor.Relationship__c;
+        contactRole.Payment_Type__c = payment.Id;
+        //contactRole.ContactId = accountCon.PersonContactId;
+        Upsert contactRole;
+        /*if(paymentInfo.payor.Id != null){
+            contactRole.Id = paymentInfo.payor.Id;
+            contactRole.Role = 'ผู้ชำระค่าเบี้ยประกัน';
+            contactRole.Account__c = accountId;
+            contactRole.Relationship__c = paymentInfo.payor.Relationship__c;
+            contactRole.Payment_Type__c = payment.Id;
+            contactRole.ContactId = accountCon.PersonContactId;
+            update contactRole;
         }else{
-            optyContactRole.Role = 'ผู้ชำระค่าเบี้ยประกัน';
-            optyContactRole.Account__c = accountId;
-            optyContactRole.OpportunityId = opptyId;
-            optyContactRole.Relationship__c = paymentInfo.payor.Relationship__c;
-            optyContactRole.Payment_Type__c = payment.Id;
-            optyContactRole.ContactId = accountCon.PersonContactId;
-            insert optyContactRole;
+            contactRole.Role = 'ผู้ชำระค่าเบี้ยประกัน';
+            contactRole.Account__c = accountId;
+            contactRole.OpportunityId = opptyId;
+            contactRole.Relationship__c = paymentInfo.payor.Relationship__c;
+            contactRole.Payment_Type__c = payment.Id;
+            contactRole.ContactId = accountCon.PersonContactId;
+            insert contactRole;
+        }*/
+
+        if (paymentInfo.Payment.Payment_Type__c == 'โอนเงินผ่านบัญชีธนาคาร' || paymentInfo.Payment.Payment_Type__c == 'หักผ่านบัญชีเงินฝาก') {
+            Utility.AttachPDF('PaySlipDemo', leadId);
         }
 
-        createCase(paymentInfo.payment.Payment_Type__c, opptyId);*/
+        createCase(paymentInfo.payment.Payment_Type__c, leadId, paymentInfo.insureName);
         
     }
 
-    public static void createCase(String paymentType, String opptyId){
+    public static void createCase(String paymentType, String leadId, String insureName){
 
-        if(opptyId != ''){
-            List<Opportunity> opptyList = [SELECT id, name, account.id, account.name, OwnerId FROM Opportunity WHERE id =: opptyId];
+        if(leadId != ''){
+            //List<Opportunity> opptyList = [SELECT id, name, account.id, account.name, OwnerId FROM Opportunity WHERE id =: opptyId];
             System.debug('paymentType' + paymentType);
             if(paymentType == 'Payment Gateway'){
                 List<Group> groupList = [SELECT Id, Name, Type, DeveloperName FROM Group WHERE DeveloperName = 'Collection_Queue' AND type = 'Queue'];
                 if(groupList.size() > 0){
-                    Utility.createCase('ติดตามสถานะการจ่ายเงินของคุณ ' + opptyList[0].account.name, 'ส่ง link จ่ายเงินในวันที่ ' + Date.today(), 'Medium', opptyList[0].account.id, opptyId, groupList[0].id, 'DM Process');
-                    Utility.sendEmail(opptyId, 'SendPayment',false);
+                    Utility.createCase('ติดตามสถานะการจ่ายเงินของคุณ ' + insureName, 'ส่ง link จ่ายเงินในวันที่ ' + Date.today(), 'Medium', leadId, groupList[0].id, 'DM Process');
+                    Utility.sendEmail(leadId, 'SendPayment', false);
                 }
             }else {
                 // Owner Id is Hard Code naja
-                Utility.createCase('ตรวจเช็คสถานะการจ่ายเงิน ' + opptyList[0].name, 'ประเภทการจ่ายเงิน ' +  paymentType, 'Medium', opptyList[0].account.id, opptyId, '00Gq0000003NkpH', 'DM Process');
+                Utility.createCase('ตรวจเช็คสถานะการจ่ายเงิน ' + insureName, 'ประเภทการจ่ายเงิน ' +  paymentType, 'Medium', leadId, '00Gq0000003NkpH', 'DM Process');
+                Utility.AttachPDF('PaymentResult', leadId);
             }
         }
         
     }
-    @AuraEnabled
+    
+    /*@AuraEnabled
     public static void SendEPolicy(String opptyId){
         System.debug('opptyId ' + opptyId);
         Utility.sendEmail(opptyId, 'SendEPolicy',true);
-    }
+    }*/
 
     @AuraEnabled
-    public static void sendSMS(){
+    public static void sendSMS(String recordId, String paymentType){
         Sendsms sms = new Sendsms();
+
+        // Select Detail 
+        Lead ld = [SELECT id, FirstName, Amount_Currency__c FROM Lead WHERE Id=:recordId];
+        
+        String smsText = '';
+
+        if (paymentType == 'ชำระผ่านเคาน์เตอร์') {
+            smsText = 'ชำระเบี้ย คุณ '+ ld.FirstName +' จำนวนทั้งสิ้น '+ ld.Amount_Currency__c +' บาท Ref: TLIS2374 ส่งหลักฐานการชำระเงิน https://bit.ly/2WCamJA';
+        }
+        else {
+            smsText = 'ชำระเบี้ย คุณ '+ ld.FirstName +' จำนวนทั้งสิ้น '+ ld.Amount_Currency__c +' บาท ส่งหลักฐานการชำระเงิน https://bit.ly/2WCamJA';
+        }
+
+        System.debug(smsText);
+
+        sms.smsBody = smsText;
+
         String result = sms.Sendsms();
+
         System.debug('Send sms ' + result);
     }
 

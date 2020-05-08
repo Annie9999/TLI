@@ -25,14 +25,14 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                         <tr height="60">
                                             <td width="85%" style="background-color: #34384B;">
-                                                <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834132000/Logo"
+                                                <apex:image url="{!urlOrg}/servlet/servlet.ImageServer?id={!logo}&oid={!orgId}"
                                                 style="padding-left:20px !important;display:block; max-width:165px; 
                                                 border:0; line-height:100%; outline:none; text-decoration:none;">
                                                 </apex:image>
                                             </td>
                                             <td width="15%" style="background-color: #34384B;padding: 28px; border-left: 1px solid #282B3E; padding: 28px;">
                                                 <a href="tel:022470247" target="_blank">
-                                                    <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834222000/phone" 
+                                                    <apex:image url="{!urlOrg}/servlet/servlet.ImageServer?id={!phone}&oid={!orgId}" 
                                                     style="display:block; height:36px;width:36px; 
                                                     border:0; line-height:100%; outline:none; text-decoration:none;">
                                                     </apex:image>
@@ -98,7 +98,7 @@
                                     	<table width="100%" border="0" cellpadding="0" cellspacing="0" style="padding-left: 25px;padding-right: 25px;">
                                         <tr height="90" >
                                             <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
-                                                <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834046000/bed" 
+                                                <apex:image url="{!urlOrg}/servlet/servlet.ImageServer?id={!bed}&oid={!orgId}" 
                                                 style="padding:20px;display:block; height:45px;width:45px;margin-left: auto;margin-right: auto;  
                                                 border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
                                             </td>
@@ -113,7 +113,7 @@
                                         </tr>
                                         <tr height="90">
                                             <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
-                                                <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834467000/heart" 
+                                                <apex:image url="{!urlOrg}/servlet/servlet.ImageServer?id={!heart}&oid={!orgId}" 
                                                 style="padding:20px;display:block; height:40px;width:40px; margin-left: auto;margin-right: auto; 
                                                 border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
                                             </td>
@@ -128,7 +128,7 @@
                                         </tr>
                                         <tr height="90">
                                             <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
-                                                    <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834517000/coin" 
+                                                    <apex:image url="{!urlOrg}/servlet/servlet.ImageServer?id={!coin}&oid={!orgId}" 
                                                     style="padding:20px;display:block; height:45px;width:40px; margin-left: auto;margin-right: auto; 
                                                     border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
                                             </td>
@@ -143,7 +143,7 @@
                                         </tr>
                                         <tr height="90">
                                             <td style="background-color: rgb(255, 255, 255);border-bottom: 1px solid black;width: 40%">
-                                                    <apex:image url="https://thailife--tlifull--c.visualforce.com/resource/1586834664000/death" 
+                                                    <apex:image url="{!urlOrg}/servlet/servlet.ImageServer?id={!death}&oid={!orgId}" 
                                                     style="padding:15px;display:block; height:45px;width:40px; margin-left: auto;margin-right: auto; 
                                                     border:0; line-height:100%; outline:none; text-decoration:none;"></apex:image>
                                             </td>
@@ -174,7 +174,7 @@
                                                 </td>
                                                 <td>
                                                     <div style="margin-top: -5px; font-size: 0.8rem; color: rgb(101, 103, 112); text-align: center;">
-                                                        {!info.age} ปี
+                                                        {!info.leadObj.Agee__c}
                                                     </div>
                                                 </td>
                                             </tr>

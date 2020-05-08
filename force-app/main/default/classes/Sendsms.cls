@@ -54,6 +54,13 @@ public class Sendsms{
 
     public String sendSms(){
         HttpRequest req = new HttpRequest();
+
+        String smsText = '';
+
+        if (smsBody != '') {
+            smsText = smsBody;
+        }
+
         req.setEndpoint('https://api.twilio.com/2010-04-01/Accounts/'+accountSid+'/SMS/Messages.json');
         req.setMethod('POST');
         String VERSION  = '3.2.0';
@@ -62,7 +69,7 @@ public class Sendsms{
         req.setHeader('Accept', 'application/json');
         req.setHeader('Accept-Charset', 'utf-8');
         req.setHeader('Authorization','Basic '+EncodingUtil.base64Encode(Blob.valueOf(accountSid+':' +token)));
-        req.setBody('To='+EncodingUtil.urlEncode(toPhNumber,'UTF-8')+'&From='+EncodingUtil.urlEncode(fromPhNumber,'UTF-8')+'&Body='+smsBody);
+        req.setBody('To='+EncodingUtil.urlEncode(toPhNumber,'UTF-8')+'&From='+EncodingUtil.urlEncode(fromPhNumber,'UTF-8')+'&Body='+smsText);
         Http http = new Http();
         HTTPResponse res = http.send(req);
 

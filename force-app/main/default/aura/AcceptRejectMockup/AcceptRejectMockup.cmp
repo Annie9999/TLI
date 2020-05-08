@@ -1,0 +1,17 @@
+<aura:component
+    implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId,flexipage:availableForRecordHome,lightning:isUrlAddressable"
+    access="global" controller="AcceptRejectMockupController">
+
+    <aura:attribute name="recordId" type="String" />
+
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_6-of-12">
+            <lightning:button class="slds-button slds-button_brand" label="ส่งคำขอเพื่ออนุมัติกรมธรรม์" title="ส่งคำขอเพื่ออนุมัติกรมธรรม์" onclick="{! c.handleClick }" />
+            <lightning:button class="slds-button slds-button_destructive" label="UW Reject" title="UW Reject" onclick="{! c.handleClick }" />
+        </div>
+        <div class="slds-col slds-size_6-of-12">
+            <lightning:button class="slds-button slds-button_brand" label="NB Approve" title="NB Approve" onclick="{! c.handleClick }" />
+            <lightning:button class="slds-button slds-button_destructive" label="NB Reject" title="NB Reject" onclick="{! c.handleClick }" />
+        </div>
+    </div>
+</aura:component>
