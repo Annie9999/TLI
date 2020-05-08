@@ -14,7 +14,7 @@ public with sharing class qualityCheckController {
         System.debug('#####-getCase-#####');
 
         System.debug('caseId: '+caseId);
-        Case target = [SELECT Id, Status,Lead__c,Lead__r.Name ,Lead__r.age__c,Lead__r.Email,Lead__r.Phone,Lead__r.Street,Lead__r.City,Lead__r.State ,Lead__r.PostalCode,Lead__r.Country,Lead__r.AnnualRevenue  FROM Case WHERE Id = :caseId LIMIT 1];
+        Case target = [SELECT Id, Status,Lead__c,Lead__r.Name ,Lead__r.Agee__c,Lead__r.Email,Lead__r.Phone,Lead__r.Street__c,Lead__r.City__c,Lead__r.State__c ,Lead__r.PostalCode__c ,Lead__r.Country__c ,Lead__r.AnnualRevenue  FROM Case WHERE Id = :caseId LIMIT 1];
         System.debug('target: '+ target.Status);
        
         return target;

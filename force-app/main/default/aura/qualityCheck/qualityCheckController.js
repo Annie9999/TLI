@@ -18,6 +18,24 @@
                 component.set('v.leadId', returnVal.Lead__c);
                 component.set('v.info', returnVal);
 
+                var city = returnVal.Lead__r.City__c;
+                if(city != undefined){
+                    var billing = city.split(",");
+                    if(billing.length > 0){
+						component.set("v.billingSubDistrict", billing[0]);
+						component.set("v.billingDistrict", billing[1]);
+					}
+                }
+
+              /*  if(returnVal.City__c != undefined){
+                    var billing = returnVal.City__c.split(",");
+                    if(billing.length > 0){
+						component.set("v.billingSubDistrict", billing[0]);
+						component.set("v.billingDistrict", billing[1]);
+					}
+                }*/
+
+
                 if(returnVal.Status == 'Closed'){
                     component.set('v.status', true);
                 }else{

@@ -9,6 +9,8 @@
     <aura:attribute name="leadId" type="String" /> 
     <aura:attribute name="status" type="boolean" />
 
+    <aura:attribute name="billingDistrict" type="String" />
+    <aura:attribute name="billingSubDistrict" type="String" />
 
     <aura:attribute name="questType" type="String" default="QC" />
     <aura:attribute name="questions" type="Object" />
@@ -38,15 +40,16 @@
                     </div>
                     <div class="body">
                         <lightning:input name="firstname" label="ชื่อ" disabled="true" value="{!v.info.Lead__r.Name}" />
-                        <lightning:input name="age" label="อายุ" disabled="true" value="{!v.info.Lead__r.age__c}" />
+                        <lightning:input name="age" label="อายุ" disabled="true" value="{!v.info.Lead__r.Agee__c}" />
                         <lightning:input name="income" label="รายได้" disabled="true" value="{!v.info.Lead__r.AnnualRevenue}" />
                         <lightning:input name="email" label="อีเมล์" disabled="true" value="{!v.info.Lead__r.Email}" />
                         <lightning:input name="phone" label="เบอร์โทร" disabled="true" value="{!v.info.Lead__r.Phone}" />
-                        <lightning:input name="street" label="ถนน" disabled="true" value="{!v.info.Lead__r.Street}" />
-                        <lightning:input name="city" label="เมือง" disabled="true" value="{!v.info.Lead__r.City}" />
-                        <lightning:input name="state" label="จังหวัด" disabled="true" value="{!v.info.Lead__r.State}" />
-                        <lightning:input name="postalcode" label="รหัสไปรษณีย์" disabled="true" value="{!v.info.Lead__r.PostalCode}" />
-                        <lightning:input name="country" label="ประเทศ" disabled="true" value="{!v.info.Lead__r.Country}" />
+                        <lightning:input name="Street" label="ที่อยู่" disabled="true" value="{!v.info.Lead__r.Street__c}" />
+                        <lightning:input name="city" label="ตำบล" disabled="true" value="{!v.billingSubDistrict}" />
+                        <lightning:input name="city2" label="อำเภอ" disabled="true" value="{!v.billingDistrict}" />
+                        <lightning:input name="state" label="จังหวัด" disabled="true" value="{!v.info.Lead__r.State__c}" />
+                        <lightning:input name="postalcode" label="รหัสไปรษณีย์" disabled="true" value="{!v.info.Lead__r.PostalCode__c }" />
+                        <!--<lightning:input name="country" label="ประเทศ" disabled="true" value="{!v.info.Lead__r.Country__c }" />-->
 
                         <!-- <lightning:input name="StageName" label="ประเทศ" disabled="true" value="{!v.info.Account.Name }" /> -->
                         
@@ -125,18 +128,17 @@
                 <lightning:textarea name="description" label="เหตุผลการปฏิเสธ (ถ้ามี)" value="{!v.rejectDescription}" placeholder="เหตุผลในการปฏิเสธ..."/>
             </div> -->
             <div class="slds-size_1-of-3">
-                <!-- <lightning:button type="submit" variant="brand" label="Accept - Send to NB" iconName="utility:chevronright" iconPosition="right" onclick="{! c.accept }"/> -->
-                <lightning:button type="submit" name="nb" variant="brand" label="ผ่านการประเมิณ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+                <!--<lightning:button type="submit" name="nb" variant="brand" label="ผ่านการประเมิณ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>-->
 
             </div>
             <div class="slds-size_1-of-3">
                 <!-- <lightning:button type="submit" name="uw" variant="brand" label="Need Medical Consult" iconName="utility:chevronright" iconPosition="right" onclick="{! c.toConsult }"/> -->
-                <lightning:button type="submit" name="uw" variant="brand" label="พิจารณาสุขภาพ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+                <lightning:button type="submit" name="uw" variant="brand" label="ผ่านการประเมิน" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
 
             </div>
             <div class="slds-size_1-of-3">
                 <!-- <lightning:button type="submit" name="reject" variant="brand" label="Reject" iconName="utility:chevronright" iconPosition="right" onclick="{! c.reject }"/> -->
-                <lightning:button type="submit" name="reject" variant="brand" label="ไม่ผ่านการประเมิณ" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
+                <lightning:button type="submit" name="reject" variant="brand" label="ไม่ผ่านการประเมิน" iconName="utility:chevronright" iconPosition="right" onclick="{! c.openModal }"/>
 
             </div>
         </div>
